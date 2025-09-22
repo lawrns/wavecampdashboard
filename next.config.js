@@ -55,12 +55,16 @@ const nextConfig = {
     ]
   },
 
-  // Handle favicon requests
+  // Handle favicon requests and WordPress routing
   async rewrites() {
     return [
       {
         source: '/favicon.ico',
         destination: '/favicon.svg',
+      },
+      {
+        source: '/wordpress/:path*',
+        destination: '/wordpress/:path*',
       },
     ]
   },
