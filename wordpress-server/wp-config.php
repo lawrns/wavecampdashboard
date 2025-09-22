@@ -93,8 +93,8 @@ define( 'WP_DEBUG_DISPLAY', false );
 define( 'DISALLOW_FILE_EDIT', true );
 
 // WordPress in subdirectory configuration
-define( 'WP_HOME', 'http://localhost:3000/wordpress' );
-define( 'WP_SITEURL', 'http://localhost:3000/wordpress' );
+define( 'WP_HOME', 'http://localhost:3006/' );
+define( 'WP_SITEURL', 'http://localhost:3006/' );
 
 /* Add any custom values between this line and the "stop editing" line. */
 

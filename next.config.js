@@ -44,27 +44,23 @@ const nextConfig = {
     // Custom environment variables
     CUSTOM_KEY: process.env.CUSTOM_KEY,
   },
-  // Redirect root to admin login
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/admin',
-        permanent: false,
-      },
-    ]
-  },
+  // Redirect root to admin login (temporarily disabled for WordPress testing)
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: '/',
+  //       destination: '/admin',
+  //       permanent: false,
+  //     },
+  //   ]
+  // },
 
-  // Handle favicon requests and WordPress routing
+  // Handle favicon requests
   async rewrites() {
     return [
       {
         source: '/favicon.ico',
         destination: '/favicon.svg',
-      },
-      {
-        source: '/wordpress/:path*',
-        destination: '/wordpress/:path*',
       },
     ]
   },
