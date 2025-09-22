@@ -102,7 +102,12 @@ class Heiwa_Booking_Widget {
         require_once HEIWA_BOOKING_PLUGIN_DIR . 'includes/class-api-connector.php';
         require_once HEIWA_BOOKING_PLUGIN_DIR . 'includes/class-widget.php';
         require_once HEIWA_BOOKING_PLUGIN_DIR . 'includes/class-shortcode.php';
-        require_once HEIWA_BOOKING_PLUGIN_DIR . 'includes/class-rest-proxy.php';
+
+        // Optional REST proxy class (check if exists)
+        $rest_proxy_file = HEIWA_BOOKING_PLUGIN_DIR . 'includes/class-rest-proxy.php';
+        if (file_exists($rest_proxy_file)) {
+            require_once $rest_proxy_file;
+        }
 
         // Admin classes
         if (is_admin()) {
@@ -115,15 +120,15 @@ class Heiwa_Booking_Widget {
      * Plugin activation
      */
     public function activate() {
-        // Set default options
+        // Set default options - enable auto-injection by default for better UX
         $default_options = array(
             'api_endpoint' => '',
             'api_key' => '',
             'widget_position' => 'right',
             'trigger_text' => 'BOOK NOW',
             'primary_color' => '#ec681c',
-            'auto_inject' => false,
-            'enabled_pages' => array(),
+            'auto_inject' => true, // Enable auto-injection by default
+            'enabled_pages' => array(), // Empty array = show on all pages
         );
         
         add_option('heiwa_booking_settings', $default_options);

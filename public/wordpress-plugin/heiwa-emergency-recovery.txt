@@ -1,0 +1,81 @@
+EMERGENCY RECOVERY GUIDE - Heiwa Booking Widget Site Crash
+==========================================================
+
+CRITICAL SITUATION: Your site (heiwahouse.com) is completely offline due to plugin activation.
+
+FOLLOW THESE STEPS IMMEDIATELY:
+
+STEP 1: ACCESS YOUR WORDPRESS ADMIN
+====================================
+- Go to: https://heiwahouse.com/wp-admin/
+- If site is completely down, try: https://heiwahouse.com/wp-login.php
+- Use FTP/SFTP to access your server files directly
+
+STEP 2: DEACTIVATE THE PLUGIN (Most Important)
+===============================================
+If you can access wp-admin:
+1. Go to Plugins page
+2. Find "Heiwa Booking Widget" and deactivate it immediately
+3. Site should come back online
+
+If you cannot access wp-admin:
+1. Use FTP/SFTP to connect to your server
+2. Navigate to: /wp-content/plugins/
+3. Rename the plugin folder from "heiwa-booking-widget" to "heiwa-booking-widget-BACKUP"
+4. Site should come back online immediately
+
+STEP 3: DOWNLOAD SAFE RECOVERY PLUGIN
+======================================
+- Download: heiwa-safe-recovery.zip
+- Location: /Users/lukatenbosch/Downloads/heiwahouse/wavecampdashboard/public/wordpress-plugin/heiwa-safe-recovery.zip
+- Upload this to WordPress via Plugins → Add New → Upload Plugin
+
+STEP 4: ACTIVATE SAFE VERSION
+=============================
+1. Activate "Heiwa Booking Widget (SAFE MODE)"
+2. Site should load without crashing
+3. Go to Settings → Heiwa Widget (Safe)
+4. Verify site is working
+
+STEP 5: CHECK SERVER LOGS
+==========================
+Look for errors in:
+- WordPress debug log (wp-content/debug.log)
+- Server error logs (usually /var/log/apache2/error.log or similar)
+- PHP error logs
+- Browser console errors
+
+COMMON CAUSES OF COMPLETE SITE CRASH:
+=====================================
+1. Fatal PHP error in plugin code
+2. Database connection issues
+3. Memory exhaustion (check PHP memory_limit)
+4. Plugin conflicts with other installed plugins
+5. Server timeout due to infinite loops
+6. Missing PHP extensions required by the plugin
+
+RECOVERY CHECKLIST:
+===================
+□ Site is back online
+□ No fatal errors in logs
+□ Can access wp-admin
+□ Can view website frontend
+□ Database is intact
+□ Other plugins still work
+
+NEXT STEPS (After Recovery):
+===========================
+1. Use the safe version to test gradually
+2. Check what caused the original crash
+3. Report the specific error to developers
+4. Test full version in a staging environment first
+5. Consider increasing PHP memory limit if needed
+
+EMERGENCY CONTACTS:
+==================
+- Hosting provider technical support
+- WordPress developer
+- Backup your database and files BEFORE making changes
+
+REMEMBER: Safety first! The safe recovery version will get your site back online without any risk of crashes.
+
