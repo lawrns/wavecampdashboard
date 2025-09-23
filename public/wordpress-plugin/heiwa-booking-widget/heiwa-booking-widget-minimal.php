@@ -122,3 +122,4 @@ function heiwa_booking_widget_minimal_init() {
 add_action('plugins_loaded', 'heiwa_booking_widget_minimal_init');
 ?>
 
+

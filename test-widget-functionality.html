@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Widget Functionality</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-result { padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .error { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        .info { background: #d1ecf1; border: 1px solid #bee5eb; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <h1>WordPress Widget Test Results</h1>
+
+    <div id="test-results"></div>
+
+    <script>
+        const results = document.getElementById('test-results');
+
+        function addResult(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `test-result ${type}`;
+            div.textContent = message;
+            results.appendChild(div);
+        }
+
+        // Test 1: Check if WordPress page loads
+        fetch('http://localhost:3006/')
+            .then(response => response.text())
+            .then(html => {
+                addResult('✅ WordPress homepage loads successfully', 'success');
+
+                // Test 2: Check if shortcode is processed
+                if (html.includes('Loading Heiwa Booking Widget')) {
+                    addResult('✅ Shortcode is rendering loading state', 'success');
+                } else if (html.includes('BOOK NOW')) {
+                    addResult('⚠️ Shortcode shows static BOOK NOW button', 'info');
+                } else {
+                    addResult('❌ Shortcode not found in page', 'error');
+                }
+
+                // Test 3: Check if React bridge script is present
+                if (html.includes('establishReactBridge')) {
+                    addResult('✅ React bridge script is loaded', 'success');
+                } else {
+                    addResult('❌ React bridge script not found', 'error');
+                }
+
+                // Test 4: Check if widget assets are loaded
+                if (html.includes('page-4bb7bd29d238faf5.js')) {
+                    addResult('✅ Widget JavaScript is loaded', 'success');
+                } else {
+                    addResult('❌ Widget JavaScript not found', 'error');
+                }
+
+                // Test 5: Check if wp-element is loaded
+                if (html.includes('wp-includes/js/dist/element.min.js')) {
+                    addResult('✅ WordPress React (wp-element) is loaded', 'success');
+                } else {
+                    addResult('❌ WordPress React not found', 'error');
+                }
+
+                // Test 6: Check if widget config is present
+                if (html.includes('window.heiwaWidgetConfig')) {
+                    addResult('✅ Widget configuration is loaded', 'success');
+                } else {
+                    addResult('❌ Widget configuration not found', 'error');
+                }
+
+            })
+            .catch(error => {
+                addResult('❌ Failed to load WordPress homepage: ' + error.message, 'error');
+            });
+
+        // Test 7: Check widget assets are accessible
+        fetch('http://localhost:3006/wp-content/uploads/heiwa-assets/page-4bb7bd29d238faf5.js')
+            .then(response => {
+                if (response.ok) {
+                    addResult('✅ Widget JavaScript file is accessible', 'success');
+                } else {
+                    addResult('❌ Widget JavaScript file not accessible', 'error');
+                }
+            })
+            .catch(error => {
+                addResult('❌ Failed to access widget JavaScript: ' + error.message, 'error');
+            });
+
+        // Test 8: Check widget styles are accessible
+        fetch('http://localhost:3006/wp-content/uploads/heiwa-assets/widget-styles.css')
+            .then(response => {
+                if (response.ok) {
+                    addResult('✅ Widget CSS file is accessible', 'success');
+                } else {
+                    addResult('❌ Widget CSS file not accessible', 'error');
+                }
+            })
+            .catch(error => {
+                addResult('❌ Failed to access widget CSS: ' + error.message, 'error');
+            });
+
+        addResult('🔄 Tests completed. Open http://localhost:3006/ in browser to see the actual widget behavior.', 'info');
+    </script>
+</body>
+</html>

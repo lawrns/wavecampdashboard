@@ -1,0 +1,119 @@
+{
+  "debug_context": {
+    "timestamp": "2025-09-22T21:20:57Z",
+    "issue": "BOOK NOW button not visible on WordPress homepage",
+    "wordpress_url": "http://localhost:3006/",
+    "widget_status": "partially_working",
+    "analysis": {
+      "html_rendering": {
+        "status": "✅ WORKING",
+        "details": "Widget container HTML is being rendered correctly",
+        "evidence": "Found green container with 'DIRECT HTML REACT WIDGET!' text in page source",
+        "container_html": "<div id=\"test-react-widget\" class=\"heiwa-react-widget-container\" data-widget-id=\"test-widget\" data-build-id=\"react-widget-1757864064024\" style=\"border: 3px solid green; padding: 20px; background: lightgreen; margin: 20px 0;\">"
+      },
+      "css_loading": {
+        "status": "✅ WORKING", 
+        "details": "Widget styles are being loaded correctly",
+        "evidence": "Found heiwa-widget-styles.css being loaded with 200 status",
+        "css_url": "http://localhost:3006/wp-content/uploads/heiwa-assets/widget-styles.css"
+      },
+      "javascript_loading": {
+        "status": "✅ WORKING",
+        "details": "Widget JavaScript file is accessible and contains valid code",
+        "evidence": "page-4bb7bd29d238faf5.js returns valid minified JavaScript with React components",
+        "js_url": "http://localhost:3006/wp-content/uploads/heiwa-assets/page-4bb7bd29d238faf5.js"
+      },
+      "react_bridge": {
+        "status": "❌ FAILING",
+        "details": "React bridge is not establishing properly",
+        "evidence": "Console shows 'wp is not defined' and 'Global React not available' errors",
+        "root_cause": "wp-element script loads but wp object not available when bridge runs",
+        "timing_issue": "Bridge runs before wp-element fully initializes"
+      },
+      "wordpress_react_loading": {
+        "status": "✅ WORKING",
+        "details": "WordPress React dependencies are loading",
+        "evidence": "Found react.min.js, react-dom.min.js, and element.min.js loading with 200 status",
+        "scripts_loaded": [
+          "wp-includes/js/dist/vendor/react.min.js",
+          "wp-includes/js/dist/vendor/react-dom.min.js", 
+          "wp-includes/js/dist/element.min.js"
+        ]
+      }
+    },
+    "technical_details": {
+      "widget_initialization_flow": [
+        "1. WordPress loads wp-element script (provides wp object)",
+        "2. Our bridge script runs and tries to access window.wp",
+        "3. Bridge fails because wp object not yet available",
+        "4. Widget JavaScript loads but can't initialize without React",
+        "5. Container shows static HTML instead of interactive widget"
+      ],
+      "current_bridge_logic": {
+        "checks": [
+          "typeof window.wp !== 'undefined'",
+          "typeof window.wp.element !== 'undefined'", 
+          "typeof window.wp.element.React !== 'undefined'"
+        ],
+        "retry_mechanism": "10 attempts with 200ms intervals",
+        "fallback": "Check for globally available React"
+      },
+      "widget_script_analysis": {
+        "auto_initialization": "Script has DOMContentLoaded listener that looks for .heiwa-react-widget-container",
+        "react_dependency": "Requires window.React and window.ReactDOM to be available",
+        "configuration": "Uses window.heiwaWidgetConfig for settings"
+      }
+    },
+    "root_cause": {
+      "primary_issue": "Timing problem - React bridge runs before wp-element is fully initialized",
+      "secondary_issues": [
+        "wp object may not be immediately available after wp-element loads",
+        "Bridge retry mechanism may not be sufficient for WordPress loading sequence"
+      ]
+    },
+    "solutions": {
+      "immediate_fixes": [
+        {
+          "approach": "Delay bridge execution",
+          "implementation": "Use longer initial delay before first bridge attempt",
+          "code": "setTimeout(establishReactBridge, 500)"
+        },
+        {
+          "approach": "Listen for wp-element load event",
+          "implementation": "Hook into wp-element script load completion",
+          "code": "document.addEventListener('wp-element-loaded', establishReactBridge)"
+        },
+        {
+          "approach": "Use WordPress hooks",
+          "implementation": "Use wp_footer action with higher priority",
+          "code": "add_action('wp_footer', 'establishReactBridge', 1)"
+        }
+      ],
+      "alternative_approaches": [
+        {
+          "approach": "Load React from CDN",
+          "implementation": "Include React/ReactDOM from external CDN as fallback",
+          "pros": "Guaranteed availability",
+          "cons": "Additional HTTP requests, potential version conflicts"
+        },
+        {
+          "approach": "Bundle React with widget",
+          "implementation": "Include React in the widget build",
+          "pros": "No external dependencies",
+          "cons": "Larger bundle size"
+        }
+      ]
+    },
+    "next_steps": [
+      "1. Implement delayed bridge execution with longer timeout",
+      "2. Add more robust wp object detection",
+      "3. Test widget initialization in browser console",
+      "4. Verify BOOK NOW button appears and functions correctly"
+    ],
+    "testing_commands": [
+      "curl -s 'http://localhost:3006/' | grep -A 10 'heiwa-widget'",
+      "curl -s 'http://localhost:3006/wp-content/uploads/heiwa-assets/page-4bb7bd29d238faf5.js' | head -5",
+      "Open browser console at http://localhost:3006/ and check for React bridge messages"
+    ]
+  }
+}

@@ -153,4 +153,3 @@ function heiwa_booking_widget_safe_init() {
 add_action('plugins_loaded', 'heiwa_booking_widget_safe_init', 1); // Load first, priority 1
 ?>
 
-

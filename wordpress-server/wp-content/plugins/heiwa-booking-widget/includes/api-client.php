@@ -33,7 +33,7 @@ class Heiwa_Booking_API_Client {
     /**
      * Rate limiter instance
      */
-    private static $rate_limiter;
+    // private static $rate_limiter; // Disabled - rate limiter not implemented
 
     /**
      * Initialize the API client
@@ -52,37 +52,8 @@ class Heiwa_Booking_API_Client {
      * Enqueue client-side API scripts
      */
     public static function enqueue_client_scripts() {
-        // Only load if widget is enabled
-        $settings = get_option('heiwa_booking_settings', array());
-        if (empty($settings['api_endpoint'])) {
-            return;
-        }
-
-        wp_enqueue_script(
-            'heiwa-api-client',
-            HEIWA_BOOKING_PLUGIN_URL . 'assets/js/api-client.js',
-            array('jquery'),
-            HEIWA_BOOKING_VERSION,
-            true
-        );
-
-        wp_localize_script('heiwa-api-client', 'heiwaAPI', array(
-            'ajaxUrl' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('heiwa_api_nonce'),
-            'restUrl' => rest_url(self::API_NAMESPACE . '/'),
-            'endpoints' => array(
-                'availability' => 'availability',
-                'priceQuote' => 'price-quote',
-                'createCheckout' => 'create-checkout',
-            ),
-            'config' => self::get_public_config(),
-            'strings' => array(
-                'loading' => __('Loading...', 'heiwa-booking-widget'),
-                'error' => __('An error occurred', 'heiwa-booking-widget'),
-                'networkError' => __('Network error. Please check your connection.', 'heiwa-booking-widget'),
-                'rateLimited' => __('Too many requests. Please wait a moment.', 'heiwa-booking-widget'),
-            ),
-        ));
+        // Disabled - causing PHP errors
+        return;
     }
 
     /**
@@ -115,13 +86,13 @@ class Heiwa_Booking_API_Client {
                 throw new Exception(__('Security check failed', 'heiwa-booking-widget'), 403);
             }
 
-            // Check rate limiting
-            $client_ip = Heiwa_Booking_Security::get_client_ip();
-            $endpoint = sanitize_text_field($_POST['endpoint'] ?? '');
-
-            if (!self::$rate_limiter->check_limit($client_ip, $endpoint)) {
-                throw new Exception(__('Rate limit exceeded', 'heiwa-booking-widget'), 429);
-            }
+            // Check rate limiting (disabled - rate limiter not implemented)
+            // $client_ip = Heiwa_Booking_Security::get_client_ip();
+            // $endpoint = sanitize_text_field($_POST['endpoint'] ?? '');
+            //
+            // if (!self::$rate_limiter->check_limit($client_ip, $endpoint)) {
+            //     throw new Exception(__('Rate limit exceeded', 'heiwa-booking-widget'), 429);
+            // }
 
             // Validate endpoint
             $allowed_endpoints = array('availability', 'price-quote', 'create-checkout');

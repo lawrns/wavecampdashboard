@@ -1,0 +1,278 @@
+{
+  "title": "Heiwa Booking Widget - Complete Styling Architecture Documentation",
+  "version": "1.0.0",
+  "last_updated": "2024-09-09",
+  "overview": {
+    "description": "Comprehensive documentation of the WordPress booking widget's styling system, designed for maximum compatibility with WordPress themes and optimal user experience.",
+    "architecture": "Modular CSS system with 4 core files: base.css, components.css, layout.css, utilities.css",
+    "file_location": "wordpress-plugin/heiwa-booking-widget/assets/css/",
+    "total_lines": "~1200+ lines of CSS (distributed across 4 modular files)",
+    "browser_support": ["Chrome 60+", "Firefox 55+", "Safari 12+", "Edge 79+"],
+    "icon_system": "Lucide icons only - no emoticons or emoji characters should be used"
+  },
+  
+  "css_architecture": {
+    "modular_system": {
+      "description": "Four-layer CSS architecture for better maintainability and performance",
+      "layers": {
+        "base.css": "Foundation layer - CSS custom properties, reset, typography, color palette",
+        "components.css": "Component layer - buttons, cards, forms, interactive elements",
+        "layout.css": "Layout layer - modal positioning, grid systems, responsive containers",
+        "utilities.css": "Utilities layer - final overrides, theme compatibility, animations"
+      },
+      "loading_order": "base.css → components.css → layout.css → utilities.css",
+      "benefits": ["Better maintainability", "Faster development", "Reduced CSS conflicts", "Easier debugging"]
+    },
+    "organization": {
+      "structure": "Component-based architecture with clear separation of concerns",
+      "naming_convention": "BEM-inspired with 'heiwa-' prefix for namespace isolation",
+      "sections": [
+        "1. Base Variables and Reset (base.css)",
+        "2. Core Widget Container (layout.css)",
+        "3. Modal Overlay and Positioning (layout.css)",
+        "4. Header and Navigation (components.css)",
+        "5. Content Sections (components.css)",
+        "6. Interactive Elements (components.css)",
+        "7. Responsive Design (all files)",
+        "8. Animation and Transitions (utilities.css)",
+        "9. WordPress Theme Overrides (utilities.css)"
+      ]
+    },
+    "specificity_strategy": {
+      "approach": "Strategic use of !important declarations to override WordPress theme conflicts",
+      "reasoning": "WordPress themes often use high specificity selectors that would otherwise override widget styles",
+      "implementation": "Critical layout properties use !important, while decorative styles allow theme inheritance"
+    }
+  },
+
+  "modal_positioning": {
+    "strategy": "Fixed positioning with CSS transforms for perfect centering",
+    "implementation": {
+      "overlay": {
+        "css": ".heiwa-booking-overlay { position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; z-index: 9998 !important; }",
+        "purpose": "Full-screen backdrop that captures clicks and provides visual separation"
+      },
+      "modal_panel": {
+        "css": ".heiwa-booking-panel { position: fixed !important; top: 50% !important; left: 50% !important; transform: translate(-50%, -50%) !important; z-index: 9999 !important; }",
+        "purpose": "Perfect centering regardless of content size or viewport dimensions"
+      },
+      "responsive_behavior": {
+        "mobile": "On screens < 768px, modal expands to near full-screen with margin for safe areas",
+        "tablet": "Maintains centered position with responsive width constraints",
+        "desktop": "Fixed maximum width with centered positioning"
+      }
+    },
+    "z_index_hierarchy": {
+      "wordpress_admin_bar": "99999 (WordPress default)",
+      "modal_panel": "9999 (widget content)",
+      "modal_overlay": "9998 (backdrop)",
+      "page_content": "auto (normal flow)"
+    }
+  },
+
+  "wordpress_theme_compatibility": {
+    "override_strategy": {
+      "method": "Selective !important usage on critical layout properties",
+      "affected_properties": [
+        "position", "top", "left", "right", "bottom",
+        "transform", "z-index", "display", "opacity",
+        "width", "height", "max-width", "max-height"
+      ]
+    },
+    "common_conflicts": {
+      "theme_button_styles": {
+        "issue": "WordPress themes often override button appearance",
+        "solution": "Complete button reset with custom styling using !important on critical properties"
+      },
+      "typography_inheritance": {
+        "issue": "Theme fonts and sizes can interfere with widget readability", 
+        "solution": "Explicit font-family and font-size declarations with fallback stacks"
+      },
+      "box_model_conflicts": {
+        "issue": "Theme box-sizing and margin/padding resets",
+        "solution": "Explicit box-sizing: border-box and margin/padding resets on all widget elements"
+      }
+    }
+  },
+
+  "responsive_design": {
+    "breakpoints": {
+      "mobile": "max-width: 767px",
+      "tablet": "768px - 1023px", 
+      "desktop": "1024px+"
+    },
+    "mobile_optimizations": {
+      "modal_sizing": "95vw width with 5vh top/bottom margins for safe areas",
+      "touch_targets": "Minimum 44px touch targets for buttons and interactive elements",
+      "font_scaling": "Responsive font sizes using clamp() for optimal readability"
+    },
+    "layout_adaptations": {
+      "destination_grid": "1 column on mobile, 2 columns on tablet, 3 columns on desktop",
+      "form_layout": "Stacked inputs on mobile, side-by-side on larger screens",
+      "button_sizing": "Full-width buttons on mobile, auto-width on desktop"
+    }
+  },
+
+  "color_scheme_and_design_tokens": {
+    "primary_palette": {
+      "brand_blue": "#2563eb (Primary action color)",
+      "brand_blue_hover": "#1d4ed8 (Hover state)",
+      "brand_blue_light": "#dbeafe (Light backgrounds)"
+    },
+    "semantic_colors": {
+      "success": "#10b981 (Confirmations, success states)",
+      "warning": "#f59e0b (Warnings, attention)",
+      "error": "#ef4444 (Errors, destructive actions)",
+      "info": "#3b82f6 (Information, neutral actions)"
+    },
+    "neutral_palette": {
+      "gray_50": "#f9fafb (Light backgrounds)",
+      "gray_100": "#f3f4f6 (Card backgrounds)",
+      "gray_200": "#e5e7eb (Borders, dividers)",
+      "gray_600": "#4b5563 (Secondary text)",
+      "gray_900": "#111827 (Primary text)"
+    },
+    "spacing_system": {
+      "base_unit": "0.25rem (4px)",
+      "scale": "4px, 8px, 12px, 16px, 20px, 24px, 32px, 40px, 48px, 64px",
+      "usage": "Consistent spacing using multiples of base unit for visual harmony"
+    },
+    "typography_system": {
+      "font_stack": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      "font_sizes": {
+        "xs": "0.75rem (12px)",
+        "sm": "0.875rem (14px)",
+        "base": "1rem (16px)",
+        "lg": "1.125rem (18px)",
+        "xl": "1.25rem (20px)",
+        "2xl": "1.5rem (24px)",
+        "3xl": "1.875rem (30px)"
+      },
+      "line_heights": {
+        "tight": "1.25",
+        "normal": "1.5",
+        "relaxed": "1.75"
+      }
+    }
+  },
+
+  "animation_and_transitions": {
+    "modal_animations": {
+      "open_sequence": {
+        "overlay": "Fade in from opacity 0 to 0.6 over 200ms ease-out",
+        "panel": "Scale from 0.95 to 1.0 and fade in over 200ms ease-out with 50ms delay"
+      },
+      "close_sequence": {
+        "panel": "Scale to 0.95 and fade out over 150ms ease-in",
+        "overlay": "Fade out over 150ms ease-in with 50ms delay"
+      }
+    },
+    "interactive_feedback": {
+      "button_hover": "Background color transition over 150ms ease-in-out",
+      "card_hover": "Box-shadow and transform scale(1.02) over 200ms ease-out",
+      "input_focus": "Border color and box-shadow transition over 150ms ease-in-out"
+    },
+    "loading_states": {
+      "spinner": "Continuous rotation animation using CSS keyframes",
+      "skeleton": "Shimmer effect using gradient animation for loading placeholders"
+    },
+    "performance_considerations": {
+      "gpu_acceleration": "transform3d(0,0,0) applied to animated elements",
+      "will_change": "Used sparingly on elements that will animate",
+      "reduced_motion": "@media (prefers-reduced-motion: reduce) support for accessibility"
+    }
+  },
+
+  "jquery_integration": {
+    "class_management": {
+      "open_state": "addClass('heiwa-open') triggers modal visibility",
+      "loading_state": "addClass('heiwa-loading') shows loading indicators",
+      "error_state": "addClass('heiwa-error') applies error styling"
+    },
+    "dynamic_styling": {
+      "inline_styles": "jQuery.css() used for dynamic positioning and sizing",
+      "style_inheritance": "CSS classes handle most styling, jQuery handles state changes",
+      "performance": "Minimal DOM manipulation, batch style changes where possible"
+    }
+  },
+
+  "cross_browser_compatibility": {
+    "css_features": {
+      "flexbox": "Full support, with -webkit- prefixes for older Safari",
+      "css_grid": "Used for complex layouts with fallback to flexbox",
+      "css_custom_properties": "Used with fallback values for IE11",
+      "css_transforms": "Full support with vendor prefixes where needed"
+    },
+    "browser_specific_fixes": {
+      "safari": {
+        "issue": "Transform and position fixed interaction bugs",
+        "solution": "Explicit z-index and transform3d for GPU acceleration"
+      },
+      "firefox": {
+        "issue": "Flexbox gap property inconsistencies",
+        "solution": "Margin-based spacing with :not(:last-child) selectors"
+      },
+      "edge_legacy": {
+        "issue": "CSS Grid and custom properties limited support",
+        "solution": "Progressive enhancement with @supports queries"
+      }
+    }
+  },
+
+  "customization_guidelines": {
+    "safe_modifications": {
+      "colors": {
+        "method": "Override CSS custom properties in :root selector",
+        "example": ":root { --heiwa-primary-color: #your-brand-color; }",
+        "impact": "Low risk - affects only color scheme"
+      },
+      "typography": {
+        "method": "Override font-family and font-size variables",
+        "example": ".heiwa-booking-widget { font-family: 'Your Font', sans-serif; }",
+        "impact": "Low risk - maintains layout structure"
+      },
+      "spacing": {
+        "method": "Adjust padding and margin using CSS custom properties",
+        "example": ":root { --heiwa-spacing-base: 6px; }",
+        "impact": "Medium risk - may affect responsive behavior"
+      }
+    },
+    "high_risk_modifications": {
+      "positioning": {
+        "warning": "Modifying position, transform, or z-index can break modal functionality",
+        "recommendation": "Test thoroughly across different WordPress themes"
+      },
+      "display_properties": {
+        "warning": "Changing display, flex, or grid properties can break responsive layout",
+        "recommendation": "Use browser dev tools to test all breakpoints"
+      }
+    },
+    "testing_checklist": [
+      "Test with popular WordPress themes (Twenty Twenty-Three, Astra, GeneratePress)",
+      "Verify modal centering on all screen sizes",
+      "Check z-index conflicts with theme elements",
+      "Validate touch targets on mobile devices",
+      "Test keyboard navigation and accessibility",
+      "Verify animations work with reduced motion preferences"
+    ]
+  },
+
+  "code_examples": {
+    "basic_customization": {
+      "description": "Simple color scheme override",
+      "css": "/* Add to your theme's style.css or custom CSS */\n:root {\n  --heiwa-primary-color: #your-brand-color;\n  --heiwa-primary-hover: #your-brand-hover;\n}\n\n.heiwa-booking-widget {\n  font-family: 'Your Brand Font', sans-serif;\n}"
+    },
+    "advanced_customization": {
+      "description": "Complete visual overhaul while maintaining functionality",
+      "css": "/* Custom styling that preserves core functionality */\n.heiwa-booking-panel {\n  border-radius: 20px !important;\n  box-shadow: 0 25px 50px rgba(0,0,0,0.25) !important;\n}\n\n.heiwa-destination-card {\n  border-radius: 15px;\n  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n}\n\n.heiwa-destination-card:hover {\n  transform: translateY(-8px) scale(1.02);\n}"
+    }
+  },
+
+  "maintenance_notes": {
+    "version_compatibility": "This documentation is for widget version 2.0.0 with modular CSS architecture",
+    "architecture_changes": "Migrated from single widget.css to 4-file modular system (base.css, components.css, layout.css, utilities.css)",
+    "update_frequency": "Review and update with each major widget release",
+    "breaking_changes": "Modular architecture change in v2.0.0 - single widget.css replaced with 4 modular files",
+    "performance_monitoring": "Monitor Core Web Vitals impact when making styling changes"
+  }
+}
