@@ -7,7 +7,7 @@ import { monitoring, withMonitoring } from '@/lib/monitoring';
 
 // CORS headers for WordPress integration
 const corsHeaders = {
-  'Access-Control-Allow-Origin': 'https://heiwahouse.com',
+  'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, X-Heiwa-API-Key',
   'Access-Control-Allow-Credentials': 'true',

@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "next dev -p 3005",
     "build": "next build",
+    "build:widget:umd": "tsx scripts/build-widget-umd.ts",
+    "build:widget:css": "tailwindcss -c tailwind.config.ts -i src/wordpress/widget-tailwind.css -o wordpress-server/wp-content/plugins/heiwa-booking-widget/assets/build/heiwa-widget.tailwind.css --minify",
     "build:widget": "./scripts/build-widget.sh",
     "start": "next start",
     "lint": "next lint",

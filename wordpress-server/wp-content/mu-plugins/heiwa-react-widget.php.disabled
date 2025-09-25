@@ -1,0 +1,242 @@
+<?php
+/**
+ * Heiwa React Booking Widget - Must-Use Plugin (DISABLED)
+ * Forces loading of the React widget regardless of plugin state
+ *
+ * DISABLED: This plugin was conflicting with the main plugin
+ */
+
+// Prevent direct access
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+// DISABLED - Return early to prevent conflicts with main plugin
+// return;
+
+// Debug: Log that the plugin is loading
+error_log('🔧 Heiwa React Widget mu-plugin loaded');
+
+/**
+ * Enqueue React widget assets
+ */
+function heiwa_force_enqueue_react_assets() {
+    // Debug: Log that the function is being called
+    error_log('🎯 heiwa_force_enqueue_react_assets() called');
+
+    // Remove any existing shortcode handlers to ensure ours takes precedence
+    remove_shortcode('heiwa_booking');
+
+    // Ensure wp-element is loaded (provides wp object and React)
+    wp_enqueue_script('wp-element');
+
+    // Enqueue widget styles
+    wp_enqueue_style(
+        'heiwa-widget-styles',
+        content_url('/uploads/heiwa-assets/widget-styles.css'),
+        array(),
+        'react-widget-1757864064024'
+    );
+}
+
+// Hook into wp_enqueue_scripts to ensure assets are loaded on all pages
+add_action('wp_enqueue_scripts', 'heiwa_force_enqueue_react_assets');
+
+// Add React bridge and widget assets in footer (after all scripts load)
+add_action('wp_footer', function() {
+    $assets_url = site_url('/wp-content/uploads/heiwa-assets/');
+    $plugin_url = site_url('/wordpress-plugin/heiwa-booking-widget/');
+    ?>
+    <!-- Heiwa React Widget Assets (loaded in footer) -->
+    <link rel="stylesheet" href="<?php echo esc_url($assets_url); ?>widget-styles.css">
+
+    <script>
+        // Initialize widget configuration first
+        window.heiwaWidgetConfig = {
+            ajaxUrl: '<?php echo esc_url(admin_url('admin-ajax.php')); ?>',
+            nonce: '<?php echo wp_create_nonce('heiwa_widget_nonce'); ?>',
+            restBase: '<?php echo esc_url(rest_url('heiwa/v1')); ?>',
+            pluginUrl: '<?php echo esc_url($plugin_url); ?>',
+            buildId: 'react-widget-1757864064024',
+            settings: {
+                apiEndpoint: '<?php echo esc_url(site_url('/api')); ?>',
+                apiKey: 'heiwa_wp_test_key_2024_secure_deployment',
+                position: 'right',
+                primaryColor: '#f97316',
+                triggerText: 'BOOK NOW'
+            }
+        };
+
+        // React bridge with robust checking
+        function establishReactBridge() {
+            // Check for different ways WordPress might expose React
+            if (typeof window.wp !== 'undefined' && typeof window.wp.element !== 'undefined' && typeof window.wp.element.React !== 'undefined') {
+                window.React = window.wp.element.React;
+                window.ReactDOM = window.wp.element.ReactDOM;
+                console.log('WordPress: ✅ React bridge established via window.wp');
+                return true;
+            }
+
+            // Fallback: Check if React is already globally available (from CDN or other sources)
+            if (typeof window.React !== 'undefined' && typeof window.ReactDOM !== 'undefined') {
+                console.log('WordPress: ✅ React already available globally');
+                return true;
+            }
+
+            console.log('WordPress: React bridge not ready yet, wp available:', typeof window.wp);
+            return false;
+        }
+
+        // Wait for WordPress to fully load before trying to establish bridge
+        function initializeReactBridge() {
+            let attempts = 0;
+            const maxAttempts = 15;
+            const checkInterval = setInterval(function() {
+                attempts++;
+                console.log('WordPress: React bridge attempt', attempts, 'of', maxAttempts, '- wp available:', typeof window.wp);
+
+                if (establishReactBridge()) {
+                    clearInterval(checkInterval);
+                    console.log('WordPress: ✅ React bridge established successfully on attempt', attempts);
+                    return;
+                }
+
+                if (attempts >= maxAttempts) {
+                    clearInterval(checkInterval);
+                    console.warn('WordPress: React bridge failed after', maxAttempts, 'attempts - falling back to CDN React');
+
+                    // Fallback: Load React from CDN if WordPress React is not available
+                    if (typeof window.React === 'undefined') {
+                        const reactScript = document.createElement('script');
+                        reactScript.src = 'https://unpkg.com/react@18/umd/react.production.min.js';
+                        reactScript.onload = function() {
+                            const reactDomScript = document.createElement('script');
+                            reactDomScript.src = 'https://unpkg.com/react-dom@18/umd/react-dom.production.min.js';
+                            reactDomScript.onload = function() {
+                                console.log('WordPress: ✅ Fallback React loaded from CDN');
+                                establishReactBridge();
+                            };
+                            document.head.appendChild(reactDomScript);
+                        };
+                        document.head.appendChild(reactScript);
+                    }
+                }
+            }, 300); // Check every 300ms instead of 200ms for more stability
+        }
+
+        // Start bridge initialization after a longer delay to let WordPress fully load
+        setTimeout(initializeReactBridge, 1000); // Wait 1 second instead of trying immediately
+    </script>
+
+    <script src="<?php echo esc_url($assets_url); ?>page-4bb7bd29d238faf5.js"></script>
+
+    <script>
+        // Widget initialization - wait for React to be available
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('WordPress: DOM loaded, waiting for React...');
+
+            // Wait for React to become available
+            function checkReactAndInitialize() {
+                if (typeof window.React !== 'undefined' && typeof window.ReactDOM !== 'undefined') {
+                    console.log('WordPress: ✅ React available, initializing widget...');
+
+                    // Add visual indicator
+                    const containers = document.querySelectorAll('.heiwa-react-widget-container');
+                    containers.forEach(function(container) {
+                        const indicator = document.createElement('div');
+                        indicator.style.cssText = 'position: absolute; top: 5px; right: 5px; background: green; color: white; padding: 2px 6px; border-radius: 3px; font-size: 10px; z-index: 1000;';
+                        indicator.textContent = 'React ✓';
+                        if (container.style.position !== 'relative') {
+                            container.style.position = 'relative';
+                        }
+                        container.appendChild(indicator);
+                        console.log('WordPress: Added React indicator to container:', container.id);
+                    });
+
+                    // The widget script will auto-initialize via its DOMContentLoaded listener
+                    console.log('WordPress: Widget should auto-initialize now...');
+
+                    // Fallback manual initialization
+                    setTimeout(function() {
+                        console.log('WordPress: Checking for manual initialization...');
+                        if (typeof window.initHeiwaWidget !== 'undefined') {
+                        console.log('WordPress: Manual initialization available');
+                        containers.forEach(function(container) {
+                            try {
+                                window.initHeiwaWidget(container.id);
+                                console.log('WordPress: Initialized widget for:', container.id);
+                            } catch (error) {
+                                console.error('WordPress: Initialization failed for', container.id, error);
+                            }
+                        });
+                    } else {
+                        console.log('WordPress: Auto-initialization should handle it');
+                    }
+                }, 2000);
+
+            } else {
+                console.error('WordPress: ❌ Global React not available');
+                document.querySelectorAll('.heiwa-react-widget-container').forEach(function(container) {
+                    container.innerHTML = '<div style="padding: 20px; background: red; color: white;">❌ React not loaded</div>';
+                });
+            }
+        });
+    </script>
+    <?php
+});
+
+
+// Register the shortcode with high priority
+add_shortcode('heiwa_booking', function($atts, $content = '') {
+    // Parse attributes
+    $atts = shortcode_atts(array(
+        'position' => 'right',
+        'trigger_text' => 'BOOK NOW',
+        'primary_color' => '#f97316',
+        'inline' => 'false',
+        'id' => 'wp-shortcode-' . wp_generate_uuid4(),
+    ), $atts, 'heiwa_booking');
+
+    // Ensure assets are loaded
+    heiwa_force_enqueue_react_assets();
+
+    // Generate unique widget ID
+    $widget_id = 'heiwa-widget-' . sanitize_key($atts['id']);
+
+    // Determine CSS classes
+    $classes = array('heiwa-react-widget-container');
+    if (filter_var($atts['inline'], FILTER_VALIDATE_BOOLEAN)) {
+        $classes[] = 'heiwa-position-inline';
+    } else {
+        $classes[] = 'heiwa-position-' . sanitize_key($atts['position']);
+    }
+
+    // Return React widget container
+    ob_start();
+    ?>
+    <div
+        id="<?php echo esc_attr($widget_id); ?>"
+        class="<?php echo esc_attr(implode(' ', $classes)); ?>"
+        data-widget-id="<?php echo esc_attr($atts['id']); ?>"
+        data-build-id="react-widget-1757864064024"
+        data-position="<?php echo esc_attr($atts['position']); ?>"
+        data-primary-color="<?php echo esc_attr($atts['primary_color']); ?>"
+        data-trigger-text="<?php echo esc_attr($atts['trigger_text']); ?>"
+        data-inline="<?php echo esc_attr($atts['inline']); ?>"
+        style="min-height: 60px; position: relative;"
+    >
+        <div style="padding: 20px; text-align: center; color: #6b7280; font-family: system-ui, sans-serif;">
+            <div style="display: inline-block; width: 20px; height: 20px; border: 2px solid #e5e7eb; border-top: 2px solid #f97316; border-radius: 50%; animation: spin 1s linear infinite; margin-right: 10px;"></div>
+            Loading Heiwa Booking Widget...
+        </div>
+        <style>
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        </style>
+    </div>
+    <?php
+
+    return ob_get_clean();
+}, 1); // High priority to override any other handlers

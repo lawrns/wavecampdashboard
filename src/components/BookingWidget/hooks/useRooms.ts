@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Room } from '../types';
+import { wpFetch } from '../lib/wpApi';
 
 interface UseRoomsParams {
   checkIn: Date | null;
@@ -29,7 +30,7 @@ export function useRooms({ checkIn, checkOut, guests }: UseRoomsParams): UseRoom
       // Always fetch real rooms from API
       // If no dates selected, fetch all rooms without availability filtering
 
-      let apiUrl = '/api/wordpress/rooms';
+      let apiUrl = '/wordpress/rooms';
       let params = new URLSearchParams();
 
       // If dates are selected, check availability
@@ -37,11 +38,11 @@ export function useRooms({ checkIn, checkOut, guests }: UseRoomsParams): UseRoom
         const startDate = checkIn.toISOString().split('T')[0];
         const endDate = checkOut.toISOString().split('T')[0];
 
-        apiUrl = '/api/wordpress/rooms/availability';
+        apiUrl = '/wordpress/rooms/availability';
         params = new URLSearchParams({
           start_date: startDate,
           end_date: endDate,
-          guests: guests.toString(),
+          participants: guests.toString(),
         });
       }
 
@@ -51,12 +52,8 @@ export function useRooms({ checkIn, checkOut, guests }: UseRoomsParams): UseRoom
 
       try {
         // Try WordPress API (public endpoint) with timeout
-        const response = await fetch(`${apiUrl}${params.toString() ? '?' + params.toString() : ''}`, {
+        const response = await wpFetch(`${apiUrl}${params.toString() ? '?' + params.toString() : ''}`, {
           method: 'GET',
-          headers: {
-            'X-Heiwa-API-Key': 'heiwa_wp_test_key_2024_secure_deployment',
-            'Content-Type': 'application/json',
-          },
           signal: controller.signal,
         });
 

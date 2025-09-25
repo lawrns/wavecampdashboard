@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { wpFetch } from '../lib/wpApi';
 
 interface DateAvailability {
   date: string;
@@ -62,11 +63,7 @@ export function useDateAvailability(options: UseDateAvailabilityOptions = {}) {
         participants: participants.toString()
       });
 
-      const response = await fetch(`/api/wordpress/dates/availability?${params}`, {
-        headers: {
-          'X-Heiwa-API-Key': process.env.NEXT_PUBLIC_WORDPRESS_API_KEY || 'heiwa_wp_test_key_2024_secure_deployment'
-        }
-      });
+      const response = await wpFetch(`/wordpress/dates/availability?${params}`);
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);

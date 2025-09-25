@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X, Calendar, CheckCircle } from 'lucide-react';
 import { useBookingFlow } from './hooks/useBookingFlow';
 import { ProgressIndicator } from './ui/ProgressIndicator';
@@ -22,14 +22,36 @@ export function BookingWidget({ className = '' }: BookingWidgetProps) {
   const [bookingSuccess, setBookingSuccess] = useState<any>(null);
   const { state, actions, computed } = useBookingFlow();
 
+  useEffect(() => {
+    // Handle body overflow and modal classes
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      document.body.classList.add('heiwa-modal-open');
+
+      // Move modal to body to break out of container
+      setTimeout(() => {
+        const modal = document.querySelector('.heiwa-modal-overlay');
+        if (modal && modal.parentElement !== document.body) {
+          document.body.appendChild(modal);
+        }
+      }, 0);
+    } else {
+      document.body.style.overflow = '';
+      document.body.classList.remove('heiwa-modal-open');
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+      document.body.classList.remove('heiwa-modal-open');
+    };
+  }, [isOpen]);
+
   const openWidget = () => {
     setIsOpen(true);
-    document.body.style.overflow = 'hidden';
   };
 
   const closeWidget = () => {
     setIsOpen(false);
-    document.body.style.overflow = 'unset';
     setBookingSuccess(null);
     actions.reset();
   };
@@ -95,16 +117,36 @@ export function BookingWidget({ className = '' }: BookingWidgetProps) {
       {/* Widget Modal */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-[9999] flex items-center justify-end"
+          className="heiwa-modal-overlay"
           onClick={handleBackdropClick}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 999999,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            backdropFilter: 'blur(4px)'
+          }}
         >
-          {/* Backdrop */}
-          <div 
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm animate-in fade-in duration-300"
-          />
-          
           {/* Widget Panel */}
-          <div className="relative w-full max-w-md h-full bg-white shadow-2xl animate-in slide-in-from-right duration-500 ease-out flex flex-col sm:max-w-lg lg:max-w-xl transform-gpu">
+          <div
+            className="relative w-full max-w-md h-full bg-white shadow-2xl animate-in slide-in-from-right duration-500 ease-out flex flex-col sm:max-w-lg lg:max-w-xl transform-gpu"
+            style={{
+              position: 'relative',
+              width: '100%',
+              maxWidth: '28rem',
+              height: '100%',
+              backgroundColor: 'white',
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+              display: 'flex',
+              flexDirection: 'column'
+            }}
+          >
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white">
               <h2 className="text-xl font-bold text-gray-900">

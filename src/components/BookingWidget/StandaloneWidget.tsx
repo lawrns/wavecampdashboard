@@ -247,18 +247,68 @@ Plugin URL: ${wpConfig.pluginUrl}`}
           padding: 1.5rem !important;
         }
         
-        /* Ensure proper z-index stacking */
+        /* Ensure proper z-index stacking and modal behavior */
         .heiwa-booking-widget {
           z-index: 999999 !important;
         }
+
+        /* Force modal overlay to work in WordPress */
+        .heiwa-react-widget-container .fixed.inset-0 {
+          position: fixed !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          bottom: 0 !important;
+          z-index: 999999 !important;
+        }
+
+        /* Ensure backdrop works */
+        .heiwa-react-widget-container .bg-black\\/50 {
+          background-color: rgba(0, 0, 0, 0.5) !important;
+        }
+
+        /* Ensure modal panel positioning */
+        .heiwa-react-widget-container .slide-in-from-right {
+          transform: translateX(0) !important;
+        }
         
+        /* Force widget container to not create stacking context */
+        .heiwa-react-widget-container {
+          position: static !important;
+          z-index: auto !important;
+          transform: none !important;
+        }
+
+        /* Modal overlay styling - force break out of container */
+        .heiwa-modal-overlay {
+          position: fixed !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          bottom: 0 !important;
+          z-index: 999999 !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: flex-end !important;
+          background-color: rgba(0, 0, 0, 0.5) !important;
+          backdrop-filter: blur(4px) !important;
+          /* Force new stacking context */
+          transform: translateZ(0) !important;
+          will-change: transform !important;
+        }
+
+        /* Ensure modal works when body has modal open class */
+        body.heiwa-modal-open {
+          overflow: hidden !important;
+        }
+
         /* WordPress admin bar compatibility */
         @media screen and (max-width: 782px) {
           .admin-bar .heiwa-booking-widget {
             top: 46px !important;
           }
         }
-        
+
         @media screen and (min-width: 783px) {
           .admin-bar .heiwa-booking-widget {
             top: 32px !important;

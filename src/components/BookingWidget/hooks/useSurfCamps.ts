@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { SurfWeek } from '../types';
+import { wpFetch } from '../lib/wpApi';
 
 interface UseSurfCampsResult {
   surfCamps: SurfWeek[];
@@ -24,12 +25,8 @@ export function useSurfCamps(): UseSurfCampsResult {
 
       try {
         // Try WordPress API first (public endpoint) with timeout
-        const response = await fetch('/api/wordpress/surf-camps', {
+        const response = await wpFetch('/wordpress/surf-camps', {
           method: 'GET',
-          headers: {
-            'X-Heiwa-API-Key': 'heiwa_wp_test_key_2024_secure_deployment',
-            'Content-Type': 'application/json',
-          },
           signal: controller.signal,
         });
 

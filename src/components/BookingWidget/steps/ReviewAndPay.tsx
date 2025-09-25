@@ -3,6 +3,7 @@ import { Calendar, Users, MapPin, CreditCard, CheckCircle, AlertCircle, Loader2,
 import { BookingState, PricingBreakdown } from '../types';
 import { PaymentMethodSelector } from '../components/PaymentMethodSelector';
 import { BankWireInstructions } from '../components/BankWireInstructions';
+import { wpFetch } from '../lib/wpApi';
 
 interface ReviewAndPayProps {
   state: BookingState;
@@ -74,7 +75,7 @@ export function ReviewAndPay({ state, actions, onComplete }: ReviewAndPayProps) 
       let payload: any = {};
 
       if (state.experienceType === 'room' && state.dates.checkIn && state.dates.checkOut && state.selectedOption) {
-        endpoint = '/api/wordpress/room-bookings';
+        endpoint = '/wordpress/room-bookings';
         payload = {
           room_id: state.selectedOption,
           start_date: state.dates.checkIn.toISOString().split('T')[0],
@@ -87,7 +88,7 @@ export function ReviewAndPay({ state, actions, onComplete }: ReviewAndPayProps) 
           widget_version: 'wp-widget-test'
         };
       } else if (state.experienceType === 'surf-week' && state.selectedOption) {
-        endpoint = '/api/wordpress/bookings';
+        endpoint = '/wordpress/bookings';
         payload = {
           camp_id: state.selectedOption,
           participants,
@@ -99,22 +100,13 @@ export function ReviewAndPay({ state, actions, onComplete }: ReviewAndPayProps) 
         throw new Error('Missing required booking information');
       }
 
-      // Get API key from environment or use fallback
-      const apiKey = process.env.NEXT_PUBLIC_WORDPRESS_API_KEY || 'heiwa_wp_test_key_2024_secure_deployment';
-
       console.log('🔑 Booking submission:', {
         endpoint,
-        hasApiKey: !!apiKey,
-        apiKeyLength: apiKey.length,
         payload: { ...payload, participants: payload.participants?.length || 0 }
       });
 
-      const res = await fetch(endpoint, {
+      const res = await wpFetch(endpoint, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Heiwa-API-Key': apiKey,
-        },
         body: JSON.stringify(payload),
       });
 

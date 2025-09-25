@@ -55,16 +55,8 @@ class Heiwa_Booking_Widget {
      * Constructor
      */
     private function __construct() {
-        try {
-            $this->init_hooks();
-            $this->load_dependencies();
-        } catch (Exception $e) {
-            error_log('Heiwa Booking Widget Constructor Error: ' . $e->getMessage());
-            // Don't let constructor errors break the site
-        } catch (Error $e) {
-            error_log('Heiwa Booking Widget Constructor Fatal Error: ' . $e->getMessage());
-            // Don't let constructor errors break the site
-        }
+        $this->init_hooks();
+        $this->load_dependencies();
     }
 
     /**
@@ -96,55 +88,32 @@ class Heiwa_Booking_Widget {
      * Load plugin dependencies
      */
     private function load_dependencies() {
-        // Load dependencies safely with error handling
-        $required_files = array(
-            'includes/class-shortcode.php',
-            'includes/class-api-connector.php',
-        );
+        // Security, sanitization, and permissions utilities (load first)
+        require_once HEIWA_BOOKING_PLUGIN_DIR . 'includes/security.php';
+        require_once HEIWA_BOOKING_PLUGIN_DIR . 'includes/sanitization.php';
+        require_once HEIWA_BOOKING_PLUGIN_DIR . 'includes/permissions.php';
+        require_once HEIWA_BOOKING_PLUGIN_DIR . 'includes/class-rate-limiter.php';
+        require_once HEIWA_BOOKING_PLUGIN_DIR . 'includes/settings.php';
+        require_once HEIWA_BOOKING_PLUGIN_DIR . 'includes/theming.php';
+        require_once HEIWA_BOOKING_PLUGIN_DIR . 'includes/api-client.php';
+        require_once HEIWA_BOOKING_PLUGIN_DIR . 'includes/error-handling.php';
+        require_once HEIWA_BOOKING_PLUGIN_DIR . 'includes/i18n.php';
 
-        $optional_files = array(
-            'includes/security.php',
-            'includes/sanitization.php',
-            'includes/permissions.php',
-            'includes/settings.php',
-            'includes/theming.php',
-            'includes/api-client.php',
-            'includes/error-handling.php',
-            'includes/i18n.php',
-            'includes/class-widget.php',
-        );
+        // Core classes
+        require_once HEIWA_BOOKING_PLUGIN_DIR . 'includes/class-api-connector.php';
+        require_once HEIWA_BOOKING_PLUGIN_DIR . 'includes/class-widget.php';
+        require_once HEIWA_BOOKING_PLUGIN_DIR . 'includes/class-shortcode.php';
 
-        // Load required files
-        foreach ($required_files as $file) {
-            $file_path = HEIWA_BOOKING_PLUGIN_DIR . $file;
-            if (file_exists($file_path)) {
-                require_once $file_path;
-            } else {
-                error_log("Heiwa Booking Widget: Required file missing: $file");
-            }
-        }
-
-        // Load optional files
-        foreach ($optional_files as $file) {
-            $file_path = HEIWA_BOOKING_PLUGIN_DIR . $file;
-            if (file_exists($file_path)) {
-                require_once $file_path;
-            }
+        // Optional REST proxy class (check if exists)
+        $rest_proxy_file = HEIWA_BOOKING_PLUGIN_DIR . 'includes/class-rest-proxy.php';
+        if (file_exists($rest_proxy_file)) {
+            require_once $rest_proxy_file;
         }
 
         // Admin classes
         if (is_admin()) {
-            $admin_files = array(
-                'admin/class-settings.php',
-                'admin/settings-page.php'
-            );
-
-            foreach ($admin_files as $file) {
-                $file_path = HEIWA_BOOKING_PLUGIN_DIR . $file;
-                if (file_exists($file_path)) {
-                    require_once $file_path;
-                }
-            }
+            require_once HEIWA_BOOKING_PLUGIN_DIR . 'admin/class-settings.php';
+            require_once HEIWA_BOOKING_PLUGIN_DIR . 'admin/settings-page.php';
         }
     }
 
@@ -187,41 +156,22 @@ class Heiwa_Booking_Widget {
      * Initialize plugin
      */
     public function init() {
-        // Debug: Log that plugin is initializing
-        error_log('Heiwa Booking Widget: Plugin initializing...');
+        // Load text domain for translations
+        load_plugin_textdomain('heiwa-booking-widget', false, dirname(HEIWA_BOOKING_PLUGIN_BASENAME) . '/languages');
+        
+        // Initialize components
+        new Heiwa_Booking_Widget_Shortcode();
+        new Heiwa_Booking_API_Connector();
 
-        try {
-            // Load text domain for translations
-            load_plugin_textdomain('heiwa-booking-widget', false, dirname(HEIWA_BOOKING_PLUGIN_BASENAME) . '/languages');
+        // Initialize admin settings
+        if (is_admin()) {
+            new Heiwa_Booking_Settings();
+        }
 
-            // Always initialize shortcode (don't wait for API settings)
-            if (class_exists('Heiwa_Booking_Widget_Shortcode')) {
-                new Heiwa_Booking_Widget_Shortcode();
-                error_log('Heiwa Booking Widget: Shortcode initialized');
-            } else {
-                error_log('Heiwa Booking Widget: Shortcode class not found');
-            }
-
-            if (class_exists('Heiwa_Booking_API_Connector')) {
-                new Heiwa_Booking_API_Connector();
-            }
-
-            // Initialize admin settings
-            if (is_admin() && class_exists('Heiwa_Booking_Settings')) {
-                new Heiwa_Booking_Settings();
-            }
-
-            // Initialize widget if settings are configured
-            $settings = get_option('heiwa_booking_settings', array());
-            if (!empty($settings['api_endpoint']) && !empty($settings['api_key']) && class_exists('Heiwa_Booking_Widget_Display')) {
-                new Heiwa_Booking_Widget_Display();
-            }
-
-            error_log('Heiwa Booking Widget: Plugin initialization complete');
-        } catch (Exception $e) {
-            error_log('Heiwa Booking Widget: Initialization error: ' . $e->getMessage());
-        } catch (Error $e) {
-            error_log('Heiwa Booking Widget: Fatal error during initialization: ' . $e->getMessage());
+        // Initialize widget if settings are configured
+        $settings = get_option('heiwa_booking_settings', array());
+        if (!empty($settings['api_endpoint']) && !empty($settings['api_key'])) {
+            new Heiwa_Booking_Widget_Display();
         }
     }
 
@@ -255,6 +205,12 @@ class Heiwa_Booking_Widget {
         
         // Only load if widget is configured
         if (empty($settings['api_endpoint']) || empty($settings['api_key'])) {
+            return;
+        }
+
+        // Don't enqueue if shortcode is being used (it loads assets directly)
+        global $heiwa_booking_shortcode_used;
+        if (!empty($heiwa_booking_shortcode_used)) {
             return;
         }
 

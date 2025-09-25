@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { addOnsAPI } from '@/lib/supabase-admin'
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, X-Heiwa-API-Key',
+  'Access-Control-Allow-Credentials': 'true',
+}
+
 // GET /api/public/add-ons - Public add-ons list for booking widget
 // Returns only active add-ons and safe fields
 export async function GET(_request: NextRequest) {
@@ -18,13 +25,17 @@ export async function GET(_request: NextRequest) {
         maxQuantity: a.maxQuantity ?? null,
       }))
 
-    return NextResponse.json({ addOns })
+    return NextResponse.json({ addOns }, { headers: corsHeaders })
   } catch (error: any) {
     console.error('Public add-ons error:', error)
     return NextResponse.json(
       { error: error?.message || 'Failed to fetch add-ons' },
-      { status: 500 }
+      { status: 500, headers: corsHeaders }
     )
   }
+}
+
+export async function OPTIONS() {
+  return new NextResponse(null, { status: 200, headers: corsHeaders });
 }
 
