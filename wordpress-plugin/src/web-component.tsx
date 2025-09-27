@@ -1,9 +1,37 @@
 // WordPress-compatible Web Component wrapper for React Booking Widget
 // Uses Shadow DOM for complete isolation from WordPress environment
 
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { BookingWidget } from "./components/BookingWidget/BookingWidget";
+// Use global React instances provided by WordPress
+declare global {
+  interface Window {
+    React: any;
+    ReactDOM: any;
+  }
+}
+
+const React = window.React;
+const ReactDOM = window.ReactDOM;
+
+// Simple test component first
+function TestBookingWidget() {
+  const [step, setStep] = React.useState(1);
+  const [experience, setExperience] = React.useState(null);
+
+  return React.createElement('div', { style: { padding: '20px', border: '1px solid #ccc' } },
+    React.createElement('h2', null, 'Test Booking Widget'),
+    React.createElement('p', null, 'Step: ' + step),
+    React.createElement('p', null, 'Experience: ' + (experience || 'None selected')),
+    React.createElement('button', {
+      onClick: () => setExperience('room'),
+      style: { margin: '5px', padding: '10px' }
+    }, 'Select Room'),
+    React.createElement('button', {
+      onClick: () => setStep(step + 1),
+      disabled: !experience,
+      style: { margin: '5px', padding: '10px', opacity: experience ? 1 : 0.5 }
+    }, 'Next')
+  );
+}
 
 class HeiwaBookingWidget extends HTMLElement {
   private root: ReactDOM.Root | null = null;
@@ -54,7 +82,7 @@ class HeiwaBookingWidget extends HTMLElement {
       // Mount React widget in shadow DOM
       console.log("🎯 Mounting React BookingWidget in Shadow DOM");
       this.root = ReactDOM.createRoot(mountPoint);
-      this.root.render(React.createElement(BookingWidget));
+      this.root.render(React.createElement(TestBookingWidget));
 
     } catch (error) {
       console.error("❌ Failed to initialize Heiwa Booking Widget:", error);
