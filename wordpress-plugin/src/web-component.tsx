@@ -12,45 +12,64 @@ declare global {
 const React = window.React;
 const ReactDOM = window.ReactDOM;
 
-// Self-contained BookingWidget for web component
-function BookingWidget() {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [step, setStep] = React.useState(1);
-  const [experience, setExperience] = React.useState(null);
+// Import components and hooks
+import { ExperienceSelection } from "./components/BookingWidget/steps/ExperienceSelection";
+import { OptionSelection } from "./components/BookingWidget/steps/OptionSelection";
+import { SurfWeekRoomSelection } from "./components/BookingWidget/steps/SurfWeekRoomSelection";
+import { GuestDetails } from "./components/BookingWidget/steps/GuestDetails";
+import { RoomAssignment } from "./components/BookingWidget/steps/RoomAssignment";
+import { AddOns } from "./components/BookingWidget/steps/AddOns";
+import { ReviewAndPay } from "./components/BookingWidget/steps/ReviewAndPay";
+import { BookingProvider, useBooking } from "./components/BookingWidget/hooks/BookingProvider";
 
-  const openWidget = React.useCallback(() => setIsOpen(true), []);
-  const closeWidget = React.useCallback(() => setIsOpen(false), []);
+// Main BookingWidget component
+function BookingWidgetInner() {
+  const { state, actions } = useBooking();
 
-  const selectExperience = React.useCallback((type) => {
-    setExperience(type);
-  }, []);
-
-  const nextStep = React.useCallback(() => {
-    if (step < 4 && experience) {
-      setStep(step + 1);
-    }
-  }, [step, experience]);
-
-  const canProceed = React.useCallback(() => {
-    return step === 1 ? !!experience : true;
-  }, [step, experience]);
-
-  if (!isOpen) {
-    return React.createElement('button', {
-      onClick: openWidget,
-      style: {
-        background: 'linear-gradient(to right, #f97316, #ea580c)',
-        color: 'white',
-        padding: '12px 24px',
-        border: 'none',
-        borderRadius: '8px',
-        fontWeight: '600',
-        cursor: 'pointer',
-        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-        transition: 'all 0.3s ease'
-      }
-    }, '📅 Book Now');
+  if (!state || !actions) {
+    return React.createElement('div', null, 'Loading...');
   }
+
+  // Render different steps based on current step and experience type
+  const renderCurrentStep = () => {
+    const stepComponents = {
+      1: ExperienceSelection,
+      2: state.experienceType === 'surf-week' ? SurfWeekRoomSelection : OptionSelection,
+      3: state.experienceType === 'surf-week' ? GuestDetails : RoomAssignment,
+      4: state.experienceType === 'surf-week' ? AddOns : GuestDetails,
+      5: state.experienceType === 'surf-week' ? ReviewAndPay : AddOns,
+      6: ReviewAndPay,
+      7: () => React.createElement('div', {
+        style: { textAlign: 'center', padding: '40px' }
+      }, [
+        React.createElement('div', {
+          key: 'success',
+          style: {
+            width: '64px',
+            height: '64px',
+            backgroundColor: '#10b981',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto 24px',
+            fontSize: '32px'
+          }
+        }, '✓'),
+        React.createElement('h3', {
+          key: 'title',
+          style: { fontSize: '24px', fontWeight: 'bold', color: '#111827', marginBottom: '8px' }
+        }, 'Booking Confirmed!'),
+        React.createElement('p', {
+          key: 'message',
+          style: { color: '#6b7280', fontSize: '16px' }
+        }, `Your booking #${state.bookingSuccess?.bookingNumber} has been confirmed.`)
+      ])
+    };
+
+    const StepComponent = stepComponents[state.currentStep as keyof typeof stepComponents];
+    return StepComponent ? React.createElement(StepComponent, { state, actions }) : null;
+  };
 
   return React.createElement('div', {
     style: {
@@ -75,7 +94,9 @@ function BookingWidget() {
         maxWidth: '600px',
         width: '100%',
         maxHeight: '90vh',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column'
       }
     }, [
       // Header
@@ -86,7 +107,8 @@ function BookingWidget() {
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '24px',
-          borderBottom: '1px solid #e5e7eb'
+          borderBottom: '1px solid #e5e7eb',
+          flexShrink: 0
         }
       }, [
         React.createElement('h2', {
@@ -95,7 +117,7 @@ function BookingWidget() {
         }, 'Book Your Surf Adventure'),
         React.createElement('button', {
           key: 'close',
-          onClick: closeWidget,
+          onClick: () => window.location.reload(), // Simple close for demo
           style: {
             color: '#6b7280',
             cursor: 'pointer',
@@ -108,13 +130,14 @@ function BookingWidget() {
         }, '✕')
       ]),
 
-      // Progress
-      React.createElement('div', {
+      // Progress Indicator
+      state.currentStep < 7 && React.createElement('div', {
         key: 'progress',
         style: {
           padding: '24px',
           backgroundColor: '#f9fafb',
-          borderBottom: '1px solid #f3f4f6'
+          borderBottom: '1px solid #f3f4f6',
+          flexShrink: 0
         }
       },
         React.createElement('div', {
@@ -124,10 +147,10 @@ function BookingWidget() {
             justifyContent: 'space-between'
           }
         }, [
-          ['Experience', 'Options', 'Add-ons', 'Review'].map((label, index) => {
+          ['Experience', 'Options', 'Details', 'Add-ons', 'Review'].map((label, index) => {
             const stepNum = index + 1;
-            const isActive = stepNum === step;
-            const isCompleted = stepNum < step;
+            const isActive = stepNum === state.currentStep;
+            const isCompleted = stepNum < state.currentStep;
             return React.createElement('div', {
               key: label,
               style: { display: 'flex', alignItems: 'center' }
@@ -157,7 +180,7 @@ function BookingWidget() {
                   color: isActive ? '#f97316' : isCompleted ? '#10b981' : '#6b7280'
                 }
               }, label),
-              index < 3 && React.createElement('div', {
+              index < 4 && React.createElement('div', {
                 key: 'line',
                 style: {
                   width: '32px',
@@ -174,114 +197,15 @@ function BookingWidget() {
       // Content
       React.createElement('div', {
         key: 'content',
-        style: { padding: '24px', overflowY: 'auto', maxHeight: '400px' }
-      },
-        step === 1 ? React.createElement('div', { key: 'step1' }, [
-          React.createElement('h3', {
-            key: 'title',
-            style: { fontSize: '20px', fontWeight: '600', color: '#111827', marginBottom: '8px' }
-          }, 'Choose Your Adventure'),
-          React.createElement('p', {
-            key: 'desc',
-            style: { color: '#6b7280', marginBottom: '24px' }
-          }, 'How would you like to experience Heiwa House?'),
-
-          React.createElement('div', {
-            key: 'options',
-            style: { display: 'grid', gap: '16px' }
-          }, [
-            React.createElement('button', {
-              key: 'room',
-              onClick: () => selectExperience('room'),
-              style: {
-                padding: '20px',
-                border: experience === 'room' ? '2px solid #f97316' : '2px solid #d1d5db',
-                borderRadius: '8px',
-                backgroundColor: experience === 'room' ? '#fff7ed' : 'white',
-                textAlign: 'left',
-                cursor: 'pointer',
-                transition: 'all 0.2s'
-              }
-            }, [
-              React.createElement('div', {
-                key: 'header',
-                style: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }
-              }, [
-                React.createElement('h4', {
-                  key: 'title',
-                  style: { fontSize: '18px', fontWeight: '600', color: '#111827' }
-                }, 'Book a Room'),
-                React.createElement('span', {
-                  key: 'price',
-                  style: { color: '#f97316', fontWeight: '600' }
-                }, 'From €45')
-              ]),
-              React.createElement('p', {
-                key: 'desc',
-                style: { color: '#6b7280', marginBottom: '12px' }
-              }, 'Choose your dates and accommodation. Perfect for flexible stays.'),
-              React.createElement('div', {
-                key: 'features',
-                style: { display: 'flex', gap: '12px', fontSize: '14px', color: '#6b7280' }
-              }, ['🏠 Flexible dates', '🛏️ Choose your room', '🏄 Self-guided experience'].map(feature =>
-                React.createElement('span', { key: feature }, feature)
-              ))
-            ]),
-
-            React.createElement('button', {
-              key: 'surf',
-              onClick: () => selectExperience('surf-week'),
-              style: {
-                padding: '20px',
-                border: experience === 'surf-week' ? '2px solid #f97316' : '2px solid #d1d5db',
-                borderRadius: '8px',
-                backgroundColor: experience === 'surf-week' ? '#fff7ed' : 'white',
-                textAlign: 'left',
-                cursor: 'pointer',
-                transition: 'all 0.2s'
-              }
-            }, [
-              React.createElement('div', {
-                key: 'header',
-                style: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }
-              }, [
-                React.createElement('h4', {
-                  key: 'title',
-                  style: { fontSize: '18px', fontWeight: '600', color: '#111827' }
-                }, 'Surf Week'),
-                React.createElement('span', {
-                  key: 'price',
-                  style: { color: '#f97316', fontWeight: '600' }
-                }, 'From €599')
-              ]),
-              React.createElement('p', {
-                key: 'desc',
-                style: { color: '#6b7280', marginBottom: '12px' }
-              }, 'Structured surf camp with coaching and community.'),
-              React.createElement('div', {
-                key: 'features',
-                style: { display: 'flex', gap: '12px', fontSize: '14px', color: '#6b7280' }
-              }, ['🏄 Professional coaching', '🍽️ All meals included', '📅 Structured program'].map(feature =>
-                React.createElement('span', { key: feature }, feature)
-              ))
-            ])
-          ])
-        ]) :
-
-        React.createElement('div', { key: 'other-step' }, [
-          React.createElement('h3', {
-            key: 'title',
-            style: { fontSize: '20px', fontWeight: '600', color: '#111827', marginBottom: '8px' }
-          }, `Step ${step}`),
-          React.createElement('p', {
-            key: 'desc',
-            style: { color: '#6b7280' }
-          }, `This is step ${step}. Experience selected: ${experience || 'None'}`)
-        ])
-      ),
+        style: {
+          padding: '24px',
+          overflowY: 'auto',
+          flex: 1
+        }
+      }, renderCurrentStep()),
 
       // Footer
-      React.createElement('div', {
+      state.currentStep < 7 && React.createElement('div', {
         key: 'footer',
         style: {
           padding: '24px',
@@ -289,19 +213,20 @@ function BookingWidget() {
           borderTop: '1px solid #f3f4f6',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between'
+          justifyContent: 'space-between',
+          flexShrink: 0
         }
       }, [
         React.createElement('button', {
           key: 'back',
-          onClick: () => step > 1 && setStep(step - 1),
-          disabled: step === 1,
+          onClick: actions.prevStep,
+          disabled: state.currentStep === 1,
           style: {
             padding: '8px 16px',
-            color: step === 1 ? '#9ca3af' : '#374151',
+            color: state.currentStep === 1 ? '#9ca3af' : '#374151',
             background: 'none',
             border: 'none',
-            cursor: step === 1 ? 'not-allowed' : 'pointer',
+            cursor: state.currentStep === 1 ? 'not-allowed' : 'pointer',
             transition: 'color 0.2s'
           }
         }, 'Back'),
@@ -309,31 +234,39 @@ function BookingWidget() {
         React.createElement('span', {
           key: 'step-info',
           style: { fontSize: '14px', color: '#6b7280' }
-        }, `Step ${step} of 4`),
+        }, `Step ${state.currentStep} of 6`),
 
         React.createElement('button', {
           key: 'next',
-          onClick: nextStep,
-          disabled: !canProceed(),
+          onClick: actions.nextStep,
+          disabled: !actions.canProceedToNextStep(),
           style: {
             padding: '8px 24px',
-            backgroundColor: canProceed() ? '#f97316' : '#d1d5db',
+            backgroundColor: actions.canProceedToNextStep() ? '#f97316' : '#d1d5db',
             color: 'white',
             border: 'none',
             borderRadius: '6px',
             fontWeight: '600',
-            cursor: canProceed() ? 'pointer' : 'not-allowed',
+            cursor: actions.canProceedToNextStep() ? 'pointer' : 'not-allowed',
             transition: 'background-color 0.2s',
             display: 'flex',
             alignItems: 'center',
             gap: '8px'
           }
         }, [
-          React.createElement('span', { key: 'text' }, step === 4 ? 'Complete Booking' : 'Next'),
-          step < 4 && React.createElement('span', { key: 'arrow' }, '→')
+          React.createElement('span', { key: 'text' },
+            state.currentStep === 6 ? 'Complete Booking' : 'Next'
+          ),
+          state.currentStep < 6 && React.createElement('span', { key: 'arrow' }, '→')
         ])
       ])
     ])
+  );
+}
+
+function BookingWidget() {
+  return React.createElement(BookingProvider, null,
+    React.createElement(BookingWidgetInner)
   );
 }
 
