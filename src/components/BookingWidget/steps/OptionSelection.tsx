@@ -1,4 +1,28 @@
-import { useEffect, useState } from 'react';
+// WordPress-compatible React imports with runtime binding
+let useEffect: any, useState: any;
+
+// Function to get React hooks at runtime (ensures proper binding)
+function getReactHooks() {
+  if (typeof window !== 'undefined' && (window as any).React) {
+    const React = (window as any).React;
+    return {
+      useEffect: React.useEffect,
+      useState: React.useState
+    };
+  } else {
+    // Fallback to normal imports for Next.js environment
+    const reactModule = require('react');
+    return {
+      useEffect: reactModule.useEffect,
+      useState: reactModule.useState
+    };
+  }
+}
+
+// Get hooks at runtime to ensure proper React instance binding
+const hooks = getReactHooks();
+useEffect = hooks.useEffect;
+useState = hooks.useState;
 import { MapPin, Users, Star, Check, Clock, Wifi, Car, Utensils, Calendar, Minus, Plus } from 'lucide-react';
 import { BookingState, PricingBreakdown } from '../types';
 import { useRooms } from '../hooks/useRooms';

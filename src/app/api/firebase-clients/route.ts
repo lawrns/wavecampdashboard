@@ -3,6 +3,8 @@ import { clientsAPI } from '@/lib/supabase-admin';
 import { requireAdminSession } from '@/lib/auth';
 import { CreateClientSchema, UpdateClientSchema } from '@/lib/clients/schema';
 
+export const dynamic = 'force-dynamic';
+
 // GET /api/firebase-clients - Get all clients
 export async function GET(request: NextRequest) {
   try {

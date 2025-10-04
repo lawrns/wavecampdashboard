@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase/client';
 import { z } from 'zod';
 
+export const dynamic = 'force-dynamic';
+
 // Schema for GDPR export request
 const GDPRExportSchema = z.object({
   clientEmail: z.string().email('Invalid email format'),

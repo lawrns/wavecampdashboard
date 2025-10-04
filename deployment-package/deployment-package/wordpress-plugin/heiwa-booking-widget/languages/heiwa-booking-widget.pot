@@ -1,0 +1,1368 @@
+# Copyright (C) 2025 Heiwa House
+# This file is distributed under the same license as the Heiwa Booking Widget package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Heiwa Booking Widget 1.0.0\n"
+"Report-Msgid-Bugs-To: https://support.heiwahouse.com\n"
+"POT-Creation-Date: 2025-01-21 12:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Heiwa House <support@heiwahouse.com>\n"
+"Language-Team: Heiwa House <support@heiwahouse.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;esc_attr__;esc_attr_e;esc_html__;esc_html_e\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+
+# Admin Interface
+msgid "Heiwa Booking Widget Settings"
+msgstr ""
+
+msgid "Configure your Heiwa House booking widget to match your brand and display preferences."
+msgstr ""
+
+msgid "General"
+msgstr ""
+
+msgid "Appearance"
+msgstr ""
+
+msgid "Branding"
+msgstr ""
+
+msgid "Advanced"
+msgstr ""
+
+msgid "Save Changes"
+msgstr ""
+
+# API Configuration
+msgid "API Configuration"
+msgstr ""
+
+msgid "Connect your WordPress site to the Heiwa House booking system."
+msgstr ""
+
+msgid "API Endpoint"
+msgstr ""
+
+msgid "The base URL of your Heiwa House API endpoint."
+msgstr ""
+
+msgid "API Key"
+msgstr ""
+
+msgid "Your WordPress API key from the Heiwa House admin dashboard."
+msgstr ""
+
+msgid "Test Connection"
+msgstr ""
+
+msgid "Connection Test"
+msgstr ""
+
+# Display Settings
+msgid "Display Settings"
+msgstr ""
+
+msgid "Auto-inject Widget"
+msgstr ""
+
+msgid "Automatically display widget on selected pages"
+msgstr ""
+
+msgid "When disabled, use the shortcode [heiwa_booking] to display the widget manually."
+msgstr ""
+
+msgid "Show Widget On"
+msgstr ""
+
+msgid "Select where the widget should appear automatically."
+msgstr ""
+
+msgid "Front Page"
+msgstr ""
+
+msgid "Blog Home"
+msgstr ""
+
+msgid "All Pages"
+msgstr ""
+
+msgid "All Posts"
+msgstr ""
+
+# Appearance Settings
+msgid "Widget Appearance"
+msgstr ""
+
+msgid "Customize the visual appearance of your booking widget."
+msgstr ""
+
+msgid "Widget Position"
+msgstr ""
+
+msgid "Position of the widget on the page."
+msgstr ""
+
+msgid "Right Side"
+msgstr ""
+
+msgid "Left Side"
+msgstr ""
+
+msgid "Bottom"
+msgstr ""
+
+msgid "Bottom Left"
+msgstr ""
+
+msgid "Bottom Right"
+msgstr ""
+
+msgid "Trigger Button Text"
+msgstr ""
+
+msgid "Text displayed on the floating trigger button."
+msgstr ""
+
+msgid "BOOK NOW"
+msgstr ""
+
+msgid "Theme Preview"
+msgstr ""
+
+msgid "Book Your Surf Camp"
+msgstr ""
+
+# Branding Settings
+msgid "Brand Configuration"
+msgstr ""
+
+msgid "Configure brand-specific theming and tokens for your booking widget."
+msgstr ""
+
+msgid "These settings allow you to customize the widget appearance for different surf camp brands. Brand tokens are loaded from your Heiwa House admin panel. You can override them here for this WordPress site."
+msgstr ""
+
+msgid "Brand ID"
+msgstr ""
+
+msgid "Your brand identifier from Heiwa House (leave empty for default branding)."
+msgstr ""
+
+msgid "Brand Theme Tokens"
+msgstr ""
+
+msgid "These values are automatically loaded from your Heiwa House brand configuration. You can override them here for this WordPress site."
+msgstr ""
+
+msgid "Colors"
+msgstr ""
+
+msgid "Primary Color"
+msgstr ""
+
+msgid "Primary brand color for buttons and highlights."
+msgstr ""
+
+msgid "Secondary Color"
+msgstr ""
+
+msgid "Secondary color for text and supporting elements."
+msgstr ""
+
+msgid "Accent Color"
+msgstr ""
+
+msgid "Accent color for special highlights and CTAs."
+msgstr ""
+
+msgid "Typography"
+msgstr ""
+
+msgid "Font Family"
+msgstr ""
+
+msgid "Primary font family for the widget."
+msgstr ""
+
+msgid "Inter"
+msgstr ""
+
+msgid "Roboto"
+msgstr ""
+
+msgid "Open Sans"
+msgstr ""
+
+msgid "Lato"
+msgstr ""
+
+msgid "System Font"
+msgstr ""
+
+msgid "Layout"
+msgstr ""
+
+msgid "Border Radius"
+msgstr ""
+
+msgid "Corner rounding for buttons and containers."
+msgstr ""
+
+msgid "Sharp (4px)"
+msgstr ""
+
+msgid "Rounded (8px)"
+msgstr ""
+
+msgid "Very Rounded (12px)"
+msgstr ""
+
+msgid "Pill (20px)"
+msgstr ""
+
+msgid "Stripe Publishable Key"
+msgstr ""
+
+msgid "Stripe publishable key for client-side payments (leave empty to use default from Heiwa House)."
+msgstr ""
+
+msgid "Live Theme Preview"
+msgstr ""
+
+# Advanced Settings
+msgid "Advanced Settings"
+msgstr ""
+
+msgid "Advanced configuration options for power users and developers."
+msgstr ""
+
+msgid "Warning"
+msgstr ""
+
+msgid "These settings are for advanced users. Incorrect configuration may break the widget functionality."
+msgstr ""
+
+msgid "Debug Mode"
+msgstr ""
+
+msgid "Enable debug logging and error reporting"
+msgstr ""
+
+msgid "Log detailed information for troubleshooting. Only enable on development sites."
+msgstr ""
+
+msgid "Cache Timeout"
+msgstr ""
+
+msgid "How long to cache API responses (minimum 60 seconds, maximum 1 hour)."
+msgstr ""
+
+msgid "seconds"
+msgstr ""
+
+msgid "Rate Limit"
+msgstr ""
+
+msgid "Maximum API requests allowed per IP address per minute."
+msgstr ""
+
+msgid "requests per minute"
+msgstr ""
+
+msgid "Custom CSS"
+msgstr ""
+
+msgid "Add custom CSS to override widget styles. Use with caution."
+msgstr ""
+
+msgid "System Information"
+msgstr ""
+
+msgid "Plugin Version"
+msgstr ""
+
+msgid "Build ID"
+msgstr ""
+
+msgid "WordPress Version"
+msgstr ""
+
+msgid "PHP Version"
+msgstr ""
+
+msgid "REST API Available"
+msgstr ""
+
+msgid "Connection Status"
+msgstr ""
+
+msgid "Connected"
+msgstr ""
+
+msgid "Not Connected"
+msgstr ""
+
+msgid "Configure your API settings to connect to Heiwa House."
+msgstr ""
+
+msgid "Endpoint"
+msgstr ""
+
+msgid "API Key"
+msgstr ""
+
+msgid "Quick Help"
+msgstr ""
+
+msgid "Shortcode"
+msgstr ""
+
+msgid "PHP Function"
+msgstr ""
+
+msgid "REST API"
+msgstr ""
+
+msgid "Support"
+msgstr ""
+
+msgid "Need help with your booking widget?"
+msgstr ""
+
+msgid "Get Support"
+msgstr ""
+
+# Widget Interface
+msgid "Loading..."
+msgstr ""
+
+msgid "An error occurred"
+msgstr ""
+
+msgid "Network error. Please check your connection."
+msgstr ""
+
+msgid "Too many requests. Please wait a moment."
+msgstr ""
+
+# Error Messages
+msgid "Security check failed"
+msgstr ""
+
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+msgid "Unable to connect to booking service. Please try again later."
+msgstr ""
+
+msgid "Request timed out. Please check your connection and try again."
+msgstr ""
+
+msgid "Received invalid response from server. Please contact support if this persists."
+msgstr ""
+
+msgid "Please check your information and try again."
+msgstr ""
+
+msgid "Too many requests. Please wait a moment before trying again."
+msgstr ""
+
+msgid "Security check failed. Please refresh the page and try again."
+msgstr ""
+
+msgid "Service configuration error. Please contact the website administrator."
+msgstr ""
+
+msgid "You don't have permission to perform this action."
+msgstr ""
+
+msgid "Sorry, this booking is no longer available. Please select different dates or options."
+msgstr ""
+
+msgid "Payment could not be processed. Please check your payment information and try again."
+msgstr ""
+
+msgid "An unexpected error occurred. Please try again or contact support."
+msgstr ""
+
+# Recovery Suggestions
+msgid "Check your internet connection"
+msgstr ""
+
+msgid "Try refreshing the page"
+msgstr ""
+
+msgid "Contact support if the problem persists"
+msgstr ""
+
+msgid "Try again in a few moments"
+msgstr ""
+
+msgid "Review the highlighted fields"
+msgstr ""
+
+msgid "Ensure all required information is provided"
+msgstr ""
+
+msgid "Try selecting different dates"
+msgstr ""
+
+msgid "Check availability for other options"
+msgstr ""
+
+msgid "Verify your payment information"
+msgstr ""
+
+msgid "Try a different payment method"
+msgstr ""
+
+msgid "Contact your bank if issues persist"
+msgstr ""
+
+# Booking Widget
+msgid "Book Your Surf Camp"
+msgstr ""
+
+msgid "Search for available camps"
+msgstr ""
+
+msgid "Select your dates"
+msgstr ""
+
+msgid "Choose your accommodation"
+msgstr ""
+
+msgid "Add extras"
+msgstr ""
+
+msgid "Complete your booking"
+msgstr ""
+
+msgid "Check-in Date"
+msgstr ""
+
+msgid "Check-out Date"
+msgstr ""
+
+msgid "Number of Guests"
+msgstr ""
+
+msgid "Select Dates"
+msgstr ""
+
+msgid "Choose Accommodation"
+msgstr ""
+
+msgid "Select Room"
+msgstr ""
+
+msgid "Add-ons"
+msgstr ""
+
+msgid "Total Price"
+msgstr ""
+
+msgid "Continue"
+msgstr ""
+
+msgid "Back"
+msgstr ""
+
+msgid "Confirm Booking"
+msgstr ""
+
+msgid "Processing..."
+msgstr ""
+
+msgid "Booking Confirmed!"
+msgstr ""
+
+msgid "Thank you for your booking. You will receive a confirmation email shortly."
+msgstr ""
+
+msgid "View Booking Details"
+msgstr ""
+
+msgid "Book Another"
+msgstr ""
+
+# Customer Information
+msgid "Customer Information"
+msgstr ""
+
+msgid "First Name"
+msgstr ""
+
+msgid "Last Name"
+msgstr ""
+
+msgid "Email Address"
+msgstr ""
+
+msgid "Phone Number"
+msgstr ""
+
+msgid "Date of Birth"
+msgstr ""
+
+msgid "Emergency Contact"
+msgstr ""
+
+msgid "Special Requests"
+msgstr ""
+
+msgid "Any special requests or notes for your booking?"
+msgstr ""
+
+# Payment
+msgid "Payment Information"
+msgstr ""
+
+msgid "Secure Payment"
+msgstr ""
+
+msgid "Your payment information is encrypted and secure."
+msgstr ""
+
+msgid "Total"
+msgstr ""
+
+msgid "Taxes & Fees"
+msgstr ""
+
+msgid "Grand Total"
+msgstr ""
+
+msgid "Pay Now"
+msgstr ""
+
+# Availability
+msgid "Available"
+msgstr ""
+
+msgid "Limited Availability"
+msgstr ""
+
+msgid "Sold Out"
+msgstr ""
+
+msgid "Check Availability"
+msgstr ""
+
+msgid "No rooms available for selected dates"
+msgstr ""
+
+msgid "Please select different dates or contact us for alternatives."
+msgstr ""
+
+# Admin Dashboard (Future)
+msgid "Heiwa Booking Dashboard"
+msgstr ""
+
+msgid "Overview"
+msgstr ""
+
+msgid "Bookings"
+msgstr ""
+
+msgid "Calendar"
+msgstr ""
+
+msgid "Revenue"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "New Booking"
+msgstr ""
+
+msgid "Total Bookings"
+msgstr ""
+
+msgid "This Month"
+msgstr ""
+
+msgid "Revenue This Month"
+msgstr ""
+
+msgid "Occupancy Rate"
+msgstr ""
+
+msgid "Pending Payments"
+msgstr ""
+
+# Date/Time
+msgid "Today"
+msgstr ""
+
+msgid "Tomorrow"
+msgstr ""
+
+msgid "This Week"
+msgstr ""
+
+msgid "Next Week"
+msgstr ""
+
+msgid "This Month"
+msgstr ""
+
+msgid "Next Month"
+msgstr ""
+
+# Status Messages
+msgid "Success"
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+msgid "Information"
+msgstr ""
+
+msgid "Warning"
+msgstr ""
+
+# Accessibility
+msgid "Close"
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+msgid "Menu"
+msgstr ""
+
+msgid "Navigation"
+msgstr ""
+
+msgid "Skip to content"
+msgstr ""
+
+msgid "Skip to main navigation"
+msgstr ""
+
+# Admin Actions
+msgid "Update"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "View"
+msgstr ""
+
+msgid "Add New"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Filter"
+msgstr ""
+
+msgid "Export"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+# Plugin Meta
+msgid "Heiwa Booking Widget"
+msgstr ""
+
+msgid "Heiwa Booking"
+msgstr ""
+
+# Version and Build
+msgid "Version"
+msgstr ""
+
+msgid "Build"
+msgstr ""
+
+# Help and Support
+msgid "Documentation"
+msgstr ""
+
+msgid "FAQ"
+msgstr ""
+
+msgid "Video Tutorials"
+msgstr ""
+
+msgid "Contact Us"
+msgstr ""
+
+# Booking States
+msgid "Pending"
+msgstr ""
+
+msgid "Confirmed"
+msgstr ""
+
+msgid "Paid"
+msgstr ""
+
+msgid "Cancelled"
+msgstr ""
+
+msgid "Refunded"
+msgstr ""
+
+msgid "Completed"
+msgstr ""
+
+msgid "No Show"
+msgstr ""
+
+# Property Types
+msgid "Surf Camp"
+msgstr ""
+
+msgid "Hostel"
+msgstr ""
+
+msgid "Hotel"
+msgstr ""
+
+msgid "Resort"
+msgstr ""
+
+msgid "Villa"
+msgstr ""
+
+msgid "Apartment"
+msgstr ""
+
+# Room Types
+msgid "Dorm"
+msgstr ""
+
+msgid "Private Room"
+msgstr ""
+
+msgid "Suite"
+msgstr ""
+
+msgid "Villa Room"
+msgstr ""
+
+# Add-ons
+msgid "Airport Transfer"
+msgstr ""
+
+msgid "Surf Lessons"
+msgstr ""
+
+msgid "Equipment Rental"
+msgstr ""
+
+msgid "Meals"
+msgstr ""
+
+msgid "Insurance"
+msgstr ""
+
+msgid "Towels"
+msgstr ""
+
+msgid "Beach Towel"
+msgstr ""
+
+msgid "Laundry Service"
+msgstr ""
+
+# Currencies
+msgid "USD"
+msgstr ""
+
+msgid "EUR"
+msgstr ""
+
+msgid "GBP"
+msgstr ""
+
+msgid "JPY"
+msgstr ""
+
+msgid "AUD"
+msgstr ""
+
+msgid "CAD"
+msgstr ""
+
+# Countries (Common)
+msgid "United States"
+msgstr ""
+
+msgid "United Kingdom"
+msgstr ""
+
+msgid "Germany"
+msgstr ""
+
+msgid "France"
+msgstr ""
+
+msgid "Spain"
+msgstr ""
+
+msgid "Italy"
+msgstr ""
+
+msgid "Portugal"
+msgstr ""
+
+msgid "Netherlands"
+msgstr ""
+
+msgid "Australia"
+msgstr ""
+
+msgid "New Zealand"
+msgstr ""
+
+msgid "Japan"
+msgstr ""
+
+msgid "Costa Rica"
+msgstr ""
+
+msgid "Mexico"
+msgstr ""
+
+msgid "Peru"
+msgstr ""
+
+msgid "Morocco"
+msgstr ""
+
+msgid "Indonesia"
+msgstr ""
+
+# Languages
+msgid "English"
+msgstr ""
+
+msgid "Spanish"
+msgstr ""
+
+msgid "French"
+msgstr ""
+
+msgid "German"
+msgstr ""
+
+msgid "Italian"
+msgstr ""
+
+msgid "Portuguese"
+msgstr ""
+
+msgid "Japanese"
+msgstr ""
+
+# Time Zones
+msgid "Pacific Time"
+msgstr ""
+
+msgid "Mountain Time"
+msgstr ""
+
+msgid "Central Time"
+msgstr ""
+
+msgid "Eastern Time"
+msgstr ""
+
+msgid "London"
+msgstr ""
+
+msgid "Berlin"
+msgstr ""
+
+msgid "Paris"
+msgstr ""
+
+msgid "Madrid"
+msgstr ""
+
+msgid "Rome"
+msgstr ""
+
+msgid "Tokyo"
+msgstr ""
+
+# Service Temporarily Unavailable (Error Page)
+msgid "Service Temporarily Unavailable"
+msgstr ""
+
+msgid "We're experiencing technical difficulties with our booking system. This is usually temporary and we're working to resolve it."
+msgstr ""
+
+msgid "Please try again in a few minutes. If the problem persists, contact us for assistance."
+msgstr ""
+
+msgid "Go to Homepage"
+msgstr ""
+
+msgid "Go Back"
+msgstr ""
+
+# Email Templates
+msgid "Booking Confirmation"
+msgstr ""
+
+msgid "Thank you for booking with Heiwa House!"
+msgstr ""
+
+msgid "Your booking has been confirmed."
+msgstr ""
+
+msgid "Booking Details"
+msgstr ""
+
+msgid "Check-in"
+msgstr ""
+
+msgid "Check-out"
+msgstr ""
+
+msgid "Guests"
+msgstr ""
+
+msgid "Room Type"
+msgstr ""
+
+msgid "Total Amount"
+msgstr ""
+
+msgid "Payment Status"
+msgstr ""
+
+msgid "Cancellation Policy"
+msgstr ""
+
+msgid "Contact Information"
+msgstr ""
+
+msgid "Need help?"
+msgstr ""
+
+msgid "Questions about your booking?"
+msgstr ""
+
+# SMS Templates
+msgid "Your booking is confirmed! Check your email for details."
+msgstr ""
+
+msgid "Payment received. Your booking is confirmed."
+msgstr ""
+
+msgid "Reminder: Check-in tomorrow at Heiwa House."
+msgstr ""
+
+# Admin Notifications
+msgid "New booking received"
+msgstr ""
+
+msgid "Payment processed"
+msgstr ""
+
+msgid "Booking cancelled"
+msgstr ""
+
+msgid "Refund processed"
+msgstr ""
+
+msgid "System error occurred"
+msgstr ""
+
+msgid "Webhook failed"
+msgstr ""
+
+# Dashboard Stats
+msgid "Today's Revenue"
+msgstr ""
+
+msgid "Weekly Revenue"
+msgstr ""
+
+msgid "Monthly Revenue"
+msgstr ""
+
+msgid "Yearly Revenue"
+msgstr ""
+
+msgid "Average Booking Value"
+msgstr ""
+
+msgid "Conversion Rate"
+msgstr ""
+
+msgid "Popular Destinations"
+msgstr ""
+
+msgid "Peak Booking Times"
+msgstr ""
+
+# Calendar
+msgid "January"
+msgstr ""
+
+msgid "February"
+msgstr ""
+
+msgid "March"
+msgstr ""
+
+msgid "April"
+msgstr ""
+
+msgid "May"
+msgstr ""
+
+msgid "June"
+msgstr ""
+
+msgid "July"
+msgstr ""
+
+msgid "August"
+msgstr ""
+
+msgid "September"
+msgstr ""
+
+msgid "October"
+msgstr ""
+
+msgid "November"
+msgstr ""
+
+msgid "December"
+msgstr ""
+
+msgid "Sun"
+msgstr ""
+
+msgid "Mon"
+msgstr ""
+
+msgid "Tue"
+msgstr ""
+
+msgid "Wed"
+msgstr ""
+
+msgid "Thu"
+msgstr ""
+
+msgid "Fri"
+msgstr ""
+
+msgid "Sat"
+msgstr ""
+
+# Export/Import
+msgid "CSV Export"
+msgstr ""
+
+msgid "Excel Export"
+msgstr ""
+
+msgid "PDF Export"
+msgstr ""
+
+msgid "JSON Export"
+msgstr ""
+
+msgid "Data exported successfully"
+msgstr ""
+
+msgid "Export failed"
+msgstr ""
+
+# GDPR/Privacy
+msgid "Privacy Policy"
+msgstr ""
+
+msgid "Terms of Service"
+msgstr ""
+
+msgid "Cookie Policy"
+msgstr ""
+
+msgid "Data Processing Agreement"
+msgstr ""
+
+msgid "We respect your privacy"
+msgstr ""
+
+msgid "Your data is secure"
+msgstr ""
+
+# Social Media
+msgid "Share on Facebook"
+msgstr ""
+
+msgid "Share on Twitter"
+msgstr ""
+
+msgid "Share on Instagram"
+msgstr ""
+
+msgid "Share on LinkedIn"
+msgstr ""
+
+# Ratings/Reviews
+msgid "Customer Reviews"
+msgstr ""
+
+msgid "Write a Review"
+msgstr ""
+
+msgid "Rate your experience"
+msgstr ""
+
+msgid "Excellent"
+msgstr ""
+
+msgid "Very Good"
+msgstr ""
+
+msgid "Good"
+msgstr ""
+
+msgid "Fair"
+msgstr ""
+
+msgid "Poor"
+msgstr ""
+
+# Weather
+msgid "Weather Forecast"
+msgstr ""
+
+msgid "Sunny"
+msgstr ""
+
+msgid "Cloudy"
+msgstr ""
+
+msgid "Rainy"
+msgstr ""
+
+msgid "Stormy"
+msgstr ""
+
+msgid "Perfect surf conditions expected"
+msgstr ""
+
+# Surf Conditions
+msgid "Wave Height"
+msgstr ""
+
+msgid "Wave Period"
+msgstr ""
+
+msgid "Wind Speed"
+msgstr ""
+
+msgid "Wind Direction"
+msgstr ""
+
+msgid "Tide"
+msgstr ""
+
+msgid "High Tide"
+msgstr ""
+
+msgid "Low Tide"
+msgstr ""
+
+msgid "Surf Conditions"
+msgstr ""
+
+msgid "Excellent"
+msgstr ""
+
+msgid "Good"
+msgstr ""
+
+msgid "Fair"
+msgstr ""
+
+msgid "Poor"
+msgstr ""
+
+msgid "Flat"
+msgstr ""
+
+# Instructor Info
+msgid "Surf Instructors"
+msgstr ""
+
+msgid "Certified Instructors"
+msgstr ""
+
+msgid "Private Lessons"
+msgstr ""
+
+msgid "Group Lessons"
+msgstr ""
+
+msgid "Beginner Friendly"
+msgstr ""
+
+msgid "Advanced Training"
+msgstr ""
+
+# Facilities
+msgid "Facilities"
+msgstr ""
+
+msgid "WiFi"
+msgstr ""
+
+msgid "Parking"
+msgstr ""
+
+msgid "Restaurant"
+msgstr ""
+
+msgid "Bar"
+msgstr ""
+
+msgid "Swimming Pool"
+msgstr ""
+
+msgid "Hot Tub"
+msgstr ""
+
+msgid "Sauna"
+msgstr ""
+
+msgid "Gym"
+msgstr ""
+
+msgid "Yoga Studio"
+msgstr ""
+
+msgid "Massage"
+msgstr ""
+
+msgid "Laundry"
+msgstr ""
+
+msgid "24/7 Reception"
+msgstr ""
+
+# Activities
+msgid "Activities"
+msgstr ""
+
+msgid "Surfing"
+msgstr ""
+
+msgid "Stand Up Paddleboarding"
+msgstr ""
+
+msgid "Kite Surfing"
+msgstr ""
+
+msgid "Yoga"
+msgstr ""
+
+msgid "Meditation"
+msgstr ""
+
+msgid "Hiking"
+msgstr ""
+
+msgid "Snorkeling"
+msgstr ""
+
+msgid "Diving"
+msgstr ""
+
+msgid "Fishing"
+msgstr ""
+
+msgid "Beach Volleyball"
+msgstr ""
+
+msgid "Barbecues"
+msgstr ""
+
+msgid "Live Music"
+msgstr ""
+
+msgid "Movie Nights"
+msgstr ""
+
+# Environmental
+msgid "Sustainable Practices"
+msgstr ""
+
+msgid "Eco-Friendly"
+msgstr ""
+
+msgid "Carbon Neutral"
+msgstr ""
+
+msgid "Plastic Free"
+msgstr ""
+
+msgid "Solar Powered"
+msgstr ""
+
+msgid "Water Conservation"
+msgstr ""
+
+msgid "Local Sourcing"
+msgstr ""
+
+msgid "Community Support"
+msgstr ""
+
+# Emergency
+msgid "Emergency Contact"
+msgstr ""
+
+msgid "Medical Center"
+msgstr ""
+
+msgid "Police"
+msgstr ""
+
+msgid "Fire Department"
+msgstr ""
+
+msgid "Embassy"
+msgstr ""
+
+msgid "24/7 Support"
+msgstr ""
+
+# Final strings
+msgid "© 2025 Heiwa House. All rights reserved."
+msgstr ""
+
+msgid "Powered by Heiwa House"
+msgstr ""
+
+msgid "Made with ❤️ in Costa Rica"
+msgstr ""

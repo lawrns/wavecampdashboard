@@ -3,6 +3,8 @@ import { createClient } from '@supabase/supabase-js';
 import { bookingsAPI, clientsAPI } from '@/lib/supabase-admin';
 import { sendBookingEmails } from '@/lib/email-service';
 
+export const dynamic = 'force-dynamic';
+
 // CORS headers for WordPress integration
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',

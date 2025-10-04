@@ -1,0 +1,735 @@
+/**
+ * Heiwa Booking Widget - Component System
+ * Reusable UI components: buttons, cards, forms, badges
+ *
+ * Author: Heiwa House Development Team
+ * Version: 2.0.0
+ * Last Updated: December 2024
+ *
+ * Dependencies: base.css (design tokens, typography)
+ * Used by: layout.css, utilities.css
+ */
+
+/* ===========================================
+   1. CARD COMPONENT SYSTEM
+   =========================================== */
+
+/* Base Card Component */
+.heiwa-card {
+  background: #ffffff;
+  border: 1px solid var(--heiwa-neutral-200);
+  border-radius: var(--heiwa-radius-lg);
+  overflow: hidden;
+  transition: all var(--heiwa-transition-fast);
+  box-shadow: var(--heiwa-shadow-sm);
+}
+
+.heiwa-card:hover {
+  box-shadow: var(--heiwa-shadow-md);
+  border-color: var(--heiwa-neutral-300);
+  transform: translateY(-2px);
+}
+
+/* Card Content Areas */
+.heiwa-card-content {
+  padding: var(--heiwa-space-4);
+}
+
+.heiwa-card-header {
+  padding: var(--heiwa-space-4) var(--heiwa-space-4) 0 var(--heiwa-space-4);
+}
+
+.heiwa-card-footer {
+  padding: 0 var(--heiwa-space-4) var(--heiwa-space-4) var(--heiwa-space-4);
+}
+
+.heiwa-card-body {
+  padding: 0 var(--heiwa-space-4);
+}
+
+/* Card Media */
+.heiwa-card-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--heiwa-transition-normal);
+}
+
+.heiwa-card:hover .heiwa-card-image {
+  transform: scale(1.02);
+}
+
+/* Card Typography */
+.heiwa-card-title {
+  font-size: var(--heiwa-text-xl);
+  font-weight: var(--heiwa-font-semibold);
+  margin: 0 0 var(--heiwa-space-2) 0;
+  color: var(--heiwa-neutral-900);
+  line-height: 1.3;
+}
+
+.heiwa-card-description {
+  font-size: var(--heiwa-text-base);
+  color: var(--heiwa-neutral-600);
+  line-height: 1.6;
+  margin: 0 0 var(--heiwa-space-4) 0;
+}
+
+/* Card Meta Information */
+.heiwa-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--heiwa-space-4);
+  padding-top: var(--heiwa-space-4);
+  border-top: 1px solid var(--heiwa-neutral-100);
+}
+
+.heiwa-card-price {
+  font-size: var(--heiwa-text-lg);
+  font-weight: var(--heiwa-font-bold);
+  color: var(--heiwa-primary-color);
+  margin: 0;
+}
+
+.heiwa-card-action {
+  margin-top: var(--heiwa-space-4);
+}
+
+/* Card Variants */
+.heiwa-card-compact {
+  padding: var(--heiwa-space-3);
+}
+
+.heiwa-card-compact .heiwa-card-content {
+  padding: 0;
+}
+
+.heiwa-card-elevated {
+  box-shadow: var(--heiwa-shadow-lg);
+}
+
+.heiwa-card-elevated:hover {
+  box-shadow: var(--heiwa-shadow-xl);
+}
+
+.heiwa-card-bordered {
+  border: 2px solid var(--heiwa-neutral-200);
+}
+
+.heiwa-card-accent {
+  border-color: var(--heiwa-primary-color);
+  box-shadow: 0 0 0 1px var(--heiwa-primary-light);
+}
+
+/* Room Card Specific Styles */
+.heiwa-card.room .heiwa-card-image {
+  aspect-ratio: 1;
+  height: auto;
+}
+
+.heiwa-card.destination {
+  /* Destination cards are more horizontal */
+}
+
+.heiwa-card.destination .heiwa-card-image {
+  height: 160px;
+}
+
+.heiwa-card.suggestion {
+  background: linear-gradient(135deg, #f0f9ff 0%, #fefefe 100%);
+  border: 1px solid rgba(14, 165, 233, 0.2);
+}
+
+.heiwa-card.suggestion:hover {
+  border-color: rgba(14, 165, 233, 0.4);
+}
+
+/* Fallback for browsers without aspect-ratio support */
+@supports not (aspect-ratio: 1) {
+  .heiwa-card.room .heiwa-card-image {
+    height: 200px;
+  }
+}
+
+/* ===========================================
+   2. BUTTON COMPONENT SYSTEM
+   =========================================== */
+
+/* Base Button Styles */
+.heiwa-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--heiwa-font-family);
+  font-weight: var(--heiwa-font-medium);
+  font-size: var(--heiwa-text-base);
+  line-height: 1.5;
+  text-decoration: none;
+  border: none;
+  border-radius: var(--heiwa-radius-lg);
+  cursor: pointer;
+  transition: all var(--heiwa-transition-fast);
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Button Sizes */
+.heiwa-btn-sm {
+  padding: var(--heiwa-space-2) var(--heiwa-space-3);
+  font-size: var(--heiwa-text-sm);
+  min-height: 36px;
+}
+
+.heiwa-btn-md {
+  padding: var(--heiwa-space-3) var(--heiwa-space-4);
+  font-size: var(--heiwa-text-base);
+  min-height: 44px;
+}
+
+.heiwa-btn-lg {
+  padding: var(--heiwa-space-4) var(--heiwa-space-6);
+  font-size: var(--heiwa-text-lg);
+  min-height: 52px;
+}
+
+.heiwa-btn-xl {
+  padding: var(--heiwa-space-5) var(--heiwa-space-8);
+  font-size: var(--heiwa-text-xl);
+  min-height: 60px;
+}
+
+/* Button Variants */
+.heiwa-btn-primary {
+  background: linear-gradient(135deg, var(--heiwa-primary-color), var(--heiwa-primary-hover));
+  color: white;
+  box-shadow: var(--heiwa-shadow-md);
+}
+
+.heiwa-btn-primary:hover {
+  background: linear-gradient(135deg, var(--heiwa-primary-hover), var(--heiwa-primary-color));
+  transform: translateY(-2px);
+  box-shadow: var(--heiwa-shadow-lg);
+}
+
+.heiwa-btn-primary:active {
+  transform: translateY(0);
+  box-shadow: var(--heiwa-shadow-md);
+}
+
+.heiwa-btn-secondary {
+  background: white;
+  color: var(--heiwa-primary-color);
+  border: 2px solid var(--heiwa-primary-color);
+  box-shadow: var(--heiwa-shadow-sm);
+}
+
+.heiwa-btn-secondary:hover {
+  background: var(--heiwa-primary-light);
+  border-color: var(--heiwa-primary-hover);
+  color: var(--heiwa-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--heiwa-shadow-md);
+}
+
+.heiwa-btn-ghost {
+  background: transparent;
+  color: var(--heiwa-primary-color);
+  border: 2px solid transparent;
+}
+
+.heiwa-btn-ghost:hover {
+  background: var(--heiwa-primary-light);
+  border-color: var(--heiwa-primary-color);
+}
+
+.heiwa-btn-outline {
+  background: transparent;
+  color: var(--heiwa-neutral-700);
+  border: 1px solid var(--heiwa-neutral-300);
+}
+
+.heiwa-btn-outline:hover {
+  background: var(--heiwa-neutral-50);
+  border-color: var(--heiwa-neutral-400);
+  color: var(--heiwa-neutral-900);
+}
+
+/* Button States */
+.heiwa-btn:disabled,
+.heiwa-btn[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.heiwa-btn-loading {
+  position: relative;
+  color: transparent;
+}
+
+.heiwa-btn-loading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 50%;
+  left: 50%;
+  margin-left: -8px;
+  margin-top: -8px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: heiwa-spin 1s linear infinite;
+}
+
+/* Legacy Button Classes (for backward compatibility) */
+.heiwa-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--heiwa-font-family);
+  font-weight: var(--heiwa-font-semibold);
+  font-size: var(--heiwa-text-lg);
+  line-height: 1.5;
+  text-decoration: none;
+  background: linear-gradient(135deg, var(--heiwa-primary-color), var(--heiwa-primary-hover));
+  color: white;
+  border: none;
+  border-radius: var(--heiwa-radius-lg);
+  padding: var(--heiwa-space-4) var(--heiwa-space-6);
+  cursor: pointer;
+  transition: all var(--heiwa-transition-fast);
+  box-shadow: var(--heiwa-shadow-md);
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  width: 100%;
+  min-height: 52px;
+}
+
+.heiwa-cta-primary:hover {
+  background: linear-gradient(135deg, var(--heiwa-primary-hover), var(--heiwa-primary-color));
+  transform: translateY(-2px);
+  box-shadow: var(--heiwa-shadow-lg);
+}
+
+.heiwa-cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--heiwa-font-family);
+  font-weight: var(--heiwa-font-medium);
+  font-size: var(--heiwa-text-base);
+  line-height: 1.5;
+  text-decoration: none;
+  background: white;
+  color: var(--heiwa-primary-color);
+  border: 2px solid var(--heiwa-primary-color);
+  border-radius: var(--heiwa-radius-lg);
+  padding: var(--heiwa-space-3) var(--heiwa-space-4);
+  cursor: pointer;
+  transition: all var(--heiwa-transition-fast);
+  box-shadow: var(--heiwa-shadow-sm);
+  min-height: 44px;
+}
+
+.heiwa-cta-secondary:hover {
+  background: var(--heiwa-primary-light);
+  border-color: var(--heiwa-primary-hover);
+  color: var(--heiwa-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--heiwa-shadow-md);
+}
+
+/* ===========================================
+   3. FORM ELEMENTS
+   =========================================== */
+
+/* Form Base Styles */
+.heiwa-form-group {
+  margin-bottom: var(--heiwa-space-4);
+}
+
+.heiwa-form-label {
+  display: block;
+  font-size: var(--heiwa-text-sm);
+  font-weight: var(--heiwa-font-medium);
+  color: var(--heiwa-neutral-700);
+  margin-bottom: var(--heiwa-space-2);
+}
+
+.heiwa-form-input,
+.heiwa-form-textarea,
+.heiwa-form-select {
+  width: 100%;
+  padding: var(--heiwa-space-3) var(--heiwa-space-4);
+  border: 2px solid var(--heiwa-neutral-200);
+  border-radius: var(--heiwa-radius-lg);
+  font-family: var(--heiwa-font-family);
+  font-size: var(--heiwa-text-base);
+  color: var(--heiwa-neutral-900);
+  background: white;
+  transition: all var(--heiwa-transition-fast);
+  outline: none;
+}
+
+.heiwa-form-input:focus,
+.heiwa-form-textarea:focus,
+.heiwa-form-select:focus {
+  border-color: var(--heiwa-primary-color);
+  box-shadow: 0 0 0 3px var(--heiwa-primary-light);
+}
+
+.heiwa-form-input::placeholder,
+.heiwa-form-textarea::placeholder {
+  color: var(--heiwa-neutral-400);
+}
+
+.heiwa-form-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.heiwa-form-select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right var(--heiwa-space-3) center;
+  background-repeat: no-repeat;
+  background-size: 16px;
+  padding-right: var(--heiwa-space-10);
+}
+
+/* ===========================================
+   4. PRICE DISPLAY SYSTEM
+   =========================================== */
+
+/* Price Hierarchy */
+.heiwa-price-primary {
+  font-size: var(--heiwa-text-3xl);
+  font-weight: var(--heiwa-font-bold);
+  color: var(--heiwa-primary-color);
+  line-height: 1.2;
+  margin: var(--heiwa-space-3) 0;
+  text-shadow: 0 1px 2px rgba(236, 104, 28, 0.2);
+}
+
+.heiwa-price-secondary {
+  font-size: var(--heiwa-text-2xl);
+  font-weight: var(--heiwa-font-semibold);
+  color: var(--heiwa-primary-color);
+  line-height: 1.3;
+  margin: var(--heiwa-space-2) 0;
+}
+
+.heiwa-price-tertiary {
+  font-size: var(--heiwa-text-lg);
+  font-weight: var(--heiwa-font-medium);
+  color: var(--heiwa-neutral-700);
+  line-height: 1.4;
+  margin: var(--heiwa-space-2) 0;
+}
+
+.heiwa-price-original {
+  text-decoration: line-through;
+  color: var(--heiwa-neutral-400);
+  font-size: var(--heiwa-text-sm);
+  margin-left: var(--heiwa-space-2);
+}
+
+/* ===========================================
+   5. BADGE & STATUS SYSTEM
+   =========================================== */
+
+/* Unified Badge System */
+.heiwa-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--heiwa-space-1) var(--heiwa-space-2);
+  border-radius: var(--heiwa-radius-full);
+  font-size: var(--heiwa-text-xs);
+  font-weight: var(--heiwa-font-semibold);
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  white-space: nowrap;
+}
+
+/* Badge Variants */
+.heiwa-badge-primary {
+  background: var(--heiwa-primary-color);
+  color: white;
+}
+
+.heiwa-badge-secondary {
+  background: var(--heiwa-neutral-100);
+  color: var(--heiwa-neutral-700);
+  border: 1px solid var(--heiwa-neutral-200);
+}
+
+.heiwa-badge-success {
+  background: #10b981;
+  color: white;
+}
+
+.heiwa-badge-warning {
+  background: #f59e0b;
+  color: white;
+}
+
+.heiwa-badge-error {
+  background: #ef4444;
+  color: white;
+}
+
+.heiwa-badge-info {
+  background: #06b6d4;
+  color: white;
+}
+
+/* ===========================================
+   6. LOADING & FEEDBACK STATES
+   =========================================== */
+
+/* Loading Spinner */
+.heiwa-loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--heiwa-neutral-200);
+  border-top: 2px solid var(--heiwa-primary-color);
+  border-radius: 50%;
+  animation: heiwa-spin 1s linear infinite;
+  display: inline-block;
+  margin-right: var(--heiwa-space-tight);
+}
+
+@keyframes heiwa-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.heiwa-button.loading {
+  opacity: 0.7;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.heiwa-button.loading::after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  margin-left: var(--heiwa-space-tight);
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: heiwa-spin 1s linear infinite;
+  display: inline-block;
+}
+
+/* ===========================================
+   7. INTERACTION & MICRO-ANIMATIONS
+   =========================================== */
+
+/* Enhanced Hover States */
+.heiwa-hover-lift {
+  transition: transform var(--heiwa-transition-fast), box-shadow var(--heiwa-transition-fast);
+}
+
+.heiwa-hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.heiwa-hover-scale {
+  transition: transform var(--heiwa-transition-fast);
+}
+
+.heiwa-hover-scale:hover {
+  transform: scale(1.02);
+}
+
+/* Micro-interactions */
+.heiwa-pulse {
+  animation: heiwa-pulse-animation 2s infinite;
+}
+
+@keyframes heiwa-pulse-animation {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.heiwa-bounce {
+  animation: heiwa-bounce-animation 0.6s ease-out;
+}
+
+@keyframes heiwa-bounce-animation {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* ===========================================
+   CRITICAL LAYOUT FIXES - ROOM CARDS
+   =========================================== */
+
+/* Base room card - improved layout */
+.heiwa-room-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: var(--heiwa-space-3);
+  align-items: center;
+  padding: var(--heiwa-space-4);
+  border: 1px solid var(--heiwa-neutral-200);
+  border-radius: var(--heiwa-radius-lg);
+  background: #ffffff;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.heiwa-room-card:hover {
+  border-color: var(--heiwa-primary-300);
+  box-shadow: 0 8px 24px rgba(236, 104, 28, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Room card image/icon */
+.heiwa-room-card-image {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--heiwa-radius-md);
+  object-fit: cover;
+  background: var(--heiwa-neutral-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Room card content */
+.heiwa-room-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--heiwa-space-1);
+  min-width: 0;
+}
+
+.heiwa-room-card-title {
+  font-size: var(--heiwa-text-lg);
+  font-weight: var(--heiwa-font-semibold);
+  color: var(--heiwa-neutral-900);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.heiwa-room-card-description {
+  font-size: var(--heiwa-text-sm);
+  color: var(--heiwa-neutral-600);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.heiwa-room-card-badges {
+  display: flex;
+  gap: var(--heiwa-space-2);
+  flex-wrap: wrap;
+  margin-top: var(--heiwa-space-1);
+}
+
+/* Room card action area */
+.heiwa-room-card-action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--heiwa-space-2);
+  flex-shrink: 0;
+}
+
+.heiwa-room-card-price {
+  font-size: var(--heiwa-text-xl);
+  font-weight: var(--heiwa-font-bold);
+  color: var(--heiwa-primary-600);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.heiwa-room-card-button {
+  padding: var(--heiwa-space-2) var(--heiwa-space-3);
+  background: linear-gradient(135deg, var(--heiwa-primary-500), var(--heiwa-primary-600));
+  color: white;
+  border: none;
+  border-radius: var(--heiwa-radius-md);
+  font-size: var(--heiwa-text-sm);
+  font-weight: var(--heiwa-font-semibold);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.heiwa-room-card-button:hover {
+  background: linear-gradient(135deg, var(--heiwa-primary-600), var(--heiwa-primary-700));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(236, 104, 28, 0.3);
+}
+
+/* Mobile room card adjustments */
+@media (max-width: 768px) {
+  .heiwa-room-card {
+    grid-template-columns: 1fr;
+    gap: var(--heiwa-space-3);
+    text-align: center;
+  }
+  
+  .heiwa-room-card-image {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+  }
+  
+  .heiwa-room-card-action {
+    align-items: center;
+    width: 100%;
+  }
+  
+  .heiwa-room-card-button {
+    width: 100%;
+    padding: var(--heiwa-space-3) var(--heiwa-space-4);
+  }
+  
+  .heiwa-room-card-badges {
+    justify-content: center;
+  }
+}
+
+/* Very small mobile adjustments */
+@media (max-width: 480px) {
+  .heiwa-room-card {
+    padding: var(--heiwa-space-3);
+    gap: var(--heiwa-space-2);
+  }
+  
+  .heiwa-room-card-image {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .heiwa-room-card-title {
+    font-size: var(--heiwa-text-base);
+  }
+  
+  .heiwa-room-card-price {
+    font-size: var(--heiwa-text-lg);
+  }
+}

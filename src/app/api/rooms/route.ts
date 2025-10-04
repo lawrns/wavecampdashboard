@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { roomsAPI } from '@/lib/supabase-admin';
 import { requireAdminSession } from '@/lib/auth';
 
+export const dynamic = 'force-dynamic';
+
 // GET /api/rooms - Get all rooms
 export async function GET(request: NextRequest) {
   try {

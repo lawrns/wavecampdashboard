@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { surfCampsAPI } from '@/lib/supabase-admin';
 import { requireAdminSession } from '@/lib/auth';
 
+export const dynamic = 'force-dynamic';
+
 // GET /api/surf-camps - Get all surf camps
 export async function GET(request: NextRequest) {
   try {

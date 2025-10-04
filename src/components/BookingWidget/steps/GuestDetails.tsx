@@ -1,4 +1,28 @@
-import { useState, useEffect } from 'react';
+// WordPress-compatible React imports with runtime binding
+let useState: any, useEffect: any;
+
+// Function to get React hooks at runtime (ensures proper binding)
+function getReactHooks() {
+  if (typeof window !== 'undefined' && (window as any).React) {
+    const React = (window as any).React;
+    return {
+      useState: React.useState,
+      useEffect: React.useEffect
+    };
+  } else {
+    // Fallback to normal imports for Next.js environment
+    const reactModule = require('react');
+    return {
+      useState: reactModule.useState,
+      useEffect: reactModule.useEffect
+    };
+  }
+}
+
+// Get hooks at runtime to ensure proper React instance binding
+const hooks = getReactHooks();
+useState = hooks.useState;
+useEffect = hooks.useEffect;
 import { User, Mail, Phone, Utensils, AlertCircle, Edit3, ChevronDown } from 'lucide-react';
 import { BookingState, GuestInfo } from '../types';
 

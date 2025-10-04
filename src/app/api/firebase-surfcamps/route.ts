@@ -4,6 +4,8 @@ import { requireAdminSession } from '@/lib/auth';
 import { checkEventConflicts, checkRoomAvailability, validateSurfCampCapacity } from '@/lib/calendar-conflicts';
 import { z } from 'zod';
 
+export const dynamic = 'force-dynamic';
+
 // Surf camp schema for calendar creation (simplified version)
 const CalendarSurfCampSchema = z.object({
   category: z.enum(['FR', 'HH']),

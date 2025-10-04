@@ -5,6 +5,8 @@ import { CreateBookingSchema } from '@/lib/schemas';
 import { sendBookingEmails } from '@/lib/email-service';
 import { withRateLimit, createRateLimitResponse, bookingRateLimiter } from '@/lib/rate-limiter';
 
+export const dynamic = 'force-dynamic';
+
 // CORS headers for WordPress integration
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',

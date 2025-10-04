@@ -1,0 +1,102 @@
+{
+  "recovery_plan": {
+    "title": "Standalone React Widget Recovery for /widget-test-wp/",
+    "status": "CRITICAL - Beautiful widget replaced with basic form",
+    "issue_analysis": {
+      "what_happened": "The original StandaloneWidget implementation was replaced with a basic form component (FunctionalBookingWidget) during WordPress integration work",
+      "original_implementation": {
+        "component": "StandaloneWidget",
+        "location": "src/components/BookingWidget/StandaloneWidget.tsx",
+        "features": [
+          "Full 5-step booking flow (Experience → Options → Add-ons → Details → Review)",
+          "Premium surf-themed design with wave patterns and gradients",
+          "Modal overlay with backdrop blur",
+          "Room and surf week booking capabilities",
+          "Guest details collection and room assignment",
+          "Payment method selection (Card/Bank Wire)",
+          "Real booking creation via API"
+        ]
+      },
+      "current_implementation": {
+        "component": "FunctionalBookingWidget",
+        "features": [
+          "Basic form with surf camp dropdown",
+          "Simple participant count input",
+          "Basic name/email fields",
+          "Single submit button",
+          "No modal, no premium styling"
+        ]
+      }
+    },
+    "recovery_steps": {
+      "step_1": {
+        "action": "Restore StandaloneWidget usage",
+        "file": "src/app/widget-test-wp/page.tsx",
+        "changes": {
+          "remove": "FunctionalBookingWidget component and all related form logic",
+          "restore": "StandaloneWidget import and usage from commit e866541031ea567b1887fa19dcafe785cb54dbed",
+          "config": "WordPress configuration object for StandaloneWidget"
+        }
+      },
+      "step_2": {
+        "action": "Verify StandaloneWidget component exists and works",
+        "file": "src/components/BookingWidget/StandaloneWidget.tsx",
+        "validation": [
+          "Component exports properly",
+          "WordPress config handling works",
+          "Modal backdrop functionality is fixed (recent work)",
+          "API endpoints are accessible"
+        ]
+      },
+      "step_3": {
+        "action": "Test full booking flow",
+        "url": "http://localhost:3000/widget-test-wp/",
+        "expected_behavior": [
+          "Book Now button appears with premium styling",
+          "Modal opens with full-screen backdrop",
+          "5-step booking flow works completely",
+          "Room and surf week options available",
+          "Booking submission creates real bookings"
+        ]
+      }
+    },
+    "implementation_code": {
+      "page_tsx_replacement": {
+        "remove_lines": "6-186 (FunctionalBookingWidget component)",
+        "replace_with": "Simple StandaloneWidget usage",
+        "new_component_section": {
+          "line_272_replacement": "<StandaloneWidget config={wpConfig} containerId=\"heiwa-booking-widget-test\" className=\"wordpress-integration-test\" />"
+        }
+      },
+      "config_object": {
+        "keep_existing": "wpConfig object (lines 196-209)",
+        "note": "This config is already correct for StandaloneWidget"
+      }
+    },
+    "verification_checklist": [
+      "✅ StandaloneWidget component imported",
+      "✅ FunctionalBookingWidget removed",
+      "✅ WordPress config passed to StandaloneWidget",
+      "✅ Modal backdrop works (fixed in recent commits)",
+      "✅ Full booking flow accessible",
+      "✅ Premium styling preserved",
+      "✅ API endpoints functional"
+    ],
+    "rollback_safety": {
+      "current_state_backup": "Current FunctionalBookingWidget implementation is preserved in git history",
+      "commit_reference": "Current state can be restored if needed",
+      "risk_level": "LOW - Simple component swap with existing working code"
+    },
+    "expected_outcome": {
+      "url": "http://localhost:3000/widget-test-wp/",
+      "experience": "Premium surf-themed booking widget with full modal experience, identical to the working widget that was there before",
+      "functionality": "Complete 5-step booking flow with room/surf week options, guest details, add-ons, and payment processing"
+    },
+    "git_references": {
+      "working_implementation": "commit e866541031ea567b1887fa19dcafe785cb54dbed",
+      "file_path": "src/app/widget-test-wp/page.tsx",
+      "component_used": "StandaloneWidget",
+      "last_known_working": "September 14, 2025"
+    }
+  }
+}

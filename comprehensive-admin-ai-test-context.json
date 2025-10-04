@@ -1,0 +1,1316 @@
+{
+  "test_metadata": {
+    "name": "Comprehensive Admin Section AI Browser Test",
+    "description": "A complete automated testing suite for browser-connected AI to thoroughly validate all admin functionality, UI/UX, API endpoints, and console error monitoring",
+    "version": "1.0.0",
+    "target_environment": "production",
+    "estimated_duration": "45-60 minutes",
+    "browser_requirements": {
+      "chrome": ">=120.0",
+      "firefox": ">=115.0",
+      "safari": ">=17.0",
+      "viewport": {
+        "desktop": "1280x720",
+        "tablet": "768x1024",
+        "mobile": "375x667"
+      }
+    }
+  },
+  "authentication_context": {
+    "login_credentials": {
+      "email": "admin@heiwa.house",
+      "password": "admin123456"
+    },
+    "expected_redirects": {
+      "successful_login": "/admin",
+      "unauthenticated_access": "/login"
+    },
+    "session_validation": {
+      "check_user_display": "admin@heiwa.house",
+      "verify_admin_badge": true,
+      "test_session_persistence": true
+    }
+  },
+  "test_suites": [
+    {
+      "suite_id": "auth_access_control",
+      "name": "Authentication & Access Control",
+      "description": "Test login, logout, session management, and unauthorized access prevention",
+      "priority": "critical",
+      "test_cases": [
+        {
+          "id": "login_successful",
+          "description": "Login with valid admin credentials",
+          "steps": [
+            "Navigate to /login",
+            "Fill email and password fields",
+            "Click login button",
+            "Verify redirect to /admin",
+            "Check user display in header"
+          ],
+          "validations": [
+            "URL redirects to /admin",
+            "Admin dashboard title visible",
+            "User email displayed",
+            "No console errors"
+          ]
+        },
+        {
+          "id": "unauthorized_admin_access",
+          "description": "Attempt to access admin without authentication",
+          "steps": [
+            "Clear browser session",
+            "Navigate directly to /admin",
+            "Verify redirect to login"
+          ],
+          "validations": [
+            "Redirected to /login page",
+            "No admin content visible",
+            "Appropriate error message"
+          ]
+        },
+        {
+          "id": "session_persistence",
+          "description": "Test session persistence across page refreshes",
+          "steps": [
+            "Login successfully",
+            "Refresh admin dashboard page",
+            "Navigate between admin pages",
+            "Verify session remains active"
+          ],
+          "validations": [
+            "No logout after refresh",
+            "Navigation works without re-auth",
+            "User context maintained"
+          ]
+        },
+        {
+          "id": "logout_functionality",
+          "description": "Test logout and session cleanup",
+          "steps": [
+            "Click logout/sign out button",
+            "Verify redirect to login",
+            "Try to access admin after logout",
+            "Verify blocked access"
+          ],
+          "validations": [
+            "Redirected to /login",
+            "Cannot access admin pages",
+            "Session properly cleared"
+          ]
+        }
+      ]
+    },
+    {
+      "suite_id": "dashboard_overview",
+      "name": "Dashboard Overview & Statistics",
+      "description": "Test main dashboard statistics, metrics, and navigation cards",
+      "priority": "high",
+      "test_cases": [
+        {
+          "id": "dashboard_stats_display",
+          "description": "Verify dashboard statistics are displayed and accurate",
+          "steps": [
+            "Load admin dashboard",
+            "Check all statistic cards visible",
+            "Verify numeric values are reasonable",
+            "Test data refresh on page reload"
+          ],
+          "validations": [
+            "All 4 main stats visible (Clients, Bookings, Rooms, Revenue)",
+            "Values are numeric and non-negative",
+            "Page loads within 3 seconds",
+            "No loading errors"
+          ]
+        },
+        {
+          "id": "navigation_cards_functionality",
+          "description": "Test all management navigation cards",
+          "steps": [
+            "Hover over each navigation card",
+            "Click each 'Manage/View' button",
+            "Verify correct page navigation",
+            "Return to dashboard after each test"
+          ],
+          "validations": [
+            "Hover effects work (scale animation)",
+            "All 6 cards navigate correctly",
+            "URLs match expected patterns",
+            "Back navigation works"
+          ]
+        },
+        {
+          "id": "real_time_data_updates",
+          "description": "Test real-time dashboard updates",
+          "steps": [
+            "Open dashboard in multiple tabs",
+            "Create new booking in one tab",
+            "Check if dashboard stats update in other tab",
+            "Verify real-time synchronization"
+          ],
+          "validations": [
+            "Statistics update without manual refresh",
+            "Real-time subscriptions working",
+            "No data inconsistencies"
+          ]
+        }
+      ]
+    },
+    {
+      "suite_id": "booking_management",
+      "name": "Booking Management System",
+      "description": "Comprehensive testing of booking creation, viewing, editing, and management",
+      "priority": "critical",
+      "test_cases": [
+        {
+          "id": "booking_list_display",
+          "description": "Test booking list display and pagination",
+          "steps": [
+            "Navigate to /admin/bookings",
+            "Verify table headers",
+            "Check booking rows display",
+            "Test pagination controls",
+            "Verify booking status badges"
+          ],
+          "validations": [
+            "Table headers: ID, Date, Items, Amount, Status, Actions",
+            "At least basic table structure visible",
+            "Status badges have correct colors",
+            "Pagination works if >10 bookings"
+          ]
+        },
+        {
+          "id": "booking_search_filter",
+          "description": "Test search and filtering functionality",
+          "steps": [
+            "Use search box with different terms",
+            "Test status filter dropdown",
+            "Combine search and filters",
+            "Verify results update correctly"
+          ],
+          "validations": [
+            "Search filters results appropriately",
+            "Status filter works correctly",
+            "Combined filters work",
+            "Clear filters resets view"
+          ]
+        },
+        {
+          "id": "booking_creation_modal",
+          "description": "Test new booking creation workflow",
+          "steps": [
+            "Click 'New Booking' button",
+            "Fill booking form with valid data",
+            "Select clients and items",
+            "Submit booking",
+            "Verify success message and list update"
+          ],
+          "validations": [
+            "Modal opens correctly",
+            "Form validation works",
+            "Booking appears in list",
+            "Real-time update triggers"
+          ]
+        },
+        {
+          "id": "booking_view_details",
+          "description": "Test booking details viewing",
+          "steps": [
+            "Click view button on booking row",
+            "Check booking details modal",
+            "Verify all information displays",
+            "Test modal close functionality"
+          ],
+          "validations": [
+            "Details modal opens",
+            "All booking data visible",
+            "Client information shown",
+            "Items breakdown correct"
+          ]
+        },
+        {
+          "id": "booking_status_updates",
+          "description": "Test booking status change functionality",
+          "steps": [
+            "Use status dropdown on booking row",
+            "Change status to different values",
+            "Verify visual updates",
+            "Check status persistence"
+          ],
+          "validations": [
+            "Status updates work",
+            "Badge colors change correctly",
+            "Status saved to database",
+            "Audit trail created"
+          ]
+        },
+        {
+          "id": "booking_deletion",
+          "description": "Test booking deletion with confirmation",
+          "steps": [
+            "Click delete button on booking",
+            "Handle confirmation dialog",
+            "Verify booking removed from list",
+            "Test deletion of non-existent booking"
+          ],
+          "validations": [
+            "Confirmation dialog appears",
+            "Booking removed from UI",
+            "Real-time update for other users",
+            "Proper error handling"
+          ]
+        }
+      ]
+    },
+    {
+      "suite_id": "client_management",
+      "name": "Client Management System",
+      "description": "Test client CRUD operations, search, and data management",
+      "priority": "high",
+      "test_cases": [
+        {
+          "id": "client_list_overview",
+          "description": "Test client list display and statistics",
+          "steps": [
+            "Navigate to /admin/clients",
+            "Check client statistics cards",
+            "Verify client table structure",
+            "Test basic list functionality"
+          ],
+          "validations": [
+            "Statistics cards show correct data",
+            "Table displays client information",
+            "Sort and basic navigation works"
+          ]
+        },
+        {
+          "id": "client_search_filtering",
+          "description": "Test client search and filtering",
+          "steps": [
+            "Use search functionality",
+            "Test different filter options",
+            "Verify search results accuracy",
+            "Test advanced filters"
+          ],
+          "validations": [
+            "Search finds matching clients",
+            "Filters work correctly",
+            "Results update in real-time"
+          ]
+        },
+        {
+          "id": "client_creation",
+          "description": "Test new client creation",
+          "steps": [
+            "Click 'Add Client' button",
+            "Fill client information form",
+            "Submit and verify creation",
+            "Check client appears in list"
+          ],
+          "validations": [
+            "Form validation works",
+            "Client created successfully",
+            "List updates with new client"
+          ]
+        },
+        {
+          "id": "client_editing",
+          "description": "Test client information editing",
+          "steps": [
+            "Click edit on client row",
+            "Modify client information",
+            "Save changes",
+            "Verify updates persist"
+          ],
+          "validations": [
+            "Edit modal opens",
+            "Changes save correctly",
+            "UI updates immediately"
+          ]
+        },
+        {
+          "id": "client_booking_history",
+          "description": "Test client booking history viewing",
+          "steps": [
+            "View client details",
+            "Check booking history tab",
+            "Verify booking associations",
+            "Test booking links"
+          ],
+          "validations": [
+            "Booking history displays",
+            "Links work correctly",
+            "Data accuracy verified"
+          ]
+        }
+      ]
+    },
+    {
+      "suite_id": "room_management",
+      "name": "Room Management System",
+      "description": "Test room inventory, pricing, and availability management",
+      "priority": "high",
+      "test_cases": [
+        {
+          "id": "room_inventory_display",
+          "description": "Test room list and inventory display",
+          "steps": [
+            "Navigate to /admin/rooms",
+            "Check room cards display",
+            "Verify room information",
+            "Test room status indicators"
+          ],
+          "validations": [
+            "Rooms display in cards/grid",
+            "All room data visible",
+            "Status indicators work"
+          ]
+        },
+        {
+          "id": "room_creation",
+          "description": "Test new room creation",
+          "steps": [
+            "Click 'Add Room' button",
+            "Fill room details form",
+            "Set pricing and availability",
+            "Save and verify creation"
+          ],
+          "validations": [
+            "Room creation form works",
+            "New room appears in list",
+            "Pricing data saved correctly"
+          ]
+        },
+        {
+          "id": "room_availability_management",
+          "description": "Test room availability controls",
+          "steps": [
+            "Toggle room active/inactive",
+            "Set availability dates",
+            "Check availability calendar",
+            "Verify availability API calls"
+          ],
+          "validations": [
+            "Status changes work",
+            "Availability updates correctly",
+            "API calls succeed"
+          ]
+        },
+        {
+          "id": "room_pricing_updates",
+          "description": "Test room pricing modifications",
+          "steps": [
+            "Edit room pricing",
+            "Set seasonal rates",
+            "Test price validation",
+            "Verify pricing persistence"
+          ],
+          "validations": [
+            "Pricing updates work",
+            "Validation prevents invalid prices",
+            "Changes persist correctly"
+          ]
+        }
+      ]
+    },
+    {
+      "suite_id": "calendar_system",
+      "name": "Calendar & Scheduling System",
+      "description": "Test calendar functionality, event management, and scheduling",
+      "priority": "medium",
+      "test_cases": [
+        {
+          "id": "calendar_display",
+          "description": "Test calendar view and navigation",
+          "steps": [
+            "Navigate to /admin/calendar",
+            "Check month/week view toggle",
+            "Navigate between months",
+            "Verify event display"
+          ],
+          "validations": [
+            "Calendar renders correctly",
+            "Navigation works",
+            "Events display properly"
+          ]
+        },
+        {
+          "id": "event_creation",
+          "description": "Test calendar event creation",
+          "steps": [
+            "Click 'Add Event' button",
+            "Fill event details",
+            "Set date and time",
+            "Save event and verify display"
+          ],
+          "validations": [
+            "Event creation works",
+            "Event appears on calendar",
+            "Event details accurate"
+          ]
+        },
+        {
+          "id": "booking_calendar_integration",
+          "description": "Test booking-calendar synchronization",
+          "steps": [
+            "Create booking with dates",
+            "Check calendar displays booking",
+            "Verify conflict detection",
+            "Test calendar updates"
+          ],
+          "validations": [
+            "Bookings appear on calendar",
+            "No double-bookings allowed",
+            "Real-time sync works"
+          ]
+        }
+      ]
+    },
+    {
+      "suite_id": "analytics_reporting",
+      "name": "Analytics & Reporting System",
+      "description": "Test analytics dashboard, charts, and reporting features",
+      "priority": "medium",
+      "test_cases": [
+        {
+          "id": "analytics_dashboard",
+          "description": "Test analytics overview display",
+          "steps": [
+            "Navigate to /admin/analytics",
+            "Check all chart types load",
+            "Verify data accuracy",
+            "Test chart interactions"
+          ],
+          "validations": [
+            "Charts render correctly",
+            "Data matches database",
+            "Interactive elements work"
+          ]
+        },
+        {
+          "id": "revenue_analytics",
+          "description": "Test revenue and financial analytics",
+          "steps": [
+            "Check revenue charts",
+            "Test date range filters",
+            "Verify calculations",
+            "Export functionality"
+          ],
+          "validations": [
+            "Revenue data accurate",
+            "Filters work correctly",
+            "Export generates files"
+          ]
+        },
+        {
+          "id": "occupancy_analytics",
+          "description": "Test occupancy and utilization metrics",
+          "steps": [
+            "Check occupancy charts",
+            "Test different time periods",
+            "Verify calculation accuracy",
+            "Compare with actual bookings"
+          ],
+          "validations": [
+            "Occupancy rates correct",
+            "Time period filters work",
+            "Data matches reality"
+          ]
+        }
+      ]
+    },
+    {
+      "suite_id": "surf_camp_management",
+      "name": "Surf Camp Management",
+      "description": "Test surf camp creation, management, and scheduling",
+      "priority": "high",
+      "test_cases": [
+        {
+          "id": "surf_camp_listing",
+          "description": "Test surf camp list display",
+          "steps": [
+            "Navigate to /admin/surfcamps",
+            "Check camp cards display",
+            "Verify camp information",
+            "Test camp status indicators"
+          ],
+          "validations": [
+            "Camps display correctly",
+            "All data visible",
+            "Status indicators work"
+          ]
+        },
+        {
+          "id": "surf_camp_creation",
+          "description": "Test new surf camp creation",
+          "steps": [
+            "Click 'Create New Camp'",
+            "Fill camp details form",
+            "Set schedule and pricing",
+            "Save and verify creation"
+          ],
+          "validations": [
+            "Camp creation works",
+            "New camp appears in list",
+            "All data saved correctly"
+          ]
+        },
+        {
+          "id": "surf_camp_scheduling",
+          "description": "Test camp session scheduling",
+          "steps": [
+            "Edit camp schedule",
+            "Add/remove sessions",
+            "Set capacity limits",
+            "Test availability checks"
+          ],
+          "validations": [
+            "Scheduling works",
+            "Capacity limits enforced",
+            "Availability updates correctly"
+          ]
+        }
+      ]
+    },
+    {
+      "suite_id": "assignment_board",
+      "name": "Room Assignment System",
+      "description": "Test room assignment functionality and participant management",
+      "priority": "high",
+      "test_cases": [
+        {
+          "id": "assignment_overview",
+          "description": "Test assignment board overview",
+          "steps": [
+            "Navigate to /admin/assignments",
+            "Check assignment statistics",
+            "Verify board layout",
+            "Test week selection"
+          ],
+          "validations": [
+            "Board displays correctly",
+            "Statistics accurate",
+            "Week selection works"
+          ]
+        },
+        {
+          "id": "participant_assignment",
+          "description": "Test participant room assignment",
+          "steps": [
+            "Select week for assignments",
+            "Drag participants to rooms",
+            "Check capacity validation",
+            "Save assignments"
+          ],
+          "validations": [
+            "Drag and drop works",
+            "Capacity limits enforced",
+            "Assignments save correctly"
+          ]
+        },
+        {
+          "id": "assignment_conflicts",
+          "description": "Test conflict detection and resolution",
+          "steps": [
+            "Create conflicting assignments",
+            "Check conflict warnings",
+            "Resolve conflicts",
+            "Verify final assignments"
+          ],
+          "validations": [
+            "Conflicts detected",
+            "Warnings displayed",
+            "Resolution works"
+          ]
+        }
+      ]
+    },
+    {
+      "suite_id": "compliance_system",
+      "name": "Compliance & GDPR Management",
+      "description": "Test GDPR compliance features and data management",
+      "priority": "critical",
+      "test_cases": [
+        {
+          "id": "compliance_dashboard",
+          "description": "Test compliance overview",
+          "steps": [
+            "Navigate to /admin/compliance",
+            "Check compliance status",
+            "Verify consent statistics",
+            "Test compliance navigation"
+          ],
+          "validations": [
+            "Dashboard loads correctly",
+            "Statistics accurate",
+            "Navigation works"
+          ]
+        },
+        {
+          "id": "data_export",
+          "description": "Test GDPR data export functionality",
+          "steps": [
+            "Request data export",
+            "Check export progress",
+            "Download exported data",
+            "Verify data completeness"
+          ],
+          "validations": [
+            "Export initiates correctly",
+            "Progress tracking works",
+            "Data download succeeds",
+            "All user data included"
+          ]
+        },
+        {
+          "id": "right_to_erasure",
+          "description": "Test data deletion requests",
+          "steps": [
+            "Submit erasure request",
+            "Check confirmation process",
+            "Verify data removal",
+            "Test audit logging"
+          ],
+          "validations": [
+            "Request process works",
+            "Confirmation required",
+            "Data properly deleted",
+            "Audit trail maintained"
+          ]
+        },
+        {
+          "id": "consent_management",
+          "description": "Test consent management system",
+          "steps": [
+            "View consent records",
+            "Update consent status",
+            "Check consent history",
+            "Test consent validation"
+          ],
+          "validations": [
+            "Consents display correctly",
+            "Updates work",
+            "History maintained",
+            "Validation enforced"
+          ]
+        }
+      ]
+    },
+    {
+      "suite_id": "system_administration",
+      "name": "System Administration",
+      "description": "Test system admin features, user management, and monitoring",
+      "priority": "high",
+      "test_cases": [
+        {
+          "id": "system_overview",
+          "description": "Test system status overview",
+          "steps": [
+            "Navigate to /admin/system",
+            "Check system health metrics",
+            "Verify admin user list",
+            "Test system navigation"
+          ],
+          "validations": [
+            "Overview displays correctly",
+            "Health metrics accurate",
+            "User list shows admins"
+          ]
+        },
+        {
+          "id": "admin_user_management",
+          "description": "Test admin user management",
+          "steps": [
+            "View admin users",
+            "Test user permissions",
+            "Check user activity logs",
+            "Verify access controls"
+          ],
+          "validations": [
+            "Users display correctly",
+            "Permissions work",
+            "Logs accessible",
+            "Access properly controlled"
+          ]
+        },
+        {
+          "id": "backup_restore",
+          "description": "Test backup and restore functionality",
+          "steps": [
+            "Check backup status",
+            "Initiate manual backup",
+            "Test backup download",
+            "Verify backup integrity"
+          ],
+          "validations": [
+            "Backup process works",
+            "Files download correctly",
+            "Data integrity maintained"
+          ]
+        },
+        {
+          "id": "integration_management",
+          "description": "Test external integrations",
+          "steps": [
+            "Check integration status",
+            "Test API connectivity",
+            "Verify webhook endpoints",
+            "Monitor integration health"
+          ],
+          "validations": [
+            "Integrations display status",
+            "Connectivity tests work",
+            "Webhooks functioning",
+            "Health monitoring active"
+          ]
+        }
+      ]
+    },
+    {
+      "suite_id": "api_endpoint_testing",
+      "name": "API Endpoint Validation",
+      "description": "Test all admin-related API endpoints for functionality and security",
+      "priority": "critical",
+      "test_cases": [
+        {
+          "id": "booking_api_endpoints",
+          "description": "Test booking-related API endpoints",
+          "steps": [
+            "Test GET /api/bookings",
+            "Test POST /api/bookings",
+            "Test PUT /api/bookings/[id]",
+            "Test DELETE /api/bookings/[id]",
+            "Verify authentication required"
+          ],
+          "validations": [
+            "All CRUD operations work",
+            "Authentication enforced",
+            "Data validation works",
+            "Error handling proper"
+          ]
+        },
+        {
+          "id": "client_api_endpoints",
+          "description": "Test client-related API endpoints",
+          "steps": [
+            "Test GET /api/clients",
+            "Test POST /api/clients",
+            "Test PUT /api/clients/[id]",
+            "Test DELETE /api/clients/[id]",
+            "Check GDPR compliance"
+          ],
+          "validations": [
+            "CRUD operations functional",
+            "GDPR rules followed",
+            "Data protection works",
+            "Audit logging active"
+          ]
+        },
+        {
+          "id": "room_api_endpoints",
+          "description": "Test room management API endpoints",
+          "steps": [
+            "Test GET /api/rooms",
+            "Test POST /api/rooms",
+            "Test availability endpoints",
+            "Test pricing endpoints"
+          ],
+          "validations": [
+            "Room data accessible",
+            "Availability accurate",
+            "Pricing updates work",
+            "Bulk operations supported"
+          ]
+        },
+        {
+          "id": "analytics_api_endpoints",
+          "description": "Test analytics data API endpoints",
+          "steps": [
+            "Test GET /api/analytics/*",
+            "Verify data aggregation",
+            "Check performance metrics",
+            "Test export endpoints"
+          ],
+          "validations": [
+            "Analytics data accurate",
+            "Aggregation works",
+            "Performance acceptable",
+            "Export formats correct"
+          ]
+        },
+        {
+          "id": "gdpr_api_endpoints",
+          "description": "Test GDPR compliance API endpoints",
+          "steps": [
+            "Test GET /api/gdpr/export",
+            "Test DELETE /api/gdpr/delete",
+            "Verify consent endpoints",
+            "Check audit endpoints"
+          ],
+          "validations": [
+            "Export functionality works",
+            "Deletion properly implemented",
+            "Consent management functional",
+            "Audit trails complete"
+          ]
+        }
+      ]
+    },
+    {
+      "suite_id": "performance_monitoring",
+      "name": "Performance & Monitoring",
+      "description": "Test system performance, loading times, and monitoring",
+      "priority": "medium",
+      "test_cases": [
+        {
+          "id": "page_load_performance",
+          "description": "Test page loading performance",
+          "steps": [
+            "Measure admin dashboard load time",
+            "Test all admin page load times",
+            "Check API response times",
+            "Monitor memory usage"
+          ],
+          "validations": [
+            "Pages load within 3 seconds",
+            "API calls under 1 second",
+            "No memory leaks",
+            "Smooth navigation"
+          ]
+        },
+        {
+          "id": "real_time_performance",
+          "description": "Test real-time feature performance",
+          "steps": [
+            "Monitor WebSocket connections",
+            "Test real-time updates",
+            "Check subscription efficiency",
+            "Verify connection stability"
+          ],
+          "validations": [
+            "Real-time updates fast",
+            "Connections stable",
+            "No excessive polling",
+            "Efficient subscriptions"
+          ]
+        },
+        {
+          "id": "database_performance",
+          "description": "Test database query performance",
+          "steps": [
+            "Monitor query execution times",
+            "Check for N+1 query issues",
+            "Test pagination performance",
+            "Verify indexing effectiveness"
+          ],
+          "validations": [
+            "Queries execute quickly",
+            "No N+1 problems",
+            "Pagination efficient",
+            "Indexes properly used"
+          ]
+        }
+      ]
+    },
+    {
+      "suite_id": "error_handling",
+      "name": "Error Handling & Edge Cases",
+      "description": "Test error scenarios, edge cases, and failure recovery",
+      "priority": "high",
+      "test_cases": [
+        {
+          "id": "network_error_handling",
+          "description": "Test network error scenarios",
+          "steps": [
+            "Simulate network disconnection",
+            "Test offline functionality",
+            "Check error recovery",
+            "Verify offline indicators"
+          ],
+          "validations": [
+            "Graceful degradation",
+            "Error messages clear",
+            "Recovery works",
+            "User informed of issues"
+          ]
+        },
+        {
+          "id": "validation_error_handling",
+          "description": "Test form validation and errors",
+          "steps": [
+            "Submit invalid forms",
+            "Test required field validation",
+            "Check data type validation",
+            "Verify error display"
+          ],
+          "validations": [
+            "Validation prevents bad data",
+            "Error messages helpful",
+            "Form state preserved",
+            "Recovery possible"
+          ]
+        },
+        {
+          "id": "concurrent_user_handling",
+          "description": "Test concurrent user scenarios",
+          "steps": [
+            "Simulate multiple users editing",
+            "Test conflict resolution",
+            "Check optimistic updates",
+            "Verify data consistency"
+          ],
+          "validations": [
+            "Conflicts handled gracefully",
+            "Data remains consistent",
+            "Users informed of conflicts",
+            "No data loss"
+          ]
+        },
+        {
+          "id": "edge_case_handling",
+          "description": "Test edge cases and boundary conditions",
+          "steps": [
+            "Test with empty data sets",
+            "Check large dataset handling",
+            "Test boundary values",
+            "Verify error boundaries"
+          ],
+          "validations": [
+            "Edge cases handled",
+            "Large datasets work",
+            "Boundaries respected",
+            "No crashes on edge cases"
+          ]
+        }
+      ]
+    },
+    {
+      "suite_id": "responsive_design",
+      "name": "Responsive Design & Mobile Testing",
+      "description": "Test admin interface across different screen sizes",
+      "priority": "medium",
+      "test_cases": [
+        {
+          "id": "mobile_admin_interface",
+          "description": "Test admin interface on mobile devices",
+          "steps": [
+            "Set viewport to mobile size",
+            "Test navigation menu collapse",
+            "Check table responsiveness",
+            "Verify touch interactions"
+          ],
+          "validations": [
+            "Interface adapts to mobile",
+            "Navigation accessible",
+            "Tables scrollable",
+            "Touch targets adequate"
+          ]
+        },
+        {
+          "id": "tablet_admin_interface",
+          "description": "Test admin interface on tablet devices",
+          "steps": [
+            "Set viewport to tablet size",
+            "Test sidebar behavior",
+            "Check modal responsiveness",
+            "Verify form layouts"
+          ],
+          "validations": [
+            "Tablet layout works",
+            "Sidebar collapsible",
+            "Modals properly sized",
+            "Forms usable"
+          ]
+        },
+        {
+          "id": "desktop_admin_interface",
+          "description": "Test admin interface on desktop",
+          "steps": [
+            "Test full desktop layout",
+            "Check multi-column displays",
+            "Verify hover states",
+            "Test keyboard navigation"
+          ],
+          "validations": [
+            "Full layout utilized",
+            "Multi-column works",
+            "Hover effects work",
+            "Keyboard navigation functional"
+          ]
+        }
+      ]
+    },
+    {
+      "suite_id": "console_error_monitoring",
+      "name": "Console Error & Warning Monitoring",
+      "description": "Monitor browser console for errors, warnings, and issues throughout testing",
+      "priority": "critical",
+      "test_cases": [
+        {
+          "id": "console_error_detection",
+          "description": "Monitor for JavaScript errors",
+          "steps": [
+            "Clear console before each test",
+            "Perform all admin operations",
+            "Monitor console.error calls",
+            "Check for unhandled exceptions"
+          ],
+          "validations": [
+            "No console.error messages",
+            "No unhandled exceptions",
+            "Error boundaries working",
+            "Proper error logging"
+          ]
+        },
+        {
+          "id": "console_warning_detection",
+          "description": "Monitor for JavaScript warnings",
+          "steps": [
+            "Monitor console.warn calls",
+            "Check for deprecated APIs",
+            "Verify warning-free operation",
+            "Log acceptable warnings"
+          ],
+          "validations": [
+            "No unexpected warnings",
+            "Deprecated API usage noted",
+            "Clean console output",
+            "Warnings documented"
+          ]
+        },
+        {
+          "id": "network_error_monitoring",
+          "description": "Monitor network-related console messages",
+          "steps": [
+            "Check for failed network requests",
+            "Monitor API call failures",
+            "Verify error handling",
+            "Check for 4xx/5xx responses"
+          ],
+          "validations": [
+            "No failed API calls",
+            "Proper error handling",
+            "User notified of failures",
+            "Graceful degradation"
+          ]
+        },
+        {
+          "id": "performance_warning_monitoring",
+          "description": "Monitor for performance-related warnings",
+          "steps": [
+            "Check for long tasks",
+            "Monitor memory usage warnings",
+            "Verify no performance issues",
+            "Check for inefficient operations"
+          ],
+          "validations": [
+            "No performance warnings",
+            "Memory usage normal",
+            "Operations efficient",
+            "No blocking operations"
+          ]
+        }
+      ]
+    },
+    {
+      "suite_id": "security_validation",
+      "name": "Security & Data Protection",
+      "description": "Test security measures, data protection, and access controls",
+      "priority": "critical",
+      "test_cases": [
+        {
+          "id": "authentication_security",
+          "description": "Test authentication security measures",
+          "steps": [
+            "Test session timeout",
+            "Check secure cookie settings",
+            "Verify token validation",
+            "Test brute force protection"
+          ],
+          "validations": [
+            "Sessions timeout appropriately",
+            "Secure cookies used",
+            "Tokens properly validated",
+            "Brute force protection active"
+          ]
+        },
+        {
+          "id": "authorization_checks",
+          "description": "Test authorization and access controls",
+          "steps": [
+            "Test admin-only endpoints",
+            "Check role-based access",
+            "Verify data isolation",
+            "Test privilege escalation attempts"
+          ],
+          "validations": [
+            "Admin access enforced",
+            "Roles properly checked",
+            "Data properly isolated",
+            "No privilege escalation"
+          ]
+        },
+        {
+          "id": "data_protection",
+          "description": "Test data protection measures",
+          "steps": [
+            "Check data encryption",
+            "Verify GDPR compliance",
+            "Test data export/deletion",
+            "Monitor data access logging"
+          ],
+          "validations": [
+            "Data properly encrypted",
+            "GDPR compliance maintained",
+            "Export/deletion works",
+            "Access properly logged"
+          ]
+        },
+        {
+          "id": "input_validation",
+          "description": "Test input validation and sanitization",
+          "steps": [
+            "Test XSS prevention",
+            "Check SQL injection protection",
+            "Verify input sanitization",
+            "Test file upload security"
+          ],
+          "validations": [
+            "XSS attacks prevented",
+            "SQL injection blocked",
+            "Inputs properly sanitized",
+            "File uploads secure"
+          ]
+        }
+      ]
+    }
+  ],
+  "test_execution_guidelines": {
+    "execution_order": [
+      "auth_access_control",
+      "dashboard_overview",
+      "booking_management",
+      "client_management",
+      "room_management",
+      "surf_camp_management",
+      "assignment_board",
+      "calendar_system",
+      "analytics_reporting",
+      "compliance_system",
+      "system_administration",
+      "api_endpoint_testing",
+      "performance_monitoring",
+      "error_handling",
+      "responsive_design",
+      "console_error_monitoring",
+      "security_validation"
+    ],
+    "parallel_execution": {
+      "allowed_suites": ["performance_monitoring", "console_error_monitoring"],
+      "restricted_suites": ["auth_access_control", "booking_management", "api_endpoint_testing"]
+    },
+    "retry_policy": {
+      "max_retries": 3,
+      "retry_on": ["network_timeout", "element_not_found", "api_failure"],
+      "backoff_strategy": "exponential"
+    },
+    "cleanup_requirements": {
+      "test_data_cleanup": true,
+      "session_cleanup": true,
+      "created_records_removal": true,
+      "cache_clearing": true
+    }
+  },
+  "reporting_requirements": {
+    "real_time_reporting": {
+      "console_errors": "immediate_alert",
+      "critical_failures": "immediate_alert",
+      "performance_issues": "warning",
+      "security_violations": "immediate_alert"
+    },
+    "final_report_structure": {
+      "test_summary": {
+        "total_tests": "count",
+        "passed_tests": "count",
+        "failed_tests": "count",
+        "skipped_tests": "count",
+        "execution_time": "duration"
+      },
+      "suite_results": {
+        "suite_name": "string",
+        "status": "passed|failed|skipped",
+        "test_count": "number",
+        "duration": "milliseconds",
+        "error_details": "array"
+      },
+      "console_monitoring": {
+        "errors": "array",
+        "warnings": "array",
+        "network_failures": "array",
+        "performance_issues": "array"
+      },
+      "performance_metrics": {
+        "page_load_times": "object",
+        "api_response_times": "object",
+        "memory_usage": "object",
+        "error_rates": "object"
+      },
+      "recommendations": "array"
+    },
+    "alerting_thresholds": {
+      "console_errors": ">0",
+      "test_failure_rate": ">5%",
+      "page_load_time": ">3000ms",
+      "api_response_time": ">1000ms"
+    }
+  },
+  "environment_setup": {
+    "required_environment_variables": [
+      "NEXT_PUBLIC_SUPABASE_URL",
+      "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+      "SUPABASE_SERVICE_ROLE_KEY",
+      "STRIPE_SECRET_KEY",
+      "EMAIL_SERVICE_API_KEY"
+    ],
+    "database_requirements": {
+      "test_data_population": true,
+      "clean_test_environment": true,
+      "backup_before_testing": true,
+      "restore_after_testing": true
+    },
+    "external_services": {
+      "supabase": "required",
+      "stripe": "required_for_payments",
+      "email_service": "required_for_notifications",
+      "wordpress_integration": "optional"
+    }
+  },
+  "ai_specific_instructions": {
+    "browsing_behavior": {
+      "human_like_interactions": true,
+      "random_delays": "100-500ms",
+      "scroll_behavior": "natural",
+      "element_wait_strategy": "smart_wait"
+    },
+    "error_handling": {
+      "screenshot_on_failure": true,
+      "console_log_capture": true,
+      "network_request_monitoring": true,
+      "page_source_capture": false
+    },
+    "data_generation": {
+      "use_realistic_test_data": true,
+      "avoid_production_data": true,
+      "cleanup_created_data": true,
+      "respect_foreign_key_constraints": true
+    },
+    "intelligence_features": {
+      "adaptive_waiting": true,
+      "element_discovery": true,
+      "dynamic_form_filling": true,
+      "error_recovery": true
+    }
+  }
+}
+
+

@@ -1,0 +1,277 @@
+/**
+ * Heiwa Booking Widget - Base Styles
+ * Core foundation: Design tokens, reset, and typography system
+ *
+ * Author: Heiwa House Development Team
+ * Version: 2.0.0
+ * Last Updated: December 2024
+ *
+ * Dependencies: None (this is the foundation layer)
+ * Used by: components.css, layout.css, utilities.css
+ */
+
+/* ===========================================
+   1. CSS CUSTOM PROPERTIES (DESIGN TOKENS)
+   =========================================== */
+
+:root {
+  /* Brand Color Palette - Heiwa House Orange Scale */
+  --heiwa-primary-50: #fff5ef;
+  --heiwa-primary-100: #ffeae0;
+  --heiwa-primary-200: #ffd1b8;
+  --heiwa-primary-300: #ffb98f;
+  --heiwa-primary-400: #ff995f;
+  --heiwa-primary-500: #ec681c; /* Primary brand color */
+  --heiwa-primary-600: #ed5600; /* Hover state */
+  --heiwa-primary-700: #bf4700;
+  --heiwa-primary-800: #993a00;
+  --heiwa-primary-900: #7a2e00;
+
+  /* Semantic Color Aliases */
+  --heiwa-primary-color: var(--heiwa-primary-500);
+  --heiwa-primary-hover: var(--heiwa-primary-600);
+  --heiwa-primary-light: rgba(236, 104, 28, 0.1);
+  --heiwa-accent-color: var(--heiwa-primary-500);
+  --heiwa-accent-hover: var(--heiwa-primary-600);
+  --heiwa-orange: var(--heiwa-primary-color); /* Alias for UX improvements */
+
+  /* Semantic Status Colors */
+  --heiwa-success: #10b981;
+  --heiwa-error: #dc2626;
+  --heiwa-warning: #f59e0b;
+  --heiwa-muted: #6b7280;
+
+  /* Neutral Gray Scale */
+  --heiwa-neutral-50: #fafafa;
+  --heiwa-neutral-100: #f5f5f5;
+  --heiwa-neutral-200: #e5e5e5;
+  --heiwa-neutral-300: #d4d4d4;
+  --heiwa-neutral-400: #a3a3a3;
+  --heiwa-neutral-500: #737373;
+  --heiwa-neutral-600: #525252;
+  --heiwa-neutral-700: #404040;
+  --heiwa-neutral-800: #262626;
+  --heiwa-neutral-900: #171717;
+
+  /* Typography System */
+  --heiwa-font-family: 'Archivo', 'Archivo Narrow', Arial, sans-serif;
+
+  /* Font Sizes - Semantic Scale */
+  --heiwa-text-xs: 0.75rem;   /* 12px - Captions, metadata */
+  --heiwa-text-sm: 0.875rem;  /* 14px - Small labels */
+  --heiwa-text-base: 1rem;    /* 16px - Body text */
+  --heiwa-text-lg: 1.125rem;  /* 18px - Large body text */
+  --heiwa-text-xl: 1.25rem;   /* 20px - Small headings */
+  --heiwa-text-2xl: 1.5rem;   /* 24px - Medium headings */
+  --heiwa-text-3xl: 1.875rem; /* 30px - Large headings */
+
+  /* Legacy Typography Scale (for backward compatibility) */
+  --heiwa-text-small: var(--heiwa-text-xs);
+  --heiwa-text-caption: var(--heiwa-text-sm);
+  --heiwa-text-body: var(--heiwa-text-base);
+  --heiwa-text-h4: var(--heiwa-text-lg);
+  --heiwa-text-h3: var(--heiwa-text-xl);
+  --heiwa-text-h2: var(--heiwa-text-2xl);
+  --heiwa-text-h1: var(--heiwa-text-3xl);
+
+  /* Font Weights */
+  --heiwa-font-light: 300;
+  --heiwa-font-normal: 400;
+  --heiwa-font-medium: 500;
+  --heiwa-font-semibold: 600;
+  --heiwa-font-bold: 700;
+  --heiwa-font-extrabold: 800;
+
+  /* Spacing Scale - Semantic Names */
+  --heiwa-space-1: 0.25rem;  /* 4px - Tight spacing */
+  --heiwa-space-2: 0.5rem;   /* 8px - Compact spacing */
+  --heiwa-space-3: 0.75rem;  /* 12px - Comfortable spacing */
+  --heiwa-space-4: 1rem;     /* 16px - Standard spacing */
+  --heiwa-space-5: 1.25rem;  /* 20px - Generous spacing */
+  --heiwa-space-6: 1.5rem;   /* 24px - Loose spacing */
+  --heiwa-space-8: 2rem;     /* 32px - Spacious */
+  --heiwa-space-10: 2.5rem;  /* 40px - Extra spacious */
+  --heiwa-space-12: 3rem;    /* 48px - Very spacious */
+  --heiwa-space-16: 4rem;    /* 64px - Maximum spacing */
+
+  /* Legacy Spacing Scale (for backward compatibility) */
+  --heiwa-space-tight: var(--heiwa-space-1);
+  --heiwa-space-normal: var(--heiwa-space-2);
+  --heiwa-space-comfortable: var(--heiwa-space-4);
+  --heiwa-space-loose: var(--heiwa-space-6);
+  --heiwa-space-spacious: var(--heiwa-space-8);
+  --heiwa-space-xl: var(--heiwa-space-10);
+  --heiwa-space-2xl: var(--heiwa-space-12);
+  --heiwa-space-3xl: var(--heiwa-space-16);
+
+  /* Border Radius Scale */
+  --heiwa-radius-sm: 0.25rem;  /* 4px */
+  --heiwa-radius-md: 0.5rem;   /* 8px */
+  --heiwa-radius-lg: 0.75rem;  /* 12px */
+  --heiwa-radius-xl: 1rem;     /* 16px */
+  --heiwa-radius-2xl: 1.5rem;  /* 24px */
+  --heiwa-radius-full: 9999px; /* Fully rounded */
+
+  /* Shadow Scale */
+  --heiwa-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --heiwa-shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --heiwa-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --heiwa-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --heiwa-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --heiwa-shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+
+  /* Transition Scale */
+  --heiwa-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --heiwa-transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --heiwa-transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  --heiwa-transition-xslow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Z-Index Scale */
+  --heiwa-z-dropdown: 1000;
+  --heiwa-z-sticky: 1020;
+  --heiwa-z-fixed: 1030;
+  --heiwa-z-modal-backdrop: 1040;
+  --heiwa-z-modal: 1050;
+  --heiwa-z-popover: 1060;
+  --heiwa-z-tooltip: 1070;
+
+  /* Legacy Font Size Variables (for backward compatibility) */
+  --heiwa-font-size-xs: var(--heiwa-text-xs);
+  --heiwa-font-size-sm: var(--heiwa-text-sm);
+  --heiwa-font-size-base: var(--heiwa-text-base);
+  --heiwa-font-size-lg: var(--heiwa-text-lg);
+  --heiwa-font-size-xl: var(--heiwa-text-xl);
+  --heiwa-font-size-2xl: var(--heiwa-text-2xl);
+  --heiwa-font-size-3xl: var(--heiwa-text-3xl);
+}
+
+/* ===========================================
+   2. BASE STYLES & RESET
+   =========================================== */
+
+/* Global Reset & Base Styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.heiwa-booking-widget {
+  font-family: var(--heiwa-font-family);
+  font-size: var(--heiwa-text-base);
+  line-height: 1.5;
+  color: var(--heiwa-neutral-900);
+  position: relative;
+  z-index: var(--heiwa-z-modal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===========================================
+   3. TYPOGRAPHY SYSTEM
+   =========================================== */
+
+/* Typography Reset */
+.heiwa-booking-widget h1,
+.heiwa-booking-widget h2,
+.heiwa-booking-widget h3,
+.heiwa-booking-widget h4,
+.heiwa-booking-widget h5,
+.heiwa-booking-widget h6,
+.heiwa-booking-widget p {
+  margin: 0;
+  font-weight: inherit;
+}
+
+/* Heading Hierarchy - Semantic Classes */
+.heiwa-heading-1,
+.heiwa-heading-2,
+.heiwa-heading-3,
+.heiwa-heading-4 {
+  font-family: inherit;
+  color: var(--heiwa-neutral-900);
+  line-height: 1.2;
+}
+
+.heiwa-heading-1 {
+  font-size: var(--heiwa-text-3xl);
+  font-weight: var(--heiwa-font-bold);
+  margin-bottom: var(--heiwa-space-4);
+}
+
+.heiwa-heading-2 {
+  font-size: var(--heiwa-text-2xl);
+  font-weight: var(--heiwa-font-semibold);
+  margin-bottom: var(--heiwa-space-4);
+}
+
+.heiwa-heading-3 {
+  font-size: var(--heiwa-text-xl);
+  font-weight: var(--heiwa-font-semibold);
+  margin-bottom: var(--heiwa-space-3);
+}
+
+.heiwa-heading-4 {
+  font-size: var(--heiwa-text-lg);
+  font-weight: var(--heiwa-font-medium);
+  margin-bottom: var(--heiwa-space-3);
+}
+
+/* Body Text Styles */
+.heiwa-body,
+.heiwa-body-large {
+  font-family: inherit;
+  font-weight: var(--heiwa-font-normal);
+  line-height: 1.6;
+  color: var(--heiwa-neutral-700);
+  margin-bottom: var(--heiwa-space-3);
+}
+
+.heiwa-body {
+  font-size: var(--heiwa-text-base);
+}
+
+.heiwa-body-large {
+  font-size: var(--heiwa-text-lg);
+}
+
+/* Caption and Small Text */
+.heiwa-caption,
+.heiwa-small {
+  font-family: inherit;
+  font-weight: var(--heiwa-font-normal);
+  line-height: 1.4;
+  margin-bottom: var(--heiwa-space-2);
+}
+
+.heiwa-caption {
+  font-size: var(--heiwa-text-sm);
+  color: var(--heiwa-neutral-600);
+}
+
+.heiwa-small {
+  font-size: var(--heiwa-text-xs);
+  color: var(--heiwa-neutral-500);
+}
+
+/* Utility Text Classes */
+.heiwa-text-muted {
+  color: var(--heiwa-neutral-500);
+}
+
+.heiwa-text-accent {
+  color: var(--heiwa-primary-color);
+  font-weight: var(--heiwa-font-medium);
+}
+
+.heiwa-text-error {
+  color: var(--heiwa-error);
+  font-size: var(--heiwa-text-sm);
+  font-weight: var(--heiwa-font-medium);
+}
+
+.heiwa-text-success {
+  color: var(--heiwa-success);
+  font-size: var(--heiwa-text-sm);
+  font-weight: var(--heiwa-font-medium);
+}

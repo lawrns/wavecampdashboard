@@ -1,0 +1,199 @@
+# Contract Test: POST /api/bookings
+# Validates the booking creation endpoint contract
+
+test_cases:
+  - name: "Valid Stripe booking creation"
+    description: "Test successful booking creation with Stripe payment"
+    request:
+      method: "POST"
+      url: "/api/bookings"
+      headers:
+        "X-Heiwa-API-Key": "test-key-123"
+        "Content-Type": "application/json"
+      body:
+        campId: "camp-123"
+        checkInDate: "2024-12-01"
+        checkOutDate: "2024-12-05"
+        guestCount: 2
+        guests:
+          - firstName: "John"
+            lastName: "Doe"
+            email: "john@example.com"
+            phone: "+1234567890"
+            dateOfBirth: "1990-01-01"
+          - firstName: "Jane"
+            lastName: "Doe"
+            email: "jane@example.com"
+            phone: "+1234567891"
+            dateOfBirth: "1992-01-01"
+        selectedExperiences: ["surf-lesson", "yoga"]
+        paymentMethod: "stripe"
+        stripePaymentIntentId: "pi_test_1234567890"
+        totalAmount: 120000 # $1200.00 in cents
+        currency: "USD"
+    expected_response:
+      status: 201
+      headers:
+        "Content-Type": "application/json"
+      body_schema:
+        type: "object"
+        required: ["booking", "payment"]
+        properties:
+          booking:
+            type: "object"
+            required: ["id", "campId", "status", "totalAmount", "currency", "createdAt"]
+            properties:
+              id: { type: "string" }
+              campId: { type: "string" }
+              status: { type: "string", enum: ["confirmed", "pending"] }
+              totalAmount: { type: "integer", minimum: 1 }
+              currency: { type: "string", enum: ["USD", "EUR"] }
+              createdAt: { type: "string", format: "date-time" }
+          payment:
+            type: "object"
+            required: ["status", "method", "transactionId"]
+            properties:
+              status: { type: "string", enum: ["completed", "pending", "failed"] }
+              method: { type: "string", enum: ["stripe", "bank_transfer"] }
+              transactionId: { type: "string" }
+
+  - name: "Valid bank transfer booking creation"
+    description: "Test successful booking creation with bank transfer payment"
+    request:
+      method: "POST"
+      url: "/api/bookings"
+      headers:
+        "X-Heiwa-API-Key": "test-key-123"
+        "Content-Type": "application/json"
+      body:
+        campId: "camp-123"
+        checkInDate: "2024-12-01"
+        checkOutDate: "2024-12-05"
+        guestCount: 1
+        guests:
+          - firstName: "Alice"
+            lastName: "Smith"
+            email: "alice@example.com"
+        paymentMethod: "bank_transfer"
+        totalAmount: 60000 # $600.00 in cents
+        currency: "USD"
+    expected_response:
+      status: 201
+      body_schema:
+        type: "object"
+        required: ["booking", "payment"]
+        properties:
+          payment:
+            properties:
+              status: { enum: ["pending"] }
+              method: { enum: ["bank_transfer"] }
+              instructions: { type: "string" }
+
+  - name: "Invalid booking - missing required fields"
+    description: "Test validation error for missing required fields"
+    request:
+      method: "POST"
+      url: "/api/bookings"
+      headers:
+        "X-Heiwa-API-Key": "test-key-123"
+        "Content-Type": "application/json"
+      body:
+        campId: "camp-123"
+        # Missing checkInDate, checkOutDate, etc.
+    expected_response:
+      status: 400
+      body_schema:
+        type: "object"
+        required: ["code", "message"]
+        properties:
+          code: { type: "string", enum: ["VALIDATION_ERROR"] }
+          message: { type: "string" }
+          field: { type: "string" }
+
+  - name: "Invalid booking - unavailable dates"
+    description: "Test conflict error for unavailable dates"
+    request:
+      method: "POST"
+      url: "/api/bookings"
+      headers:
+        "X-Heiwa-API-Key": "test-key-123"
+        "Content-Type": "application/json"
+      body:
+        campId: "camp-123"
+        checkInDate: "2024-12-01"
+        checkOutDate: "2024-12-05"
+        guestCount: 100 # Too many guests
+        guests: [] # Missing guests
+        paymentMethod: "stripe"
+        totalAmount: 120000
+        currency: "USD"
+    expected_response:
+      status: 409
+      body_schema:
+        type: "object"
+        required: ["code", "message"]
+        properties:
+          code: { type: "string", enum: ["UNAVAILABLE"] }
+          message: { type: "string" }
+
+  - name: "Invalid booking - payment failed"
+    description: "Test payment processing error"
+    request:
+      method: "POST"
+      url: "/api/bookings"
+      headers:
+        "X-Heiwa-API-Key": "test-key-123"
+        "Content-Type": "application/json"
+      body:
+        campId: "camp-123"
+        checkInDate: "2024-12-01"
+        checkOutDate: "2024-12-05"
+        guestCount: 1
+        guests:
+          - firstName: "Test"
+            lastName: "User"
+            email: "test@example.com"
+        paymentMethod: "stripe"
+        stripePaymentIntentId: "pi_test_card_declined"
+        totalAmount: 120000
+        currency: "USD"
+    expected_response:
+      status: 402
+      body_schema:
+        type: "object"
+        required: ["code", "message"]
+        properties:
+          code: { type: "string", enum: ["PAYMENT_FAILED"] }
+          message: { type: "string" }
+
+  - name: "Unauthorized request - invalid API key"
+    description: "Test authentication failure"
+    request:
+      method: "POST"
+      url: "/api/bookings"
+      headers:
+        "X-Heiwa-API-Key": "invalid-key"
+        "Content-Type": "application/json"
+      body:
+        campId: "camp-123"
+        checkInDate: "2024-12-01"
+        checkOutDate: "2024-12-05"
+        guestCount: 1
+        guests:
+          - firstName: "Test"
+            lastName: "User"
+            email: "test@example.com"
+        paymentMethod: "stripe"
+        totalAmount: 120000
+        currency: "USD"
+    expected_response:
+      status: 401
+      body_schema:
+        type: "object"
+        required: ["code", "message"]
+        properties:
+          code: { type: "string", enum: ["UNAUTHORIZED"] }
+          message: { type: "string" }
+
+
+

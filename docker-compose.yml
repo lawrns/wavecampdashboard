@@ -22,7 +22,7 @@ services:
     container_name: heiwa-wordpress-site
     restart: unless-stopped
     ports:
-      - "3006:80"
+      - "3007:80"
     environment:
       WORDPRESS_DB_HOST: wordpress-db:3306
       WORDPRESS_DB_USER: wordpress
@@ -32,9 +32,12 @@ services:
       WORDPRESS_DEBUG: 1
     volumes:
       - wordpress_data:/var/www/html
-      - ./wordpress-plugin:/var/www/html/wp-content/plugins
       - ./wordpress-server/wp-content/mu-plugins:/var/www/html/wp-content/mu-plugins
       - ./wordpress-server/wp-content/uploads:/var/www/html/wp-content/uploads
+      - ./wordpress-server/wp-content/plugins:/var/www/html/wp-content/plugins
+      - ./wordpress-server/test-with-head.php:/var/www/html/test-with-head.php
+      - ./wordpress-server/test-react-widget-simple.php:/var/www/html/test-react-widget-simple.php
+      - ./wordpress-server/debug-config.php:/var/www/html/debug-config.php
     depends_on:
       - wordpress-db
     networks:

@@ -19,7 +19,7 @@ const experiences = [
     gradient: 'from-blue-500 to-cyan-500',
     features: ['Flexible dates', 'Choose your room', 'Self-guided experience'],
     priceFrom: 45,
-    backgroundImage: '/room2.webp',
+    backgroundImage: '', // Remove broken image reference
     surfPattern: 'gentle-waves',
   },
   {
@@ -31,18 +31,19 @@ const experiences = [
     gradient: 'from-orange-500 to-red-500',
     features: ['Professional coaching', 'All meals included', 'Structured program'],
     priceFrom: 599,
-    backgroundImage: '/room1.jpg',
+    backgroundImage: '', // Remove broken image reference
     surfPattern: 'dynamic-waves',
   },
 ];
 
 export function ExperienceSelection({ state, actions }: ExperienceSelectionProps) {
   const handleSelection = (type: 'room' | 'surf-week') => {
+    // Debug: selection handler
+    try { console.log('[HeiwaWidget] Experience selected:', type); } catch {}
     actions.setExperienceType(type);
-    // Auto-advance to next step after selection
-    setTimeout(() => {
-      actions.nextStep();
-    }, 300);
+    
+    // Allow the user to manually click Next instead of auto-advancing
+    // This gives them time to review their selection and see the pricing update
   };
 
   return (

@@ -4,6 +4,8 @@ import { requireAdminSession } from '@/lib/auth';
 import { CreateBookingSchema, UpdateBookingSchema } from '@/lib/schemas';
 import { sendBookingEmails } from '@/lib/email-service';
 
+export const dynamic = 'force-dynamic';
+
 // GET /api/firebase-bookings - Get all bookings
 export async function GET(request: NextRequest) {
   try {

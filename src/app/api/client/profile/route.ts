@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase/client';
 import { z } from 'zod';
 
+export const dynamic = 'force-dynamic';
+
 // Schema for client profile
 const ClientProfileSchema = z.object({
   name: z.string().min(1, 'Name is required'),

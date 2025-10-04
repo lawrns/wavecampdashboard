@@ -154,3 +154,4 @@ add_action('plugins_loaded', 'heiwa_booking_widget_safe_init', 1); // Load first
 ?>
 
 
+

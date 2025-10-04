@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase/client';
 import { z } from 'zod';
 
+export const dynamic = 'force-dynamic';
+
 // Schema for updating client bookings
 const UpdateClientBookingSchema = z.object({
   notes: z.string().optional(),

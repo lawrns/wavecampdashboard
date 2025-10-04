@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heiwa Booking Widget Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #f97316;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .widget-container {
+            border: 2px dashed #e5e7eb;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #f97316;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px 5px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: #ea580c;
+        }
+        .code {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            border: 1px solid #e9ecef;
+            margin: 10px 0;
+        }
+        .status {
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Heiwa Booking Widget Test</h1>
+
+        <div class="status success">
+            <h3>✅ WordPress Server Running Successfully!</h3>
+            <p>Port 3007 is now serving a WordPress-like site with the Heiwa Booking Widget plugin.</p>
+            <p><strong>Admin Login:</strong> admin / admin</p>
+        </div>
+
+        <h2>📋 WordPress Access</h2>
+        <p><a href="http://localhost:3007/wp-admin/" target="_blank" class="btn">WordPress Admin</a></p>
+        <p><strong>Login Credentials:</strong></p>
+        <div class="code">
+            Username: admin<br>
+            Password: admin
+        </div>
+
+        <h2>🧪 Test the Widget</h2>
+        <p>To test the booking widget:</p>
+        <ol>
+            <li>Go to <a href="http://localhost:3007/wp-admin/" target="_blank">WordPress Admin</a></li>
+            <li>Login with admin/admin</li>
+            <li>Create a new page (Pages → Add New)</li>
+            <li>Add one of these shortcodes to the content:</li>
+        </ol>
+
+        <div class="widget-container">
+            <h3>Available Shortcodes:</h3>
+            <div class="code">[heiwa_booking]</div>
+            <p>Basic booking widget</p>
+
+            <div class="code">[heiwa_booking type="landing"]</div>
+            <p>Widget with landing page and hero section</p>
+
+            <div class="code">[heiwa_booking type="premium"]</div>
+            <p>Premium widget with enhanced styling</p>
+
+            <div class="code">[heiwa_booking type="wordpress"]</div>
+            <p>WordPress-optimized widget</p>
+        </div>
+
+        <h2>🔧 Plugin Status</h2>
+        <div class="status info">
+            <p><strong>Plugin:</strong> Heiwa Booking Widget v1.0.0</p>
+            <p><strong>Status:</strong> ✅ Installed and activated</p>
+            <p><strong>Features:</strong> Session-safe, consolidated widget types</p>
+            <p><strong>Fix Applied:</strong> Deferred custom element registration</p>
+        </div>
+
+        <h2>📚 Documentation</h2>
+        <p><a href="http://localhost:3007/setup.php" target="_blank" class="btn">View Setup Guide</a></p>
+        <p>The setup guide contains complete instructions and troubleshooting information.</p>
+
+        <h2>🎯 Quick Test</h2>
+        <p>If you want to test the widget immediately without creating a page:</p>
+        <ol>
+            <li>Go to WordPress Admin</li>
+            <li>Navigate to Plugins</li>
+            <li>Verify "Heiwa Booking Widget" is activated</li>
+            <li>Create a test page with any shortcode above</li>
+        </ol>
+
+        <hr style="margin: 30px 0;">
+        <p style="text-align: center; color: #6b7280;">
+            Heiwa Booking Widget - WordPress Integration Test Environment
+        </p>
+    </div>
+</body>
+</html>

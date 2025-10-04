@@ -1,0 +1,686 @@
+/**
+ * Heiwa Booking Widget - Layout System
+ * Modal, responsive design, and layout components
+ *
+ * Author: Heiwa House Development Team
+ * Version: 2.0.0
+ * Last Updated: December 2024
+ *
+ * Dependencies: base.css, components.css
+ * Used by: utilities.css
+ */
+
+/* ===========================================
+   1. MODAL & OVERLAY SYSTEM
+   =========================================== */
+
+/* Prevent body scroll when modal is open */
+body.heiwa-modal-open {
+  overflow: hidden;
+}
+
+/* Reset any theme styles that might interfere */
+.heiwa-booking-widget * {
+  box-sizing: border-box;
+}
+
+.heiwa-booking-widget h1,
+.heiwa-booking-widget h2,
+.heiwa-booking-widget h3,
+.heiwa-booking-widget h4,
+.heiwa-booking-widget h5,
+.heiwa-booking-widget h6 {
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.heiwa-booking-widget p {
+  margin: 0 0 var(--heiwa-space-4) 0;
+}
+
+/* ===========================================
+   2. TRIGGER BUTTON SYSTEM
+   =========================================== */
+
+/* Enhanced Trigger Button with Surf Theme */
+.heiwa-booking-trigger {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  gap: var(--heiwa-space-2);
+  padding: var(--heiwa-space-4) var(--heiwa-space-5);
+  background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #14b8a6 100%);
+  color: white;
+  border: none;
+  border-radius: var(--heiwa-radius-xl);
+  font-family: var(--heiwa-font-family);
+  font-size: var(--heiwa-text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(14, 165, 233, 0.3), 0 8px 40px rgba(6, 182, 212, 0.15);
+  transition: all var(--heiwa-transition-normal);
+  z-index: var(--heiwa-z-fixed);
+  overflow: hidden;
+}
+
+/* Inline Demo Button Override - for demo pages */
+.heiwa-booking-trigger.booking-trigger {
+  position: static;
+  display: inline-flex;
+  transform: none;
+  margin: 0;
+  right: auto;
+  top: auto;
+  left: auto;
+  bottom: auto;
+}
+
+.heiwa-booking-trigger::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.heiwa-booking-trigger::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: url("data:image/svg+xml,%3csvg width='100' height='2' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M0,1 C25,0 50,2 75,1 C87.5,0.5 100,1.5 100,1' stroke='rgba(255,255,255,0.5)' stroke-width='0.5' fill='none'/%3e%3c/svg%3e");
+  background-repeat: repeat-x;
+  animation: heiwa-wave-flow 6s linear infinite;
+}
+
+.heiwa-booking-trigger:hover {
+  background: linear-gradient(135deg, #0284c7 0%, #0891b2 50%, #0d9488 100%);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 32px rgba(14, 165, 233, 0.4), 0 12px 48px rgba(6, 182, 212, 0.2);
+}
+
+.heiwa-booking-trigger:hover::before {
+  left: 100%;
+}
+
+.heiwa-booking-trigger:active {
+  transform: translateY(-1px) scale(1.01);
+  transition: transform 100ms ease;
+}
+
+/* Position variants */
+.heiwa-position-right .heiwa-booking-trigger {
+  right: var(--heiwa-space-6);
+  top: var(--heiwa-space-6);
+  transform: none;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.heiwa-position-left .heiwa-booking-trigger {
+  left: var(--heiwa-space-6);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.heiwa-position-bottom .heiwa-booking-trigger {
+  bottom: var(--heiwa-space-6);
+  right: var(--heiwa-space-6);
+}
+
+/* Hide trigger button when widget is open */
+.heiwa-booking-drawer.active ~ .heiwa-booking-widget .heiwa-booking-trigger,
+.heiwa-booking-drawer.active ~ * .heiwa-booking-trigger {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition: opacity 0.3s ease, visibility 0.3s ease !important;
+}
+
+/* ===========================================
+   3. DRAWER & SIDEBAR SYSTEM
+   =========================================== */
+
+/* Sidebar Backdrop */
+.heiwa-booking-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(17, 24, 39, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: var(--heiwa-z-modal-backdrop);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 250ms ease-out;
+  pointer-events: none;
+}
+
+.heiwa-booking-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Enhanced Sidebar Drawer with Surf Theme - FIXED RESPONSIVENESS */
+.heiwa-booking-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(640px, 95vw);
+  max-width: 640px;
+  background: #ffffff;
+  box-shadow: 0 0 40px rgba(14, 165, 233, 0.15), 0 0 80px rgba(6, 182, 212, 0.1);
+  transform: translateX(100%);
+  transition: transform 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: var(--heiwa-z-modal);
+  display: flex;
+  flex-direction: column;
+  font-family: Inter, system-ui, sans-serif;
+  pointer-events: auto;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.heiwa-booking-drawer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, #0ea5e9, #06b6d4, #14b8a6);
+  z-index: 1;
+}
+
+.heiwa-booking-drawer.active {
+  transform: translateX(0);
+}
+
+/* Drawer Header */
+.heiwa-booking-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--heiwa-space-6);
+  border-bottom: 1px solid var(--heiwa-neutral-100);
+  background: #ffffff;
+  position: relative;
+  z-index: 10;
+}
+
+.heiwa-booking-drawer-title {
+  font-size: var(--heiwa-text-xl);
+  font-weight: var(--heiwa-font-semibold);
+  color: var(--heiwa-neutral-900);
+  margin: 0;
+}
+
+.heiwa-booking-drawer-close {
+  background: none;
+  border: none;
+  color: var(--heiwa-neutral-500);
+  cursor: pointer;
+  padding: var(--heiwa-space-2);
+  border-radius: var(--heiwa-radius-md);
+  transition: all var(--heiwa-transition-fast);
+}
+
+.heiwa-booking-drawer-close:hover {
+  color: var(--heiwa-neutral-700);
+  background: var(--heiwa-neutral-50);
+}
+
+/* Drawer Content */
+.heiwa-booking-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--heiwa-space-6);
+  background: #ffffff;
+}
+
+.heiwa-booking-summary {
+  padding: var(--heiwa-space-6);
+  border-top: 1px solid var(--heiwa-neutral-100);
+  background: #ffffff;
+}
+
+/* ===========================================
+   4. RESPONSIVE DESIGN SYSTEM
+   =========================================== */
+
+/* Mobile-first responsive design */
+@media (max-width: 768px) {
+  .heiwa-booking-drawer {
+    width: 100vw;
+    height: 100vh;
+    transform: translateY(100%);
+    border-radius: 0;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  .heiwa-booking-drawer.active {
+    transform: translateY(0);
+  }
+
+  .heiwa-booking-drawer::before {
+    width: 100%;
+    height: 4px;
+    top: 0;
+    left: 0;
+    right: auto;
+    background: linear-gradient(90deg, #0ea5e9 0%, #06b6d4 50%, #14b8a6 100%);
+  }
+
+  /* Mobile touch targets - minimum 44px for accessibility */
+  .heiwa-calendar-day {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .heiwa-calendar-nav-btn {
+    width: 44px;
+    height: 44px;
+    touch-action: manipulation;
+  }
+
+  .heiwa-date-display {
+    min-height: 56px;
+    padding: var(--heiwa-space-4);
+    touch-action: manipulation;
+  }
+
+  .heiwa-cta-button,
+  .heiwa-express-booking {
+    min-height: 56px;
+    padding: var(--heiwa-space-4) var(--heiwa-space-6);
+    touch-action: manipulation;
+  }
+
+  .heiwa-booking-trigger {
+    min-height: 56px;
+    padding: var(--heiwa-space-4) var(--heiwa-space-6);
+    touch-action: manipulation;
+  }
+
+  .heiwa-booking-stepper {
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+
+  .heiwa-booking-step {
+    flex-shrink: 0;
+    min-width: 120px;
+  }
+
+  .heiwa-booking-step-label {
+    display: none;
+  }
+
+  .heiwa-destination-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .heiwa-booking-content {
+    padding: 16px;
+  }
+
+  .heiwa-booking-summary {
+    padding: 16px;
+  }
+}
+
+/* Tablet styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .heiwa-booking-drawer {
+    width: 640px; /* Maintain consistent width on tablet */
+  }
+}
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+  .heiwa-booking-drawer {
+    width: 800px; /* Maintain comfortable width */
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto 1fr;
+    gap: 0 0;
+  }
+
+  .heiwa-booking-drawer-header {
+    grid-column: 1 / -1;
+  }
+
+  .heiwa-booking-progress {
+    grid-column: 1 / -1;
+  }
+
+  .heiwa-booking-content {
+    grid-column: 1 / -1;
+    padding-right: 0;
+  }
+
+  .heiwa-booking-summary {
+    grid-column: 1 / -1;
+    position: relative;
+    top: auto;
+    align-self: auto;
+    border-top: 1px solid var(--heiwa-neutral-200);
+    background: #ffffff;
+    padding: 16px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .heiwa-destination-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===========================================
+   5. GRID & LAYOUT UTILITIES
+   =========================================== */
+
+/* Destination Grid */
+.heiwa-destination-grid {
+  display: grid;
+  gap: var(--heiwa-space-4);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.heiwa-participant-grid {
+  display: grid;
+  gap: var(--heiwa-space-3);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.heiwa-room-grid {
+  display: grid;
+  gap: var(--heiwa-space-4);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+/* Flexbox Utilities */
+.heiwa-flex {
+  display: flex;
+}
+
+.heiwa-flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.heiwa-flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heiwa-flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.heiwa-flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Spacing Utilities */
+.heiwa-space-y-2 > * + * {
+  margin-top: var(--heiwa-space-2);
+}
+
+.heiwa-space-y-4 > * + * {
+  margin-top: var(--heiwa-space-4);
+}
+
+.heiwa-space-y-6 > * + * {
+  margin-top: var(--heiwa-space-6);
+}
+
+/* ===========================================
+   6. TRUST SIGNALS & ADD-ONS
+   =========================================== */
+
+/* Trust Signals */
+.heiwa-trust-signals {
+  display: flex;
+  align-items: center;
+  gap: var(--heiwa-space-3);
+  margin: var(--heiwa-space-4) 0;
+  padding: var(--heiwa-space-3);
+  background: #f0f9ff;
+  border-radius: var(--heiwa-radius-md);
+  border: 1px solid #bae6fd;
+}
+
+.heiwa-trust-icon {
+  width: 20px;
+  height: 20px;
+  color: #0284c7;
+}
+
+.heiwa-trust-text {
+  font-size: var(--heiwa-text-sm);
+  color: #0c4a6e;
+  font-weight: var(--heiwa-font-medium);
+}
+
+/* Add-on Cards */
+.heiwa-addon-grid {
+  display: grid;
+  gap: var(--heiwa-space-3);
+  margin: var(--heiwa-space-4) 0;
+}
+
+.heiwa-addon-card {
+  border: 1px solid var(--heiwa-neutral-200);
+  border-radius: var(--heiwa-radius-md);
+  padding: var(--heiwa-space-4);
+  cursor: pointer;
+  transition: all var(--heiwa-transition-fast);
+  display: flex;
+  align-items: center;
+  gap: var(--heiwa-space-3);
+  background: white;
+}
+
+.heiwa-addon-card:hover {
+  border-color: var(--heiwa-primary-color);
+  background: var(--heiwa-neutral-50);
+}
+
+.heiwa-addon-card.selected {
+  border-color: var(--heiwa-primary-color);
+  background: var(--heiwa-primary-50);
+}
+
+.heiwa-addon-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--heiwa-primary-color);
+  flex-shrink: 0;
+}
+
+.heiwa-addon-content {
+  flex: 1;
+}
+
+.heiwa-addon-title {
+  font-size: var(--heiwa-text-sm);
+  font-weight: var(--heiwa-font-medium);
+  color: var(--heiwa-neutral-900);
+  margin: 0 0 var(--heiwa-space-1) 0;
+}
+
+.heiwa-addon-description {
+  font-size: var(--heiwa-text-xs);
+  color: var(--heiwa-neutral-600);
+  margin: 0;
+}
+
+/* ===========================================
+   7. ANIMATIONS
+   =========================================== */
+
+@keyframes heiwa-wave-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes heiwa-ocean-shimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes heiwa-surf-ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .heiwa-booking-widget * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===========================================
+   CRITICAL LAYOUT FIXES - PROGRESS INDICATOR
+   =========================================== */
+
+/* Main progress container - fix alignment */
+.heiwa-booking-progress {
+  padding: var(--heiwa-space-4) var(--heiwa-space-6);
+  border-bottom: 1px solid var(--heiwa-neutral-200);
+  background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%);
+}
+
+/* Stepper container - fix cramped spacing and accommodate scaled circles */
+.heiwa-booking-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--heiwa-space-2);
+  overflow-x: auto;
+  padding: var(--heiwa-space-4) 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.heiwa-booking-stepper::-webkit-scrollbar {
+  display: none;
+}
+
+/* Individual step styling - fix cramped appearance */
+.heiwa-booking-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80px;
+  flex: 1;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Step number circle - improved sizing */
+.heiwa-booking-step-number {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--heiwa-text-sm);
+  font-weight: var(--heiwa-font-bold);
+  background: var(--heiwa-neutral-200);
+  color: var(--heiwa-neutral-600);
+  border: 2px solid var(--heiwa-neutral-300);
+  transition: all 0.3s ease;
+  margin-bottom: var(--heiwa-space-2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Step label - improved typography */
+.heiwa-booking-step-label {
+  font-size: var(--heiwa-text-xs);
+  font-weight: var(--heiwa-font-medium);
+  color: var(--heiwa-neutral-600);
+  text-align: center;
+  line-height: 1.2;
+  margin-top: var(--heiwa-space-1);
+  max-width: 80px;
+  word-wrap: break-word;
+}
+
+/* Step states - clear visual hierarchy */
+.heiwa-booking-step.completed .heiwa-booking-step-number {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border-color: #10b981;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.heiwa-booking-step.current .heiwa-booking-step-number {
+  background: linear-gradient(135deg, var(--heiwa-primary-500), var(--heiwa-primary-600));
+  color: white;
+  border-color: var(--heiwa-primary-500);
+  box-shadow: 0 4px 12px rgba(236, 104, 28, 0.4);
+  transform: scale(1.1);
+}
+
+.heiwa-booking-step.current .heiwa-booking-step-label {
+  color: var(--heiwa-primary-600);
+  font-weight: var(--heiwa-font-semibold);
+}
+
+.heiwa-booking-step.completed .heiwa-booking-step-label {
+  color: #059669;
+  font-weight: var(--heiwa-font-semibold);
+}
+
+/* Step connectors - visual flow */
+.heiwa-booking-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 20px;
+  right: -50%;
+  width: calc(100% - 40px);
+  height: 2px;
+  background: var(--heiwa-neutral-300);
+  z-index: -1;
+  transition: all 0.3s ease;
+}
+
+.heiwa-booking-step.completed:not(:last-child)::after {
+  background: linear-gradient(90deg, #10b981, var(--heiwa-primary-500));
+}

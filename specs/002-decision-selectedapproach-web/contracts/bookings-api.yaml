@@ -1,0 +1,401 @@
+openapi: 3.0.3
+info:
+  title: Heiwa Booking API - Web Component Widget
+  description: API contracts for Web Component booking widget integration
+  version: 1.0.0
+  contact:
+    name: Heiwa Development Team
+
+servers:
+  - url: https://api.heiwa.house
+    description: Production API
+  - url: http://localhost:3005/api
+    description: Local development
+
+security:
+  - ApiKeyAuth: []
+
+paths:
+  /bookings:
+    post:
+      summary: Create a new booking
+      description: Submit a complete booking with guests, experiences, and payment details
+      operationId: createBooking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBookingRequest'
+            examples:
+              stripe-booking:
+                summary: Booking with Stripe payment
+                value:
+                  campId: "camp-123"
+                  checkInDate: "2024-12-01"
+                  checkOutDate: "2024-12-05"
+                  guestCount: 2
+                  guests:
+                    - firstName: "John"
+                      lastName: "Doe"
+                      email: "john@example.com"
+                      phone: "+1234567890"
+                      dateOfBirth: "1990-01-01"
+                  selectedExperiences: ["surf-lesson", "yoga"]
+                  paymentMethod: "stripe"
+                  stripePaymentIntentId: "pi_1234567890"
+                  totalAmount: 1200
+                  currency: "USD"
+              bank-transfer-booking:
+                summary: Booking with bank transfer
+                value:
+                  campId: "camp-123"
+                  checkInDate: "2024-12-01"
+                  checkOutDate: "2024-12-05"
+                  guestCount: 1
+                  guests:
+                    - firstName: "Jane"
+                      lastName: "Smith"
+                      email: "jane@example.com"
+                  selectedExperiences: []
+                  paymentMethod: "bank_transfer"
+                  totalAmount: 600
+                  currency: "USD"
+      responses:
+        '201':
+          description: Booking created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingResponse'
+              examples:
+                success-response:
+                  summary: Successful booking creation
+                  value:
+                    booking:
+                      id: "booking-123"
+                      campId: "camp-123"
+                      status: "confirmed"
+                      totalAmount: 1200
+                      currency: "USD"
+                      createdAt: "2024-09-27T10:00:00Z"
+                    payment:
+                      status: "completed"
+                      method: "stripe"
+                      transactionId: "txn_1234567890"
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                validation-error:
+                  summary: Guest validation failed
+                  value:
+                    code: "VALIDATION_ERROR"
+                    message: "Invalid guest information"
+                    field: "guests[0].email"
+                    details:
+                      reason: "Invalid email format"
+        '409':
+          description: Booking conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                unavailable-error:
+                  summary: No availability for requested dates
+                  value:
+                    code: "UNAVAILABLE"
+                    message: "No rooms available for selected dates"
+                    details:
+                      availableDates: ["2024-12-06", "2024-12-07"]
+        '402':
+          description: Payment required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                payment-failed:
+                  summary: Stripe payment failed
+                  value:
+                    code: "PAYMENT_FAILED"
+                    message: "Payment processing failed"
+                    details:
+                      stripeError: "card_declined"
+                      declineCode: "insufficient_funds"
+
+  /camps/{campId}/availability:
+    get:
+      summary: Check camp availability
+      description: Get availability and pricing for specific dates
+      operationId: checkAvailability
+      parameters:
+        - name: campId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: checkInDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: checkOutDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: guestCount
+          in: query
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 10
+      responses:
+        '200':
+          description: Availability information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailabilityResponse'
+              examples:
+                available:
+                  summary: Dates are available
+                  value:
+                    available: true
+                    campId: "camp-123"
+                    checkInDate: "2024-12-01"
+                    checkOutDate: "2024-12-05"
+                    guestCount: 2
+                    totalPrice: 1200
+                    currency: "USD"
+                    availableExperiences: ["surf-lesson", "yoga", "massage"]
+                    pricingBreakdown:
+                      accommodation: 1000
+                      experiences: 200
+                unavailable:
+                  summary: Dates not available
+                  value:
+                    available: false
+                    campId: "camp-123"
+                    checkInDate: "2024-12-01"
+                    checkOutDate: "2024-12-05"
+                    guestCount: 2
+                    alternativeDates: ["2024-12-06", "2024-12-07", "2024-12-08"]
+
+components:
+  schemas:
+    CreateBookingRequest:
+      type: object
+      required:
+        - campId
+        - checkInDate
+        - checkOutDate
+        - guestCount
+        - guests
+        - paymentMethod
+        - totalAmount
+        - currency
+      properties:
+        campId:
+          type: string
+          description: The camp identifier
+        checkInDate:
+          type: string
+          format: date
+          description: Check-in date (YYYY-MM-DD)
+        checkOutDate:
+          type: string
+          format: date
+          description: Check-out date (YYYY-MM-DD)
+        guestCount:
+          type: integer
+          minimum: 1
+          maximum: 10
+          description: Total number of guests
+        guests:
+          type: array
+          items:
+            $ref: '#/components/schemas/Guest'
+          minItems: 1
+          description: Guest information (first guest is primary)
+        selectedExperiences:
+          type: array
+          items:
+            type: string
+          description: Array of experience identifiers
+        paymentMethod:
+          type: string
+          enum: [stripe, bank_transfer]
+          description: Payment method
+        stripePaymentIntentId:
+          type: string
+          description: Required for Stripe payments
+        totalAmount:
+          type: integer
+          minimum: 1
+          description: Total amount in cents
+        currency:
+          type: string
+          enum: [USD, EUR]
+          description: Currency code
+
+    Guest:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+      properties:
+        firstName:
+          type: string
+          minLength: 2
+          maxLength: 50
+        lastName:
+          type: string
+          minLength: 2
+          maxLength: 50
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+          pattern: '^\+[1-9]\d{1,14}$'
+        dateOfBirth:
+          type: string
+          format: date
+        nationality:
+          type: string
+        specialRequirements:
+          type: string
+          maxLength: 500
+        emergencyContact:
+          type: object
+          properties:
+            name:
+              type: string
+            phone:
+              type: string
+            relationship:
+              type: string
+
+    BookingResponse:
+      type: object
+      required:
+        - booking
+        - payment
+      properties:
+        booking:
+          type: object
+          properties:
+            id:
+              type: string
+            campId:
+              type: string
+            status:
+              type: string
+              enum: [confirmed, pending]
+            totalAmount:
+              type: integer
+            currency:
+              type: string
+            createdAt:
+              type: string
+              format: date-time
+        payment:
+          type: object
+          properties:
+            status:
+              type: string
+              enum: [completed, pending, failed]
+            method:
+              type: string
+              enum: [stripe, bank_transfer]
+            transactionId:
+              type: string
+            instructions:
+              type: string
+              description: Payment instructions for bank transfer
+
+    AvailabilityResponse:
+      type: object
+      required:
+        - available
+        - campId
+        - checkInDate
+        - checkOutDate
+        - guestCount
+      properties:
+        available:
+          type: boolean
+        campId:
+          type: string
+        checkInDate:
+          type: string
+          format: date
+        checkOutDate:
+          type: string
+          format: date
+        guestCount:
+          type: integer
+        totalPrice:
+          type: integer
+          description: Total price in cents
+        currency:
+          type: string
+        availableExperiences:
+          type: array
+          items:
+            type: string
+        pricingBreakdown:
+          type: object
+          properties:
+            accommodation:
+              type: integer
+            experiences:
+              type: integer
+        alternativeDates:
+          type: array
+          items:
+            type: string
+            format: date
+
+    ErrorResponse:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          enum:
+            - VALIDATION_ERROR
+            - UNAVAILABLE
+            - PAYMENT_FAILED
+            - INVALID_DATES
+            - CAMP_NOT_FOUND
+            - RATE_LIMIT_EXCEEDED
+        message:
+          type: string
+        field:
+          type: string
+          description: Field that caused the error
+        details:
+          type: object
+          description: Additional error context
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Heiwa-API-Key
+
+
+

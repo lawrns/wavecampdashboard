@@ -4,7 +4,7 @@ import fs from "fs";
 
 async function main() {
   const projectRoot = process.cwd();
-  const outFile = path.join(projectRoot, "wordpress-server/wp-content/plugins/heiwa-booking-widget/assets/build/heiwa-widget.umd.js");
+  const outFile = path.join(projectRoot, "heiwa-react-widget/assets/build/heiwa-widget.umd.js");
   const outDir = path.dirname(outFile);
   if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
 
@@ -16,6 +16,9 @@ async function main() {
     outfile: outFile,
     sourcemap: false,
     minify: true,
+    jsx: "transform",
+    jsxFactory: "React.createElement",
+    jsxFragment: "React.Fragment",
     external: [
       "react",
       "react-dom",
@@ -29,28 +32,56 @@ async function main() {
       ".jpg": "dataurl",
       ".jpeg": "dataurl",
       ".webp": "dataurl"
+    },
+    globalName: "HeiwaWidgetBundle",
+    define: {
+      // Ensure we use the WordPress-provided React instance
+      'process.env.NODE_ENV': '"production"'
     }
   });
 
-  // Post-build patch: map dynamic requires to WP globals
+  // Enhanced post-build patch: ensure proper React instance mapping
   try {
     let code = fs.readFileSync(outFile, "utf8");
-    // Regex replacements for simple cases
-    code = code.replace(/require\(["']react["']\)/g, "window.React")
-               .replace(/require\(["']react-dom["']\)/g, "window.ReactDOM")
-               .replace(/F\(["']react["']\)/g, "window.React")
-               .replace(/F\(["']react-dom["']\)/g, "window.ReactDOM")
-               .replace(/F\(["']react-dom\/client["']\)/g, "window.ReactDOM")
-               .replace(/F\(["']react\/jsx-runtime["']\)/g, "window.React");
-    // String replacements for paths with slashes (avoid TS regex literal parsing issues)
-    code = code.split('require("react/jsx-runtime")').join('window.React');
-    code = code.split("require('react/jsx-runtime')").join('window.React');
-    code = code.split('require("react-dom/client")').join('window.ReactDOM');
-    code = code.split("require('react-dom/client')").join('window.ReactDOM');
-    // Since we're not using createPortal anymore, remove these replacements
-    // code = code.replace(/createPortal/g, 'window.ReactDOM.createPortal');
-    // code = code.replace(/require\(["']react-dom["']\)\.createPortal/g, 'window.ReactDOM.createPortal');
-    fs.writeFileSync(outFile, code);
+
+    // Wrap the entire bundle to ensure React instance consistency
+    const wrappedCode = `
+(function(global) {
+  'use strict';
+
+  // Ensure we're using WordPress-provided React
+  if (typeof global.React === 'undefined' || typeof global.ReactDOM === 'undefined') {
+    console.error('HeiwaWidget: React or ReactDOM not available on window');
+    return;
+  }
+
+  // Store references to ensure consistent React instance
+  const React = global.React;
+  const ReactDOM = global.ReactDOM;
+  const createElement = React.createElement;
+  const useReducer = React.useReducer;
+  const useCallback = React.useCallback;
+  const useEffect = React.useEffect;
+  const useState = React.useState;
+
+  // Patch the bundle code to use our React references
+  ${code.replace(/window\.React/g, 'React').replace(/window\.ReactDOM/g, 'ReactDOM')}
+
+})(window);`;
+
+    // Additional replacements for esbuild patterns
+    let finalCode = wrappedCode
+      .replace(/require\(["']react["']\)/g, "React")
+      .replace(/require\(["']react-dom["']\)/g, "ReactDOM")
+      .replace(/require\(["']react\/jsx-runtime["']\)/g, "React")
+      .replace(/require\(["']react-dom\/client["']\)/g, "ReactDOM")
+      // Handle esbuild's function call patterns
+      .replace(/\w+\(["']react["']\)/g, "React")
+      .replace(/\w+\(["']react-dom["']\)/g, "ReactDOM")
+      .replace(/\w+\(["']react\/jsx-runtime["']\)/g, "React")
+      .replace(/\w+\(["']react-dom\/client["']\)/g, "ReactDOM");
+
+    fs.writeFileSync(outFile, finalCode);
   } catch (e) {
     console.warn("Post-build patch failed:", e);
   }

@@ -1,0 +1,775 @@
+# Spanish translations for Heiwa Booking Widget.
+# Copyright (C) 2025 Heiwa House
+# This file is distributed under the same license as the Heiwa Booking Widget package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Heiwa Booking Widget 1.0.0\n"
+"Report-Msgid-Bugs-To: https://support.heiwahouse.com\n"
+"POT-Creation-Date: 2025-01-21 12:00+0000\n"
+"PO-Revision-Date: 2025-01-21 12:00+0000\n"
+"Last-Translator: Heiwa House <support@heiwahouse.com>\n"
+"Language-Team: Heiwa House <support@heiwahouse.com>\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;esc_attr__;esc_attr_e;esc_html__;esc_html_e\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+
+# Admin Interface
+msgid "Heiwa Booking Widget Settings"
+msgstr "Configuración del Widget de Reservas Heiwa"
+
+msgid "Configure your Heiwa House booking widget to match your brand and display preferences."
+msgstr "Configure su widget de reservas Heiwa House para que coincida con su marca y preferencias de visualización."
+
+msgid "General"
+msgstr "General"
+
+msgid "Appearance"
+msgstr "Apariencia"
+
+msgid "Branding"
+msgstr "Marca"
+
+msgid "Advanced"
+msgstr "Avanzado"
+
+msgid "Save Changes"
+msgstr "Guardar Cambios"
+
+# API Configuration
+msgid "API Configuration"
+msgstr "Configuración de API"
+
+msgid "Connect your WordPress site to the Heiwa House booking system."
+msgstr "Conecte su sitio WordPress al sistema de reservas de Heiwa House."
+
+msgid "API Endpoint"
+msgstr "Endpoint de API"
+
+msgid "The base URL of your Heiwa House API endpoint."
+msgstr "La URL base de su endpoint de API de Heiwa House."
+
+msgid "API Key"
+msgstr "Clave de API"
+
+msgid "Your WordPress API key from the Heiwa House admin dashboard."
+msgstr "Su clave de API de WordPress desde el panel de administración de Heiwa House."
+
+msgid "Test Connection"
+msgstr "Probar Conexión"
+
+msgid "Connection Test"
+msgstr "Prueba de Conexión"
+
+# Display Settings
+msgid "Display Settings"
+msgstr "Configuración de Visualización"
+
+msgid "Auto-inject Widget"
+msgstr "Inyección Automática del Widget"
+
+msgid "Automatically display widget on selected pages"
+msgstr "Mostrar automáticamente el widget en las páginas seleccionadas"
+
+msgid "When disabled, use the shortcode [heiwa_booking] to display the widget manually."
+msgstr "Cuando está deshabilitado, use el shortcode [heiwa_booking] para mostrar el widget manualmente."
+
+msgid "Show Widget On"
+msgstr "Mostrar Widget En"
+
+msgid "Select where the widget should appear automatically."
+msgstr "Seleccione dónde debe aparecer el widget automáticamente."
+
+msgid "Front Page"
+msgstr "Página Principal"
+
+msgid "Blog Home"
+msgstr "Inicio del Blog"
+
+msgid "All Pages"
+msgstr "Todas las Páginas"
+
+msgid "All Posts"
+msgstr "Todas las Entradas"
+
+# Appearance Settings
+msgid "Widget Appearance"
+msgstr "Apariencia del Widget"
+
+msgid "Customize the visual appearance of your booking widget."
+msgstr "Personalice la apariencia visual de su widget de reservas."
+
+msgid "Widget Position"
+msgstr "Posición del Widget"
+
+msgid "Position of the widget on the page."
+msgstr "Posición del widget en la página."
+
+msgid "Right Side"
+msgstr "Lado Derecho"
+
+msgid "Left Side"
+msgstr "Lado Izquierdo"
+
+msgid "Bottom"
+msgstr "Abajo"
+
+msgid "Bottom Left"
+msgstr "Abajo Izquierda"
+
+msgid "Bottom Right"
+msgstr "Abajo Derecha"
+
+msgid "Trigger Button Text"
+msgstr "Texto del Botón de Activación"
+
+msgid "Text displayed on the floating trigger button."
+msgstr "Texto mostrado en el botón flotante de activación."
+
+msgid "BOOK NOW"
+msgstr "RESERVAR AHORA"
+
+msgid "Theme Preview"
+msgstr "Vista Previa del Tema"
+
+# Branding Settings
+msgid "Brand Configuration"
+msgstr "Configuración de Marca"
+
+msgid "Configure brand-specific theming and tokens for your booking widget."
+msgstr "Configure temas específicos de marca y tokens para su widget de reservas."
+
+msgid "These settings allow you to customize the widget appearance for different surf camp brands. Brand tokens are loaded from your Heiwa House admin panel. You can override them here for this WordPress site."
+msgstr "Esta configuración le permite personalizar la apariencia del widget para diferentes marcas de campamentos de surf. Los tokens de marca se cargan desde su panel de administración de Heiwa House. Puede anularlos aquí para este sitio WordPress."
+
+msgid "Brand ID"
+msgstr "ID de Marca"
+
+msgid "Your brand identifier from Heiwa House (leave empty for default branding)."
+msgstr "Su identificador de marca de Heiwa House (deje vacío para la marca predeterminada)."
+
+msgid "Brand Theme Tokens"
+msgstr "Tokens de Tema de Marca"
+
+msgid "These values are automatically loaded from your Heiwa House brand configuration. You can override them here for this WordPress site."
+msgstr "Estos valores se cargan automáticamente desde la configuración de marca de Heiwa House. Puede anularlos aquí para este sitio WordPress."
+
+msgid "Colors"
+msgstr "Colores"
+
+msgid "Primary Color"
+msgstr "Color Primario"
+
+msgid "Primary brand color for buttons and highlights."
+msgstr "Color primario de marca para botones y destacados."
+
+msgid "Secondary Color"
+msgstr "Color Secundario"
+
+msgid "Secondary color for text and supporting elements."
+msgstr "Color secundario para texto y elementos de soporte."
+
+msgid "Accent Color"
+msgstr "Color de Acento"
+
+msgid "Accent color for special highlights and CTAs."
+msgstr "Color de acento para destacados especiales y llamadas a la acción."
+
+msgid "Typography"
+msgstr "Tipografía"
+
+msgid "Font Family"
+msgstr "Familia de Fuentes"
+
+msgid "Primary font family for the widget."
+msgstr "Familia de fuentes primaria para el widget."
+
+msgid "Inter"
+msgstr "Inter"
+
+msgid "Roboto"
+msgstr "Roboto"
+
+msgid "Open Sans"
+msgstr "Open Sans"
+
+msgid "Lato"
+msgstr "Lato"
+
+msgid "System Font"
+msgstr "Fuente del Sistema"
+
+msgid "Layout"
+msgstr "Diseño"
+
+msgid "Border Radius"
+msgstr "Radio del Borde"
+
+msgid "Corner rounding for buttons and containers."
+msgstr "Redondeo de esquinas para botones y contenedores."
+
+msgid "Sharp (4px)"
+msgstr "Agudo (4px)"
+
+msgid "Rounded (8px)"
+msgstr "Redondeado (8px)"
+
+msgid "Very Rounded (12px)"
+msgstr "Muy Redondeado (12px)"
+
+msgid "Pill (20px)"
+msgstr "Pastilla (20px)"
+
+msgid "Stripe Publishable Key"
+msgstr "Clave Publicable de Stripe"
+
+msgid "Stripe publishable key for client-side payments (leave empty to use default from Heiwa House)."
+msgstr "Clave publicable de Stripe para pagos del lado del cliente (deje vacío para usar el predeterminado de Heiwa House)."
+
+msgid "Live Theme Preview"
+msgstr "Vista Previa del Tema en Vivo"
+
+# Advanced Settings
+msgid "Advanced Settings"
+msgstr "Configuración Avanzada"
+
+msgid "Advanced configuration options for power users and developers."
+msgstr "Opciones de configuración avanzadas para usuarios avanzados y desarrolladores."
+
+msgid "Warning"
+msgstr "Advertencia"
+
+msgid "These settings are for advanced users. Incorrect configuration may break the widget functionality."
+msgstr "Esta configuración es para usuarios avanzados. Una configuración incorrecta puede romper la funcionalidad del widget."
+
+msgid "Debug Mode"
+msgstr "Modo de Depuración"
+
+msgid "Enable debug logging and error reporting"
+msgstr "Habilitar registro de depuración y reporte de errores"
+
+msgid "Log detailed information for troubleshooting. Only enable on development sites."
+msgstr "Registrar información detallada para resolución de problemas. Solo habilitar en sitios de desarrollo."
+
+msgid "Cache Timeout"
+msgstr "Tiempo de Espera de Caché"
+
+msgid "How long to cache API responses (minimum 60 seconds, maximum 1 hour)."
+msgstr "Cuánto tiempo almacenar en caché las respuestas de API (mínimo 60 segundos, máximo 1 hora)."
+
+msgid "seconds"
+msgstr "segundos"
+
+msgid "Rate Limit"
+msgstr "Límite de Velocidad"
+
+msgid "Maximum API requests allowed per IP address per minute."
+msgstr "Máximo de solicitudes de API permitidas por dirección IP por minuto."
+
+msgid "requests per minute"
+msgstr "solicitudes por minuto"
+
+msgid "Custom CSS"
+msgstr "CSS Personalizado"
+
+msgid "Add custom CSS to override widget styles. Use with caution."
+msgstr "Agregar CSS personalizado para anular estilos del widget. Usar con precaución."
+
+msgid "System Information"
+msgstr "Información del Sistema"
+
+msgid "Plugin Version"
+msgstr "Versión del Plugin"
+
+msgid "Build ID"
+msgstr "ID de Compilación"
+
+msgid "WordPress Version"
+msgstr "Versión de WordPress"
+
+msgid "PHP Version"
+msgstr "Versión de PHP"
+
+msgid "REST API Available"
+msgstr "API REST Disponible"
+
+msgid "Connection Status"
+msgstr "Estado de Conexión"
+
+msgid "Connected"
+msgstr "Conectado"
+
+msgid "Not Connected"
+msgstr "No Conectado"
+
+msgid "Configure your API settings to connect to Heiwa House."
+msgstr "Configure su configuración de API para conectarse a Heiwa House."
+
+msgid "Endpoint"
+msgstr "Endpoint"
+
+msgid "Quick Help"
+msgstr "Ayuda Rápida"
+
+msgid "Shortcode"
+msgstr "Shortcode"
+
+msgid "PHP Function"
+msgstr "Función PHP"
+
+msgid "REST API"
+msgstr "API REST"
+
+msgid "Support"
+msgstr "Soporte"
+
+msgid "Need help with your booking widget?"
+msgstr "¿Necesita ayuda con su widget de reservas?"
+
+msgid "Get Support"
+msgstr "Obtener Soporte"
+
+# Widget Interface
+msgid "Loading..."
+msgstr "Cargando..."
+
+msgid "An error occurred"
+msgstr "Ocurrió un error"
+
+msgid "Network error. Please check your connection."
+msgstr "Error de red. Por favor verifique su conexión."
+
+msgid "Too many requests. Please wait a moment."
+msgstr "Demasiadas solicitudes. Por favor espere un momento."
+
+# Error Messages
+msgid "Security check failed"
+msgstr "Falló la verificación de seguridad"
+
+msgid "You do not have sufficient permissions to access this page."
+msgstr "No tiene permisos suficientes para acceder a esta página."
+
+msgid "Unable to connect to booking service. Please try again later."
+msgstr "No se puede conectar al servicio de reservas. Por favor inténtelo de nuevo más tarde."
+
+msgid "Request timed out. Please check your connection and try again."
+msgstr "La solicitud expiró. Por favor verifique su conexión e inténtelo de nuevo."
+
+msgid "Received invalid response from server. Please contact support if this persists."
+msgstr "Respuesta inválida del servidor. Por favor contacte al soporte si esto persiste."
+
+msgid "Please check your information and try again."
+msgstr "Por favor verifique su información e inténtelo de nuevo."
+
+msgid "Too many requests. Please wait a moment before trying again."
+msgstr "Demasiadas solicitudes. Por favor espere un momento antes de intentar de nuevo."
+
+msgid "Security check failed. Please refresh the page and try again."
+msgstr "Falló la verificación de seguridad. Por favor actualice la página e inténtelo de nuevo."
+
+msgid "Service configuration error. Please contact the website administrator."
+msgstr "Error de configuración del servicio. Por favor contacte al administrador del sitio web."
+
+msgid "You don't have permission to perform this action."
+msgstr "No tiene permiso para realizar esta acción."
+
+msgid "Sorry, this booking is no longer available. Please select different dates or options."
+msgstr "Lo siento, esta reserva ya no está disponible. Por favor seleccione fechas u opciones diferentes."
+
+msgid "Payment could not be processed. Please check your payment information and try again."
+msgstr "No se pudo procesar el pago. Por favor verifique su información de pago e inténtelo de nuevo."
+
+msgid "An unexpected error occurred. Please try again or contact support."
+msgstr "Ocurrió un error inesperado. Por favor inténtelo de nuevo o contacte al soporte."
+
+# Recovery Suggestions
+msgid "Check your internet connection"
+msgstr "Verifique su conexión a internet"
+
+msgid "Try refreshing the page"
+msgstr "Intente actualizar la página"
+
+msgid "Contact support if the problem persists"
+msgstr "Contacte al soporte si el problema persiste"
+
+msgid "Try again in a few moments"
+msgstr "Inténtelo de nuevo en unos momentos"
+
+msgid "Review the highlighted fields"
+msgstr "Revise los campos resaltados"
+
+msgid "Ensure all required information is provided"
+msgstr "Asegúrese de que toda la información requerida esté proporcionada"
+
+msgid "Try selecting different dates"
+msgstr "Intente seleccionar fechas diferentes"
+
+msgid "Check availability for other options"
+msgstr "Verifique la disponibilidad para otras opciones"
+
+msgid "Verify your payment information"
+msgstr "Verifique su información de pago"
+
+msgid "Try a different payment method"
+msgstr "Intente un método de pago diferente"
+
+msgid "Contact your bank if issues persist"
+msgstr "Contacte a su banco si los problemas persisten"
+
+# Booking Widget
+msgid "Book Your Surf Camp"
+msgstr "Reserva Tu Campamento de Surf"
+
+msgid "Search for available camps"
+msgstr "Buscar campamentos disponibles"
+
+msgid "Select your dates"
+msgstr "Seleccione sus fechas"
+
+msgid "Choose your accommodation"
+msgstr "Elija su alojamiento"
+
+msgid "Add extras"
+msgstr "Agregar extras"
+
+msgid "Complete your booking"
+msgstr "Complete su reserva"
+
+msgid "Check-in Date"
+msgstr "Fecha de Check-in"
+
+msgid "Check-out Date"
+msgstr "Fecha de Check-out"
+
+msgid "Number of Guests"
+msgstr "Número de Huéspedes"
+
+msgid "Select Dates"
+msgstr "Seleccionar Fechas"
+
+msgid "Choose Accommodation"
+msgstr "Elegir Alojamiento"
+
+msgid "Select Room"
+msgstr "Seleccionar Habitación"
+
+msgid "Add-ons"
+msgstr "Complementos"
+
+msgid "Total Price"
+msgstr "Precio Total"
+
+msgid "Continue"
+msgstr "Continuar"
+
+msgid "Back"
+msgstr "Atrás"
+
+msgid "Confirm Booking"
+msgstr "Confirmar Reserva"
+
+msgid "Processing..."
+msgstr "Procesando..."
+
+msgid "Booking Confirmed!"
+msgstr "¡Reserva Confirmada!"
+
+msgid "Thank you for your booking. You will receive a confirmation email shortly."
+msgstr "Gracias por su reserva. Recibirá un correo electrónico de confirmación en breve."
+
+msgid "View Booking Details"
+msgstr "Ver Detalles de la Reserva"
+
+msgid "Book Another"
+msgstr "Reservar Otro"
+
+# Customer Information
+msgid "Customer Information"
+msgstr "Información del Cliente"
+
+msgid "First Name"
+msgstr "Nombre"
+
+msgid "Last Name"
+msgstr "Apellido"
+
+msgid "Email Address"
+msgstr "Dirección de Correo Electrónico"
+
+msgid "Phone Number"
+msgstr "Número de Teléfono"
+
+msgid "Date of Birth"
+msgstr "Fecha de Nacimiento"
+
+msgid "Emergency Contact"
+msgstr "Contacto de Emergencia"
+
+msgid "Special Requests"
+msgstr "Solicitudes Especiales"
+
+msgid "Any special requests or notes for your booking?"
+msgstr "¿Alguna solicitud especial o nota para su reserva?"
+
+# Payment
+msgid "Payment Information"
+msgstr "Información de Pago"
+
+msgid "Secure Payment"
+msgstr "Pago Seguro"
+
+msgid "Your payment information is encrypted and secure."
+msgstr "Su información de pago está encriptada y segura."
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Taxes & Fees"
+msgstr "Impuestos y Tarifas"
+
+msgid "Grand Total"
+msgstr "Total General"
+
+msgid "Pay Now"
+msgstr "Pagar Ahora"
+
+# Availability
+msgid "Available"
+msgstr "Disponible"
+
+msgid "Limited Availability"
+msgstr "Disponibilidad Limitada"
+
+msgid "Sold Out"
+msgstr "Agotado"
+
+msgid "Check Availability"
+msgstr "Verificar Disponibilidad"
+
+msgid "No rooms available for selected dates"
+msgstr "No hay habitaciones disponibles para las fechas seleccionadas"
+
+msgid "Please select different dates or contact us for alternatives."
+msgstr "Por favor seleccione fechas diferentes o contáctenos para alternativas."
+
+# Date/Time
+msgid "Today"
+msgstr "Hoy"
+
+msgid "Tomorrow"
+msgstr "Mañana"
+
+msgid "This Week"
+msgstr "Esta Semana"
+
+msgid "Next Week"
+msgstr "Próxima Semana"
+
+msgid "This Month"
+msgstr "Este Mes"
+
+msgid "Next Month"
+msgstr "Próximo Mes"
+
+# Status Messages
+msgid "Success"
+msgstr "Éxito"
+
+msgid "Error"
+msgstr "Error"
+
+msgid "Information"
+msgstr "Información"
+
+# Accessibility
+msgid "Close"
+msgstr "Cerrar"
+
+msgid "Open"
+msgstr "Abrir"
+
+msgid "Menu"
+msgstr "Menú"
+
+msgid "Navigation"
+msgstr "Navegación"
+
+msgid "Skip to content"
+msgstr "Saltar al contenido"
+
+msgid "Skip to main navigation"
+msgstr "Saltar a la navegación principal"
+
+# Admin Actions
+msgid "Update"
+msgstr "Actualizar"
+
+msgid "Delete"
+msgstr "Eliminar"
+
+msgid "Edit"
+msgstr "Editar"
+
+msgid "View"
+msgstr "Ver"
+
+msgid "Add New"
+msgstr "Agregar Nuevo"
+
+msgid "Search"
+msgstr "Buscar"
+
+msgid "Filter"
+msgstr "Filtrar"
+
+msgid "Export"
+msgstr "Exportar"
+
+msgid "Import"
+msgstr "Importar"
+
+# Plugin Meta
+msgid "Heiwa Booking Widget"
+msgstr "Widget de Reservas Heiwa"
+
+msgid "Heiwa Booking"
+msgstr "Reservas Heiwa"
+
+# Help and Support
+msgid "Documentation"
+msgstr "Documentación"
+
+msgid "FAQ"
+msgstr "Preguntas Frecuentes"
+
+msgid "Video Tutorials"
+msgstr "Tutoriales en Video"
+
+msgid "Contact Us"
+msgstr "Contáctenos"
+
+# Booking States
+msgid "Pending"
+msgstr "Pendiente"
+
+msgid "Confirmed"
+msgstr "Confirmado"
+
+msgid "Paid"
+msgstr "Pagado"
+
+msgid "Cancelled"
+msgstr "Cancelado"
+
+msgid "Refunded"
+msgstr "Reembolsado"
+
+msgid "Completed"
+msgstr "Completado"
+
+msgid "No Show"
+msgstr "No Presentado"
+
+# Property Types
+msgid "Surf Camp"
+msgstr "Campamento de Surf"
+
+msgid "Hostel"
+msgstr "Hostal"
+
+msgid "Hotel"
+msgstr "Hotel"
+
+msgid "Resort"
+msgstr "Complejo Turístico"
+
+msgid "Villa"
+msgstr "Villa"
+
+msgid "Apartment"
+msgstr "Apartamento"
+
+# Room Types
+msgid "Dorm"
+msgstr "Dormitorio"
+
+msgid "Private Room"
+msgstr "Habitación Privada"
+
+msgid "Suite"
+msgstr "Suite"
+
+msgid "Villa Room"
+msgstr "Habitación de Villa"
+
+# Add-ons
+msgid "Airport Transfer"
+msgstr "Traslado del Aeropuerto"
+
+msgid "Surf Lessons"
+msgstr "Clases de Surf"
+
+msgid "Equipment Rental"
+msgstr "Alquiler de Equipo"
+
+msgid "Meals"
+msgstr "Comidas"
+
+msgid "Insurance"
+msgstr "Seguro"
+
+msgid "Towels"
+msgstr "Toallas"
+
+msgid "Beach Towel"
+msgstr "Toalla de Playa"
+
+msgid "Laundry Service"
+msgstr "Servicio de Lavandería"
+
+# Currencies
+msgid "USD"
+msgstr "USD"
+
+msgid "EUR"
+msgstr "EUR"
+
+msgid "GBP"
+msgstr "GBP"
+
+msgid "JPY"
+msgstr "JPY"
+
+msgid "AUD"
+msgstr "AUD"
+
+msgid "CAD"
+msgstr "CAD"
+
+# Languages
+msgid "English"
+msgstr "Inglés"
+
+msgid "Spanish"
+msgstr "Español"
+
+msgid "French"
+msgstr "Francés"
+
+msgid "German"
+msgstr "Alemán"
+
+msgid "Italian"
+msgstr "Italiano"
+
+msgid "Portuguese"
+msgstr "Portugués"
+
+msgid "Japanese"
+msgstr "Japonés"

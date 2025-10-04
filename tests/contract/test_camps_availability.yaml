@@ -1,0 +1,155 @@
+# Contract Test: GET /api/camps/{id}/availability
+# Validates the camp availability checking endpoint contract
+
+test_cases:
+  - name: "Valid availability check - dates available"
+    description: "Test successful availability check for available dates"
+    request:
+      method: "GET"
+      url: "/api/camps/camp-123/availability?checkInDate=2024-12-01&checkOutDate=2024-12-05&guestCount=2"
+      headers:
+        "X-Heiwa-API-Key": "test-key-123"
+    expected_response:
+      status: 200
+      headers:
+        "Content-Type": "application/json"
+      body_schema:
+        type: "object"
+        required: ["available", "campId", "checkInDate", "checkOutDate", "guestCount"]
+        properties:
+          available: { type: "boolean", const: true }
+          campId: { type: "string" }
+          checkInDate: { type: "string", format: "date" }
+          checkOutDate: { type: "string", format: "date" }
+          guestCount: { type: "integer", minimum: 1, maximum: 10 }
+          totalPrice: { type: "integer", minimum: 1 }
+          currency: { type: "string", enum: ["USD", "EUR"] }
+          availableExperiences:
+            type: "array"
+            items: { type: "string" }
+          pricingBreakdown:
+            type: "object"
+            properties:
+              accommodation: { type: "integer", minimum: 0 }
+              experiences: { type: "integer", minimum: 0 }
+
+  - name: "Valid availability check - dates unavailable"
+    description: "Test availability check for unavailable dates"
+    request:
+      method: "GET"
+      url: "/api/camps/camp-123/availability?checkInDate=2024-12-01&checkOutDate=2024-12-05&guestCount=100"
+      headers:
+        "X-Heiwa-API-Key": "test-key-123"
+    expected_response:
+      status: 200
+      body_schema:
+        type: "object"
+        required: ["available"]
+        properties:
+          available: { type: "boolean", const: false }
+          alternativeDates:
+            type: "array"
+            items: { type: "string", format: "date" }
+
+  - name: "Invalid request - missing required parameters"
+    description: "Test validation error for missing query parameters"
+    request:
+      method: "GET"
+      url: "/api/camps/camp-123/availability"
+      headers:
+        "X-Heiwa-API-Key": "test-key-123"
+    expected_response:
+      status: 400
+      body_schema:
+        type: "object"
+        required: ["code", "message"]
+        properties:
+          code: { type: "string", enum: ["VALIDATION_ERROR"] }
+          message: { type: "string" }
+          field: { type: "string" }
+
+  - name: "Invalid request - invalid date format"
+    description: "Test validation error for invalid date format"
+    request:
+      method: "GET"
+      url: "/api/camps/camp-123/availability?checkInDate=invalid-date&checkOutDate=2024-12-05&guestCount=2"
+      headers:
+        "X-Heiwa-API-Key": "test-key-123"
+    expected_response:
+      status: 400
+      body_schema:
+        type: "object"
+        required: ["code", "message"]
+        properties:
+          code: { type: "string", enum: ["VALIDATION_ERROR"] }
+          message: { type: "string" }
+          field: { type: "string", enum: ["checkInDate"] }
+
+  - name: "Invalid request - guest count out of range"
+    description: "Test validation error for invalid guest count"
+    request:
+      method: "GET"
+      url: "/api/camps/camp-123/availability?checkInDate=2024-12-01&checkOutDate=2024-12-05&guestCount=0"
+      headers:
+        "X-Heiwa-API-Key": "test-key-123"
+    expected_response:
+      status: 400
+      body_schema:
+        type: "object"
+        required: ["code", "message"]
+        properties:
+          code: { type: "string", enum: ["VALIDATION_ERROR"] }
+          message: { type: "string" }
+          field: { type: "string", enum: ["guestCount"] }
+
+  - name: "Camp not found"
+    description: "Test error for non-existent camp"
+    request:
+      method: "GET"
+      url: "/api/camps/non-existent-camp/availability?checkInDate=2024-12-01&checkOutDate=2024-12-05&guestCount=2"
+      headers:
+        "X-Heiwa-API-Key": "test-key-123"
+    expected_response:
+      status: 404
+      body_schema:
+        type: "object"
+        required: ["code", "message"]
+        properties:
+          code: { type: "string", enum: ["CAMP_NOT_FOUND"] }
+          message: { type: "string" }
+
+  - name: "Unauthorized request - invalid API key"
+    description: "Test authentication failure"
+    request:
+      method: "GET"
+      url: "/api/camps/camp-123/availability?checkInDate=2024-12-01&checkOutDate=2024-12-05&guestCount=2"
+      headers:
+        "X-Heiwa-API-Key": "invalid-key"
+    expected_response:
+      status: 401
+      body_schema:
+        type: "object"
+        required: ["code", "message"]
+        properties:
+          code: { type: "string", enum: ["UNAUTHORIZED"] }
+          message: { type: "string" }
+
+  - name: "Rate limit exceeded"
+    description: "Test rate limiting behavior"
+    request:
+      method: "GET"
+      url: "/api/camps/camp-123/availability?checkInDate=2024-12-01&checkOutDate=2024-12-05&guestCount=2"
+      headers:
+        "X-Heiwa-API-Key": "test-key-123"
+      # This would require multiple rapid requests to trigger rate limiting
+    expected_response:
+      status: 429
+      body_schema:
+        type: "object"
+        required: ["code", "message"]
+        properties:
+          code: { type: "string", enum: ["RATE_LIMIT_EXCEEDED"] }
+          message: { type: "string" }
+
+
+
