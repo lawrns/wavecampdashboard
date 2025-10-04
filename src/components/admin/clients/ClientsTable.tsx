@@ -333,6 +333,7 @@ export function ClientsTable({
     },
     enableRowSelection: true,
     enableColumnResizing: false,
+    getRowId: (row) => row.id, // CRITICAL FIX: Use actual client ID, not array index
   });
 
   // Virtualization setup

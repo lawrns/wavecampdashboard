@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 // Disable prerendering for this page since it uses Firebase
 export const dynamic = 'force-dynamic';
@@ -54,41 +54,58 @@ export default function AddOnsPage() {
   const [errorAddOns, setErrorAddOns] = useState<string | null>(null);
 
   // Fetch add-ons from Supabase
-  useEffect(() => {
-    const fetchAddOns = async () => {
-      try {
-        setLoadingAddOns(true);
-        const { data, error } = await supabase
-          .from('add_ons')
-          .select('*')
-          .order('created_at', { ascending: false });
+  const fetchAddOns = useCallback(async () => {
+    try {
+      setLoadingAddOns(true);
+      setErrorAddOns(null);
+      const { data, error } = await supabase
+        .from('add_ons')
+        .select('*')
+        .order('created_at', { ascending: false });
 
-        if (error) throw error;
+      if (error) throw error;
 
-        const formattedAddOns = data?.map(item => ({
-          id: item.id,
-          name: item.name,
-          description: item.description,
-          price: item.price,
-          category: item.category,
-          images: item.images || [],
-          isActive: item.is_active,
-          maxQuantity: item.max_quantity,
-          createdAt: new Date(item.created_at),
-          updatedAt: new Date(item.updated_at)
-        })) as (AddOn & { id: string })[];
+      const formattedAddOns = data?.map(item => ({
+        id: item.id,
+        name: item.name,
+        description: item.description,
+        price: item.price,
+        category: item.category,
+        images: item.images || [],
+        isActive: item.is_active,
+        maxQuantity: item.max_quantity,
+        createdAt: new Date(item.created_at),
+        updatedAt: new Date(item.updated_at)
+      })) as (AddOn & { id: string })[];
 
-        setAddOns(formattedAddOns || []);
-      } catch (error) {
-        console.error('Error fetching add-ons:', error);
-        setErrorAddOns('Failed to load add-ons');
-      } finally {
-        setLoadingAddOns(false);
-      }
-    };
-
-    fetchAddOns();
+      setAddOns(formattedAddOns || []);
+    } catch (error) {
+      console.error('Error fetching add-ons:', error);
+      setErrorAddOns('Failed to load add-ons');
+    } finally {
+      setLoadingAddOns(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchAddOns();
+
+    // Set up real-time subscription for add-ons
+    const addOnsSubscription = supabase
+      .channel('add_ons_changes_admin')
+      .on('postgres_changes',
+        { event: '*', schema: 'public', table: 'add_ons' },
+        (payload) => {
+          console.log('Add-ons change detected in admin:', payload);
+          fetchAddOns(); // Refresh data when changes occur
+        }
+      )
+      .subscribe();
+
+    return () => {
+      addOnsSubscription.unsubscribe();
+    };
+  }, [fetchAddOns]);
 
   // Form for creating/editing add-ons
   const form = useForm<AddOnFormData>({
