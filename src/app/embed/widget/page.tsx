@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { Suspense, useEffect, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { StandaloneWidget } from "@/components/BookingWidget/StandaloneWidget";
 
-export default function EmbedWidgetPage() {
+function EmbedWidgetContent() {
   const params = useSearchParams();
 
   const config = useMemo(() => {
@@ -76,3 +76,10 @@ export default function EmbedWidgetPage() {
   );
 }
 
+export default function EmbedWidgetPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <EmbedWidgetContent />
+    </Suspense>
+  );
+}
