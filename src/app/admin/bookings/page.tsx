@@ -30,6 +30,7 @@ import {
 import { Booking } from '@/lib/schemas';
 import { CreateBookingModal } from '@/components/admin/bookings/CreateBookingModal';
 import { ViewBookingModal } from '@/components/admin/bookings/ViewBookingModal';
+import { EditBookingModal } from '@/components/admin/bookings/EditBookingModal';
 import { useRequireAdmin } from '@/hooks/useAuth';
 
 interface BookingWithClients extends Booking {
@@ -49,6 +50,7 @@ export default function BookingsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState<BookingWithClients | null>(null);
   const itemsPerPage = 10;
 
@@ -426,6 +428,10 @@ export default function BookingsPage() {
                         <Button
                           variant="ghost"
                           size="sm"
+                          onClick={() => {
+                            setSelectedBooking(booking);
+                            setIsEditDialogOpen(true);
+                          }}
                           data-testid={`edit-booking-${booking.id}`}
                         >
                           <Edit className="w-4 h-4" />
@@ -533,6 +539,20 @@ export default function BookingsPage() {
         onClose={() => {
           setIsViewDialogOpen(false);
           setSelectedBooking(null);
+        }}
+      />
+
+      {/* Edit Booking Modal */}
+      <EditBookingModal
+        booking={selectedBooking}
+        isOpen={isEditDialogOpen}
+        onClose={() => {
+          setIsEditDialogOpen(false);
+          setSelectedBooking(null);
+        }}
+        onSuccess={() => {
+          fetchBookings(false);
+          toast.success('Booking updated successfully!');
         }}
       />
     </div>
